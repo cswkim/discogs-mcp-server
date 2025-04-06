@@ -23,6 +23,10 @@
     "MCP"
   ],
   "scripts": {
+    "build": "tsup",
+    "build:watch": "pnpm build --watch",
+    "postbuild": "shx chmod +x dist/*.js",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "dev:stdio": "pnpm run dev stdio",
     "dev:sse": "pnpm run dev sse",
@@ -41,10 +45,13 @@
     "@types/node": "^22.14.0",
     "@typescript-eslint/eslint-plugin": "^8.29.0",
     "@typescript-eslint/parser": "^8.29.0",
+    "cross-env": "^7.0.3",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.6",
     "prettier": "^3.5.3",
+    "shx": "^0.4.0",
+    "tsup": "^8.4.0",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.0"
