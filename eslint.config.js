@@ -4,12 +4,14 @@ import prettierPlugin from 'eslint-plugin-prettier/recommended';
 import tseslint from 'typescript-eslint';
 
 export default [
+  {
+    ignores: ['dist/**', 'node_modules/**', 'coverage/**'],
+  },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   prettierConfig,
   prettierPlugin,
   {
-    ignores: ['dist/**', 'node_modules/**', 'coverage/**'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
