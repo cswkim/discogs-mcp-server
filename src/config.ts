@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { VERSION } from './version.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -6,9 +7,12 @@ dotenv.config();
 // Discogs API configuration
 export const config = {
   discogs: {
-    personalAccessToken: process.env.DISCOGS_PERSONAL_ACCESS_TOKEN,
-    userAgent: process.env.DISCOGS_USER_AGENT,
     apiUrl: process.env.DISCOGS_API_URL,
+    personalAccessToken: process.env.DISCOGS_PERSONAL_ACCESS_TOKEN,
+    userAgent:
+      process.env.DISCOGS_USER_AGENT_APP_NAME && process.env.DISCOGS_USER_AGENT_URL
+        ? `${process.env.DISCOGS_USER_AGENT_APP_NAME}/${VERSION} +${process.env.DISCOGS_USER_AGENT_URL}`
+        : undefined,
   },
   server: {
     name: process.env.SERVER_NAME || 'MCP Server',
@@ -25,7 +29,7 @@ export function validateConfig(): void {
   }
 
   if (!config.discogs.userAgent) {
-    missingVars.push('DISCOGS_USER_AGENT');
+    missingVars.push('DISCOGS_USER_AGENT_APP_NAME and/or DISCOGS_USER_AGENT_URL');
   }
 
   if (!config.discogs.apiUrl) {
