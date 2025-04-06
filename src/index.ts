@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { FastMCP } from 'fastmcp';
 import { config, validateConfig } from './config.js';
+import { registerTools } from './tools/index.js';
 import { log } from './utils.js';
 import { VERSION } from './version.js';
 
@@ -25,6 +26,8 @@ try {
     name: config.server.name,
     version: VERSION,
   });
+
+  registerTools(server);
 
   if (transportType === 'stdio') {
     server.start({ transportType });
