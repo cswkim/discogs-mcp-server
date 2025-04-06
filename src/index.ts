@@ -2,6 +2,7 @@
 import { FastMCP } from 'fastmcp';
 import { config, validateConfig } from './config.js';
 import { log } from './utils.js';
+import { VERSION } from './version.js';
 
 type ServerTransportType = 'stdio' | 'sse';
 
@@ -22,7 +23,7 @@ try {
 
   const server = new FastMCP({
     name: config.server.name,
-    version: '0.1.0',
+    version: VERSION,
   });
 
   if (transportType === 'stdio') {
