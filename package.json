@@ -1,0 +1,52 @@
+{
+  "name": "discogs-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for Discogs",
+  "license": "MIT",
+  "author": "Christopher Kim <hi@cswkim.dev>",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "bin": {
+    "discogs-mcp-server": "dist/index.js"
+  },
+  "repository": {
+    "url": "https://github.com/cswkim/discogs-mcp-server"
+  },
+  "bugs": "https://github.com/cswkim/discogs-mcp-server/issues",
+  "keywords": [
+    "Discogs",
+    "MCP"
+  ],
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "dev:stdio": "pnpm run dev stdio",
+    "dev:sse": "pnpm run dev sse",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
+    "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
+    "inspect": "fastmcp inspect src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "fastmcp": "^1.21.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@types/node": "^22.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.29.0",
+    "@typescript-eslint/parser": "^8.29.0",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.6",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.0"
+  }
+}
