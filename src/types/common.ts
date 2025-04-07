@@ -56,13 +56,6 @@ export const PaginatedResponseSchema = <T extends z.ZodType, K extends string>(
   });
 
 /**
- * Schema for a username input
- */
-export const UsernameInputSchema = z.object({
-  username: z.string().min(1, 'username is required'),
-});
-
-/**
  * TypeScript type for currency codes
  */
 export type CurrencyCode = z.infer<typeof CurrencyCodeSchema>;
@@ -83,8 +76,3 @@ type PaginationMetadata = z.infer<typeof PaginationMetadataSchema>;
 export type PaginatedResponse<T, K extends string> = {
   pagination: PaginationMetadata;
 } & Record<K, T[]>;
-
-/**
- * TypeScript type for a username input
- */
-export type UsernameInput = z.infer<typeof UsernameInputSchema>;

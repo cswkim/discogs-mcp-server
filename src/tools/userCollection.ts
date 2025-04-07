@@ -1,7 +1,7 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { UserService } from '../services/user.js';
-import { UsernameInputSchema } from '../types/common.js';
+import { UsernameInputSchema } from '../types/user.js';
 
 /**
  * MCP tool for fetching a Discogs user's collection value

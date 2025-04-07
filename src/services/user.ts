@@ -1,8 +1,8 @@
 import { isDiscogsError } from '../errors.js';
-import type { UsernameInput } from '../types/common.js';
 import {
   type UserCollectionValue,
   UserCollectionValueSchema,
+  type UsernameInput,
   type UserProfile,
   type UserProfileEditInput,
   UserProfileSchema,

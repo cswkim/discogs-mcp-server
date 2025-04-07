@@ -3,8 +3,7 @@ import { z } from 'zod';
 import { formatDiscogsError } from '../errors.js';
 import { OAuthService } from '../services/oauth.js';
 import { UserService } from '../services/user.js';
-import { UsernameInputSchema } from '../types/common.js';
-import { UserProfileEditInputSchema } from '../types/user.js';
+import { UsernameInputSchema, UserProfileEditInputSchema } from '../types/user.js';
 
 /**
  * MCP tool for fetching the identity of the authenticated Discogs user
