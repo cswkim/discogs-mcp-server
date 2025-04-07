@@ -1,10 +1,10 @@
 import { isDiscogsError } from '../errors.js';
+import type { UsernameInput } from '../types/common.js';
 import {
-  UserCollectionValue,
+  type UserCollectionValue,
   UserCollectionValueSchema,
-  UserProfile,
-  UserProfileEditInput,
-  UserProfileInput,
+  type UserProfile,
+  type UserProfileEditInput,
   UserProfileSchema,
 } from '../types/user.js';
 import { DiscogsService } from './index.js';
@@ -26,7 +26,7 @@ export class UserService extends DiscogsService {
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
    */
-  async getProfile({ username }: UserProfileInput): Promise<UserProfile> {
+  async getProfile({ username }: UsernameInput): Promise<UserProfile> {
     try {
       const response = await this.request<UserProfile>(`/${username}`);
 
@@ -85,7 +85,7 @@ export class UserService extends DiscogsService {
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
    */
-  async getCollectionValue({ username }: UserProfileInput): Promise<UserCollectionValue> {
+  async getCollectionValue({ username }: UsernameInput): Promise<UserCollectionValue> {
     try {
       const response = await this.request<UserCollectionValue>(`/${username}/collection/value`);
 

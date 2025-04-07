@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CurrencyCodeSchema } from './common.js';
+import { CurrencyCodeSchema, UsernameInputSchema } from './common.js';
 
 /**
  * Schema for a user's collection value statistics
@@ -57,17 +57,10 @@ export const UserProfileSchema = z.object({
 });
 
 /**
- * Schema for a Discogs user profile input
- */
-export const UserProfileInputSchema = z.object({
-  username: z.string().min(1, 'username is required'),
-});
-
-/**
  * Schema for editing a Discogs user profile
  */
 export const UserProfileEditInputSchema = z.object({
-  username: z.string().min(1, 'username is required'),
+  ...UsernameInputSchema.shape,
   name: z.string().optional(),
   home_page: z
     .string()
@@ -88,11 +81,6 @@ export const UserProfileEditInputSchema = z.object({
  * TypeScript type for a Discogs user profile
  */
 export type UserProfile = z.infer<typeof UserProfileSchema>;
-
-/**
- * TypeScript type for a Discogs user profile input
- */
-export type UserProfileInput = z.infer<typeof UserProfileInputSchema>;
 
 /**
  * TypeScript type for a Discogs user profile edit input

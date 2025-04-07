@@ -3,7 +3,8 @@ import { z } from 'zod';
 import { formatDiscogsError } from '../errors.js';
 import { OAuthService } from '../services/oauth.js';
 import { UserService } from '../services/user.js';
-import { UserProfileEditInputSchema, UserProfileInputSchema } from '../types/user.js';
+import { UsernameInputSchema } from '../types/common.js';
+import { UserProfileEditInputSchema } from '../types/user.js';
 
 /**
  * MCP tool for fetching the identity of the authenticated Discogs user
@@ -27,10 +28,10 @@ const getUserIdentityTool: Tool<undefined, ToolParameters> = {
 /**
  * MCP tool for fetching a Discogs user's profile
  */
-export const getUserProfileTool: Tool<undefined, typeof UserProfileInputSchema> = {
+export const getUserProfileTool: Tool<undefined, typeof UsernameInputSchema> = {
   name: 'get_user_profile',
   description: 'Retrieve a user by username',
-  parameters: UserProfileInputSchema,
+  parameters: UsernameInputSchema,
   execute: async (args) => {
     try {
       const userService = new UserService();
