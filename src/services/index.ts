@@ -1,37 +1,10 @@
 import { config } from '../config.js';
 import { createDiscogsError } from '../errors.js';
 
-export interface DiscogsConfig {
-  personalAccessToken: string | undefined;
-  userAgent: string | undefined;
-  apiUrl: string | undefined;
-}
-
 export interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
   params?: Record<string, string | number | boolean | undefined>;
   body?: unknown;
-}
-
-export interface PaginationParams {
-  page?: number;
-  per_page?: number;
-}
-
-export interface PaginatedResponse<T> {
-  pagination: {
-    page: number;
-    pages: number;
-    per_page: number;
-    items: number;
-    urls: {
-      first?: string;
-      prev?: string;
-      next?: string;
-      last?: string;
-    };
-  };
-  results: T[];
 }
 
 // Base service with common functionality

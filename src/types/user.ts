@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { CurrencyCodeSchema } from './common.js';
 
 /**
  * Schema for a user's collection value statistics
@@ -80,9 +81,7 @@ export const UserProfileEditInputSchema = z.object({
     .optional(),
   location: z.string().optional(),
   profile: z.string().optional(),
-  curr_abbr: z
-    .enum(['USD', 'GBP', 'EUR', 'CAD', 'AUD', 'JPY', 'CHF', 'MXN', 'BRL', 'NZD', 'SEK', 'ZAR'])
-    .optional(),
+  curr_abbr: CurrencyCodeSchema.optional(),
 });
 
 /**
