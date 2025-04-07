@@ -54,6 +54,29 @@ export const UserProfileInputSchema = z.object({
 });
 
 /**
+ * Schema for editing a Discogs user profile
+ */
+export const UserProfileEditInputSchema = z.object({
+  username: z.string().min(1, 'username is required'),
+  name: z.string().optional(),
+  home_page: z
+    .string()
+    .refine(
+      (val) =>
+        val === '' ||
+        val.toLowerCase().startsWith('http://') ||
+        val.toLowerCase().startsWith('https://'),
+      'invalid URL - must start with http:// or https://',
+    )
+    .optional(),
+  location: z.string().optional(),
+  profile: z.string().optional(),
+  curr_abbr: z
+    .enum(['USD', 'GBP', 'EUR', 'CAD', 'AUD', 'JPY', 'CHF', 'MXN', 'BRL', 'NZD', 'SEK', 'ZAR'])
+    .optional(),
+});
+
+/**
  * TypeScript type for a Discogs user profile
  */
 export type UserProfile = z.infer<typeof UserProfileSchema>;
@@ -62,3 +85,8 @@ export type UserProfile = z.infer<typeof UserProfileSchema>;
  * TypeScript type for a Discogs user profile input
  */
 export type UserProfileInput = z.infer<typeof UserProfileInputSchema>;
+
+/**
+ * TypeScript type for a Discogs user profile edit input
+ */
+export type UserProfileEditInput = z.infer<typeof UserProfileEditInputSchema>;
