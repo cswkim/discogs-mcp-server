@@ -1,5 +1,7 @@
 import { isDiscogsError } from '../errors.js';
 import {
+  UserCollectionValue,
+  UserCollectionValueSchema,
   UserProfile,
   UserProfileEditInput,
   UserProfileInput,
@@ -29,8 +31,8 @@ export class UserService extends DiscogsService {
       const response = await this.request<UserProfile>(`/${username}`);
 
       // Validate the response using Zod schema
-      const validatedProfile = UserProfileSchema.parse(response);
-      return validatedProfile;
+      const validatedResponse = UserProfileSchema.parse(response);
+      return validatedResponse;
     } catch (error) {
       // If it's already a Discogs error, just rethrow it
       if (isDiscogsError(error)) {
@@ -43,12 +45,13 @@ export class UserService extends DiscogsService {
   }
 
   /**
-   * Edit a user’s profile data
+   * Edit a user's profile data
    *
    * @param params UserProfileEditInput
-   * @returns The updated user profile information
+   * @returns The user's profile information
    * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsPermissionError} If trying to edit a profile that is not the authenticated user
+   * @throws {DiscogsResourceNotFoundError} If the username cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
    */
   async editProfile(params: UserProfileEditInput): Promise<UserProfile> {
@@ -59,8 +62,8 @@ export class UserService extends DiscogsService {
       });
 
       // Validate the response using Zod schema
-      const validatedProfile = UserProfileSchema.parse(response);
-      return validatedProfile;
+      const validatedResponse = UserProfileSchema.parse(response);
+      return validatedResponse;
     } catch (error) {
       // If it's already a Discogs error, just rethrow it
       if (isDiscogsError(error)) {
@@ -69,6 +72,34 @@ export class UserService extends DiscogsService {
 
       // For validation errors or other unexpected errors, wrap them
       throw new Error(`Failed to edit profile: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Returns the minimum, median, and maximum value of a user's collection
+   *
+   * @param username The username of whose collection value you are requesting
+   * @returns The user's collection value
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to get the collection value of another user
+   * @throws {DiscogsResourceNotFoundError} If the username cannot be found
+   * @throws {Error} If there's a validation error or other unexpected error
+   */
+  async getCollectionValue({ username }: UserProfileInput): Promise<UserCollectionValue> {
+    try {
+      const response = await this.request<UserCollectionValue>(`/${username}/collection/value`);
+
+      // Validate the response using Zod schema
+      const validatedResponse = UserCollectionValueSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      // If it's already a Discogs error, just rethrow it
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      // For validation errors or other unexpected errors, wrap them
+      throw new Error(`Failed to get collection value: ${String(error)}`);
     }
   }
 }

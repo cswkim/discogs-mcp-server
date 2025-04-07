@@ -1,4 +1,5 @@
 import { FastMCP } from 'fastmcp';
+import { registerUserCollectionTools } from './userCollection.js';
 import { registerUserIdentityTools } from './userIdentity.js';
 
 /**
@@ -7,4 +8,5 @@ import { registerUserIdentityTools } from './userIdentity.js';
  */
 export function registerTools(server: FastMCP): void {
   registerUserIdentityTools(server);
+  registerUserCollectionTools(server);
 }

@@ -1,6 +1,15 @@
 import { z } from 'zod';
 
 /**
+ * Schema for a user's collection value statistics
+ */
+export const UserCollectionValueSchema = z.object({
+  maximum: z.string(),
+  median: z.string(),
+  minimum: z.string(),
+});
+
+/**
  * Schema for a Discogs user profile
  * The email field is optional and only present when viewing your own profile
  * Some fields like num_collection, num_wantlist, and num_unread are optional
@@ -90,3 +99,8 @@ export type UserProfileInput = z.infer<typeof UserProfileInputSchema>;
  * TypeScript type for a Discogs user profile edit input
  */
 export type UserProfileEditInput = z.infer<typeof UserProfileEditInputSchema>;
+
+/**
+ * TypeScript type for a Discogs user's collection value statistics
+ */
+export type UserCollectionValue = z.infer<typeof UserCollectionValueSchema>;
