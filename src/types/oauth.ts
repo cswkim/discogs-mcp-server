@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 /**
- * Zod schema for Discogs Identity response
+ * Schema for a Discogs user identity
  */
 export const DiscogsUserIdentitySchema = z.object({
   id: z.number(),
@@ -11,6 +11,6 @@ export const DiscogsUserIdentitySchema = z.object({
 });
 
 /**
- * TypeScript type for Discogs Identity, derived from Zod schema
+ * TypeScript type for a Discogs user identity
  */
 export type DiscogsUserIdentity = z.infer<typeof DiscogsUserIdentitySchema>;
