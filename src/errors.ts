@@ -36,8 +36,8 @@ export class DiscogsRateLimitError extends DiscogsError {
 }
 
 export class DiscogsResourceNotFoundError extends DiscogsError {
-  constructor(resource: string) {
-    super(`Resource not found: ${resource}`, 404, { message: `${resource} not found` });
+  constructor(message = 'Resource not found') {
+    super(message, 404, { message });
     this.name = new.target.name;
   }
 }
