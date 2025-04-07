@@ -21,7 +21,7 @@ export class UserService extends DiscogsService {
    * Retrieve a user by username
    *
    * @param username The username of whose profile you are requesting
-   * @returns The user's profile information
+   * @returns {UserProfile} The user's profile information
    * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
@@ -48,7 +48,7 @@ export class UserService extends DiscogsService {
    * Edit a user's profile data
    *
    * @param params UserProfileEditInput
-   * @returns The user's profile information
+   * @returns {UserProfile} The user's profile information
    * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsPermissionError} If trying to edit a profile that is not the authenticated user
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
@@ -79,7 +79,7 @@ export class UserService extends DiscogsService {
    * Returns the minimum, median, and maximum value of a user's collection
    *
    * @param username The username of whose collection value you are requesting
-   * @returns The user's collection value
+   * @returns {UserCollectionValue} The user's collection value
    * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsPermissionError} If trying to get the collection value of another user
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
