@@ -123,6 +123,35 @@ export const UserWantlistItemParamsSchema = UsernameInputSchema.merge(
 );
 
 /**
+ * Schema for a user's list item
+ */
+export const UserListItemSchema = z.object({
+  id: z.number(),
+  date_added: z.string(),
+  date_changed: z.string(),
+  description: z.string().optional(),
+  name: z.string(),
+  public: z.boolean(),
+  resource_url: z.string().url(),
+  uri: z.string().url(),
+});
+
+/**
+ * Valid sort keys for user lists
+ */
+type ListsSortKeys = ['date_added', 'date_changed', 'name'];
+
+/**
+ * Schema for lists query parameters
+ */
+export const UserListsParamsSchema = UsernameInputSchema.merge(QueryParamsSchema<ListsSortKeys>());
+
+/**
+ * Schema for paginated user lists response
+ */
+export const UserListsSchema = PaginatedResponseSchema(UserListItemSchema, 'lists');
+
+/**
  * TypeScript type for a username input
  */
 export type UsernameInput = z.infer<typeof UsernameInputSchema>;
@@ -161,3 +190,18 @@ export type UserWantlistItem = z.infer<typeof UserWantlistItemSchema>;
  * TypeScript type for adding or editing a release in a user's wantlist
  */
 export type UserWantlistItemParams = z.infer<typeof UserWantlistItemParamsSchema>;
+
+/**
+ * Type for a user's list item
+ */
+export type UserListItem = z.infer<typeof UserListItemSchema>;
+
+/**
+ * TypeScript type for lists query parameters
+ */
+export type UserListsParams = z.infer<typeof UserListsParamsSchema>;
+
+/**
+ * Type for paginated user lists response
+ */
+export type UserLists = z.infer<typeof UserListsSchema>;
