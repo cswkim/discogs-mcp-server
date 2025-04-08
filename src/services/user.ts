@@ -6,6 +6,9 @@ import {
   type UserProfile,
   type UserProfileEditInput,
   UserProfileSchema,
+  type UserWantlist,
+  type UserWantlistParams,
+  UserWantlistSchema,
 } from '../types/user.js';
 import { DiscogsService } from './index.js';
 
@@ -100,6 +103,36 @@ export class UserService extends DiscogsService {
 
       // For validation errors or other unexpected errors, wrap them
       throw new Error(`Failed to get collection value: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Returns the list of releases in a user's wantlist
+   *
+   * @param params - Parameters for the wantlist request including username and optional pagination/sorting
+   * @returns {UserWantlist} The user's wantlist with pagination metadata
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to get the private wantlist of another user
+   * @throws {DiscogsResourceNotFoundError} If the username cannot be found
+   * @throws {Error} If there's a validation error or other unexpected error
+   */
+  async getWantlist(params: UserWantlistParams): Promise<UserWantlist> {
+    try {
+      const response = await this.request<UserWantlist>(`/${params.username}/wants`, {
+        params: params,
+      });
+
+      // Validate the response using Zod schema
+      const validatedResponse = UserWantlistSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      // If it's already a Discogs error, just rethrow it
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      // For validation errors or other unexpected errors, wrap them
+      throw new Error(`Failed to get wantlist: ${String(error)}`);
     }
   }
 }

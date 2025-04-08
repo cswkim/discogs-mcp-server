@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { CurrencyCodeSchema } from './common.js';
+import { CurrencyCodeSchema, PaginatedResponseSchema, QueryParamsSchema } from './common.js';
+import { BasicInformationSchema } from './release.js';
 
 /**
  * Schema for a user's collection value statistics
@@ -85,6 +86,31 @@ export const UserProfileEditInputSchema = z.object({
 });
 
 /**
+ * Valid sort keys for user wantlist
+ */
+type WantlistSortKeys = ['added', 'artist', 'label', 'rating', 'title', 'year'];
+
+/**
+ * Schema for wantlist query parameters
+ */
+export const UserWantlistParamsSchema =
+  UsernameInputSchema.merge(QueryParamsSchema<WantlistSortKeys>());
+
+/**
+ * Schema for a Discogs user wantlist
+ */
+export const UserWantlistSchema = PaginatedResponseSchema(
+  z.object({
+    id: z.number(),
+    basic_information: BasicInformationSchema,
+    notes: z.string().optional(),
+    rating: z.number().optional(),
+    resource_url: z.string().url(),
+  }),
+  'wants',
+);
+
+/**
  * TypeScript type for a username input
  */
 export type UsernameInput = z.infer<typeof UsernameInputSchema>;
@@ -103,3 +129,13 @@ export type UserProfileEditInput = z.infer<typeof UserProfileEditInputSchema>;
  * TypeScript type for a Discogs user's collection value statistics
  */
 export type UserCollectionValue = z.infer<typeof UserCollectionValueSchema>;
+
+/**
+ * TypeScript type for a Discogs user wantlist
+ */
+export type UserWantlist = z.infer<typeof UserWantlistSchema>;
+
+/**
+ * TypeScript type for wantlist query parameters
+ */
+export type UserWantlistParams = z.infer<typeof UserWantlistParamsSchema>;

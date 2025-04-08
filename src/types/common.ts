@@ -19,29 +19,6 @@ export const CurrencyCodeSchema = z.enum([
 ]);
 
 /**
- * Schema for pagination parameters
- */
-export const PaginationParamsSchema = z.object({
-  page: z.number().int().min(1).optional(),
-  per_page: z.number().int().min(1).max(100).optional(),
-});
-
-/**
- * Schema for pagination metadata
- */
-const PaginationMetadataSchema = z.object({
-  ...PaginationParamsSchema.shape,
-  pages: z.number().int().min(1),
-  items: z.number().int().min(0),
-  urls: z.object({
-    first: z.string().url().optional(),
-    prev: z.string().url().optional(),
-    next: z.string().url().optional(),
-    last: z.string().url().optional(),
-  }),
-});
-
-/**
  * Schema for a paginated response
  * @param itemSchema The schema for the items in the array
  * @param resultsFieldName The name of the field containing the array of items
@@ -51,23 +28,34 @@ export const PaginatedResponseSchema = <T extends z.ZodType, K extends string>(
   resultsFieldName: K,
 ) =>
   z.object({
-    pagination: PaginationMetadataSchema,
+    pagination: z.object({
+      page: z.number().int().min(1).optional(),
+      per_page: z.number().int().min(1).max(100).optional(),
+      pages: z.number().int().min(1),
+      items: z.number().int().min(0),
+      urls: z.object({
+        first: z.string().url().optional(),
+        prev: z.string().url().optional(),
+        next: z.string().url().optional(),
+        last: z.string().url().optional(),
+      }),
+    }),
     [resultsFieldName]: z.array(itemSchema),
   });
 
 /**
- * Schema for sort order
- */
-export const SortOrderSchema = z.enum(['asc', 'desc']);
-
-/**
- * Schema for sort parameters
+ * Schema for query parameters that include both pagination and sorting
  * @param validSortKeys An array of valid sort keys for the specific endpoint
  */
-export const SortParamsSchema = <T extends [string, ...string[]]>(validSortKeys: T) =>
+export const QueryParamsSchema = <T extends [string, ...string[]]>(validSortKeys?: T) =>
   z.object({
-    sort: z.enum(validSortKeys).optional(),
-    sort_order: SortOrderSchema.optional(),
+    // Pagination
+    page: z.number().int().min(1).optional(),
+    per_page: z.number().int().min(1).max(100).optional(),
+
+    // Sorting
+    sort: validSortKeys ? z.enum(validSortKeys).optional() : z.string().optional(),
+    sort_order: z.enum(['asc', 'desc']).optional(),
   });
 
 /**
@@ -76,31 +64,15 @@ export const SortParamsSchema = <T extends [string, ...string[]]>(validSortKeys:
 export type CurrencyCode = z.infer<typeof CurrencyCodeSchema>;
 
 /**
- * TypeScript type for pagination parameters
- */
-export type PaginationParams = z.infer<typeof PaginationParamsSchema>;
-
-/**
- * TypeScript type for pagination metadata
- */
-type PaginationMetadata = z.infer<typeof PaginationMetadataSchema>;
-
-/**
  * TypeScript type for a paginated response
  */
-export type PaginatedResponse<T, K extends string> = {
-  pagination: PaginationMetadata;
-} & Record<K, T[]>;
+export type PaginatedResponse<T, K extends string> = z.infer<
+  ReturnType<typeof PaginatedResponseSchema<z.ZodType<T>, K>>
+>;
 
 /**
- * TypeScript type for sort order parameters
+ * TypeScript type for query parameters
  */
-type SortOrder = z.infer<typeof SortOrderSchema>;
-
-/**
- * TypeScript type for sort parameters
- */
-export type SortParams<T extends [string, ...string[]]> = {
-  sort?: T[number];
-  sort_order?: SortOrder;
-};
+export type QueryParams<T extends [string, ...string[]] = [string, ...string[]]> = z.infer<
+  ReturnType<typeof QueryParamsSchema<T>>
+>;
