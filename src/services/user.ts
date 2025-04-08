@@ -7,6 +7,9 @@ import {
   type UserProfileEditInput,
   UserProfileSchema,
   type UserWantlist,
+  type UserWantlistItem,
+  type UserWantlistItemParams,
+  UserWantlistItemSchema,
   type UserWantlistParams,
   UserWantlistSchema,
 } from '../types/user.js';
@@ -133,6 +136,99 @@ export class UserService extends DiscogsService {
 
       // For validation errors or other unexpected errors, wrap them
       throw new Error(`Failed to get wantlist: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Add a release to a user's wantlist
+   *
+   * @param params - Parameters for adding a release to wantlist
+   * @returns {UserWantlistItem} The added wantlist item
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to add to another user's wantlist
+   * @throws {DiscogsResourceNotFoundError} If the username or release_id cannot be found
+   * @throws {Error} If there's a validation error or other unexpected error
+   */
+  async addToWantlist(params: UserWantlistItemParams): Promise<UserWantlistItem> {
+    try {
+      const response = await this.request<UserWantlistItem>(
+        `/${params.username}/wants/${params.release_id}`,
+        {
+          method: 'PUT',
+          body: params,
+        },
+      );
+
+      // Validate the response using Zod schema
+      const validatedResponse = UserWantlistItemSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      // If it's already a Discogs error, just rethrow it
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      // For validation errors or other unexpected errors, wrap them
+      throw new Error(`Failed to add to wantlist: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Edit a release in a user's wantlist
+   *
+   * @param params - Parameters for editing a release in a wantlist
+   * @returns {UserWantlistItem} The edited wantlist item
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to edit a release in another user's wantlist
+   * @throws {DiscogsResourceNotFoundError} If the username or release_id cannot be found
+   * @throws {Error} If there's a validation error or other unexpected error
+   */
+  async editItemInWantlist(params: UserWantlistItemParams): Promise<UserWantlistItem> {
+    try {
+      const response = await this.request<UserWantlistItem>(
+        `/${params.username}/wants/${params.release_id}`,
+        {
+          method: 'POST',
+          body: params,
+        },
+      );
+
+      // Validate the response using Zod schema
+      const validatedResponse = UserWantlistItemSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      // If it's already a Discogs error, just rethrow it
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      // For validation errors or other unexpected errors, wrap them
+      throw new Error(`Failed to add to wantlist: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Delete a release from a user's wantlist
+   *
+   * @param params - Parameters for deleting a release from wantlist including username and release_id
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to delete from another user's wantlist
+   * @throws {DiscogsResourceNotFoundError} If the username or release_id cannot be found
+   * @throws {Error} If there's an unexpected error
+   */
+  async deleteItemInWantlist(params: UserWantlistItemParams): Promise<void> {
+    try {
+      await this.request(`/${params.username}/wants/${params.release_id}`, {
+        method: 'DELETE',
+      });
+    } catch (error) {
+      // If it's already a Discogs error, just rethrow it
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      // For other unexpected errors, wrap them
+      throw new Error(`Failed to delete from wantlist: ${String(error)}`);
     }
   }
 }

@@ -1,7 +1,7 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { UserService } from '../services/user.js';
-import { UserWantlistParamsSchema } from '../types/user.js';
+import { UserWantlistItemParamsSchema, UserWantlistParamsSchema } from '../types/user.js';
 
 /**
  * MCP tool for fetching a Discogs user's wantlist
@@ -22,6 +22,66 @@ export const getUserWantlistTool: Tool<undefined, typeof UserWantlistParamsSchem
   },
 };
 
+/**
+ * MCP tool for adding a release to a user's wantlist
+ */
+export const addToWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
+  name: 'add_to_wantlist',
+  description: `Add a release to a user's wantlist`,
+  parameters: UserWantlistItemParamsSchema,
+  execute: async (args) => {
+    try {
+      const userService = new UserService();
+      const wantlistItem = await userService.addToWantlist(args);
+
+      return JSON.stringify(wantlistItem);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for editing a release in a user's wantlist
+ */
+export const editItemInWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
+  name: 'edit_item_in_wantlist',
+  description: `Edit a release in a user's wantlist`,
+  parameters: UserWantlistItemParamsSchema,
+  execute: async (args) => {
+    try {
+      const userService = new UserService();
+      const wantlistItem = await userService.editItemInWantlist(args);
+
+      return JSON.stringify(wantlistItem);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for deleting a release from a user's wantlist
+ */
+export const deleteItemInWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
+  name: 'delete_item_in_wantlist',
+  description: `Delete a release from a user's wantlist`,
+  parameters: UserWantlistItemParamsSchema,
+  execute: async (args) => {
+    try {
+      const userService = new UserService();
+      await userService.deleteItemInWantlist(args);
+
+      return 'Release deleted from wantlist';
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
 export function registerUserWantlistTools(server: FastMCP): void {
   server.addTool(getUserWantlistTool);
+  server.addTool(addToWantlistTool);
+  server.addTool(editItemInWantlistTool);
+  server.addTool(deleteItemInWantlistTool);
 }

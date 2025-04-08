@@ -30,9 +30,9 @@ export const BasicInformationSchema = z.object({
 });
 
 /**
- * Schema for a release_id input
+ * Schema for a release_id parameter
  */
-export const ReleaseIdInputSchema = z.object({
+export const ReleaseIdParamSchema = z.object({
   release_id: z.number(),
 });
 
@@ -47,6 +47,6 @@ export type BasicInformation = z.infer<typeof BasicInformationSchema>;
 export type ReleaseFormat = z.infer<typeof ReleaseFormatSchema>;
 
 /**
- * TypeScript type for a release_id input
+ * TypeScript type for a release_id parameter
  */
-export type ReleaseIdInput = z.infer<typeof ReleaseIdInputSchema>;
+export type ReleaseIdParam = z.infer<typeof ReleaseIdParamSchema>;
