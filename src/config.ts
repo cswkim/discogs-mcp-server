@@ -8,6 +8,9 @@ dotenv.config();
 export const config = {
   discogs: {
     apiUrl: process.env.DISCOGS_API_URL,
+    /* Some MCP clients can't handle large amounts of data.
+     * The client may explicitly request more at their own peril. */
+    defaultPerPage: 5,
     mediaType: process.env.DISCOGS_MEDIA_TYPE,
     personalAccessToken: process.env.DISCOGS_PERSONAL_ACCESS_TOKEN,
     userAgent:

@@ -52,8 +52,8 @@ export const QueryParamsSchema = <T extends readonly [string, ...string[]]>(
 ) =>
   z.object({
     // Pagination
-    page: z.number().int().min(0).optional(),
-    per_page: z.number().int().min(0).max(100).optional(),
+    page: z.number().int().min(1).optional(),
+    per_page: z.number().int().min(1).max(100).optional(),
 
     // Sorting
     sort: z.enum(validSortKeys).optional(),
