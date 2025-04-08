@@ -86,15 +86,11 @@ export const UserProfileEditInputSchema = z.object({
 });
 
 /**
- * Valid sort keys for user wantlist
- */
-type WantlistSortKeys = ['added', 'artist', 'label', 'rating', 'title', 'year'];
-
-/**
  * Schema for wantlist query parameters
  */
-export const UserWantlistParamsSchema =
-  UsernameInputSchema.merge(QueryParamsSchema<WantlistSortKeys>());
+export const UserWantlistParamsSchema = UsernameInputSchema.merge(
+  QueryParamsSchema(['added', 'artist', 'label', 'rating', 'title', 'year'] as const),
+);
 
 /**
  * Schema for a wantlist item
@@ -137,14 +133,9 @@ export const UserListItemSchema = z.object({
 });
 
 /**
- * Valid sort keys for user lists
- */
-type ListsSortKeys = ['date_added', 'date_changed', 'name'];
-
-/**
  * Schema for lists query parameters
  */
-export const UserListsParamsSchema = UsernameInputSchema.merge(QueryParamsSchema<ListsSortKeys>());
+export const UserListsParamsSchema = UsernameInputSchema.merge(QueryParamsSchema());
 
 /**
  * Schema for paginated user lists response

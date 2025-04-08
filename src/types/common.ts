@@ -29,9 +29,9 @@ export const PaginatedResponseSchema = <T extends z.ZodType, K extends string>(
 ) =>
   z.object({
     pagination: z.object({
-      page: z.number().int().min(1).optional(),
-      per_page: z.number().int().min(1).max(100).optional(),
-      pages: z.number().int().min(1),
+      page: z.number().int().min(0).optional(),
+      per_page: z.number().int().min(0).optional(),
+      pages: z.number().int().min(0),
       items: z.number().int().min(0),
       urls: z.object({
         first: z.string().url().optional(),
@@ -47,14 +47,16 @@ export const PaginatedResponseSchema = <T extends z.ZodType, K extends string>(
  * Schema for query parameters that include both pagination and sorting
  * @param validSortKeys An array of valid sort keys for the specific endpoint
  */
-export const QueryParamsSchema = <T extends [string, ...string[]]>(validSortKeys?: T) =>
+export const QueryParamsSchema = <T extends readonly [string, ...string[]]>(
+  validSortKeys: T = [] as unknown as T,
+) =>
   z.object({
     // Pagination
-    page: z.number().int().min(1).optional(),
-    per_page: z.number().int().min(1).max(100).optional(),
+    page: z.number().int().min(0).optional(),
+    per_page: z.number().int().min(0).max(100).optional(),
 
     // Sorting
-    sort: validSortKeys ? z.enum(validSortKeys).optional() : z.string().optional(),
+    sort: z.enum(validSortKeys).optional(),
     sort_order: z.enum(['asc', 'desc']).optional(),
   });
 
@@ -73,6 +75,6 @@ export type PaginatedResponse<T, K extends string> = z.infer<
 /**
  * TypeScript type for query parameters
  */
-export type QueryParams<T extends [string, ...string[]] = [string, ...string[]]> = z.infer<
+export type QueryParams<T extends readonly [string, ...string[]]> = z.infer<
   ReturnType<typeof QueryParamsSchema<T>>
 >;
