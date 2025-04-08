@@ -56,6 +56,21 @@ export const PaginatedResponseSchema = <T extends z.ZodType, K extends string>(
   });
 
 /**
+ * Schema for sort order
+ */
+export const SortOrderSchema = z.enum(['asc', 'desc']);
+
+/**
+ * Schema for sort parameters
+ * @param validSortKeys An array of valid sort keys for the specific endpoint
+ */
+export const SortParamsSchema = <T extends [string, ...string[]]>(validSortKeys: T) =>
+  z.object({
+    sort: z.enum(validSortKeys).optional(),
+    sort_order: SortOrderSchema.optional(),
+  });
+
+/**
  * TypeScript type for currency codes
  */
 export type CurrencyCode = z.infer<typeof CurrencyCodeSchema>;
@@ -76,3 +91,16 @@ type PaginationMetadata = z.infer<typeof PaginationMetadataSchema>;
 export type PaginatedResponse<T, K extends string> = {
   pagination: PaginationMetadata;
 } & Record<K, T[]>;
+
+/**
+ * TypeScript type for sort order parameters
+ */
+type SortOrder = z.infer<typeof SortOrderSchema>;
+
+/**
+ * TypeScript type for sort parameters
+ */
+export type SortParams<T extends [string, ...string[]]> = {
+  sort?: T[number];
+  sort_order?: SortOrder;
+};
