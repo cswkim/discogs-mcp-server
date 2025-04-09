@@ -9,6 +9,7 @@
   "module": "dist/index.js",
   "files": [
     "dist",
+    "LICENSE",
     "README.md"
   ],
   "bin": {
