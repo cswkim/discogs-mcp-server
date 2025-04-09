@@ -49,6 +49,23 @@ export class DiscogsResourceNotFoundError extends DiscogsError {
   }
 }
 
+export class DiscogsValidationFailedError extends DiscogsError {
+  constructor(response?: unknown) {
+    // Try to extract the detailed error message from the response
+    let message = 'Validation failed';
+
+    if (response && typeof response === 'object' && response !== null) {
+      const detail = (response as { detail?: Array<{ msg?: string }> }).detail;
+      if (Array.isArray(detail) && detail.length > 0 && detail[0].msg) {
+        message = detail[0].msg;
+      }
+    }
+
+    super(message, 422, { message });
+    this.name = new.target.name;
+  }
+}
+
 /**
  * Creates a specific Discogs error instance based on HTTP status code
  *
@@ -67,6 +84,8 @@ export function createDiscogsError(status: number, response: any): DiscogsError 
       return new DiscogsResourceNotFoundError(response?.message || 'Resource');
     case 405:
       return new DiscogsMethodNotAllowedError(response?.message);
+    case 422:
+      return new DiscogsValidationFailedError(response);
     case 429:
       return new DiscogsRateLimitError(
         response?.message,
