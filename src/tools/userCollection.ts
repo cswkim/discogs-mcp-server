@@ -4,6 +4,25 @@ import { UserService } from '../services/user/index.js';
 import { UsernameInputSchema } from '../types/common.js';
 
 /**
+ * MCP tool for fetching a Discogs user's collection folders
+ */
+export const getUserCollectionFoldersTool: Tool<undefined, typeof UsernameInputSchema> = {
+  name: 'get_user_collection_folders',
+  description: `Retrieve a list of folders in a user's collection`,
+  parameters: UsernameInputSchema,
+  execute: async (args) => {
+    try {
+      const userService = new UserService();
+      const collectionFolders = await userService.collection.getFolders(args);
+
+      return JSON.stringify(collectionFolders);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for fetching a Discogs user's collection value
  */
 export const getUserCollectionValueTool: Tool<undefined, typeof UsernameInputSchema> = {
@@ -23,5 +42,6 @@ export const getUserCollectionValueTool: Tool<undefined, typeof UsernameInputSch
 };
 
 export function registerUserCollectionTools(server: FastMCP): void {
+  server.addTool(getUserCollectionFoldersTool);
   server.addTool(getUserCollectionValueTool);
 }
