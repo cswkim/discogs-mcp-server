@@ -18,6 +18,13 @@ export class DiscogsAuthenticationError extends DiscogsError {
   }
 }
 
+export class DiscogsMethodNotAllowedError extends DiscogsError {
+  constructor(message = 'Method not allowed') {
+    super(message, 405, { message });
+    this.name = new.target.name;
+  }
+}
+
 export class DiscogsPermissionError extends DiscogsError {
   constructor(message = 'Insufficient permissions') {
     super(message, 403, { message });
@@ -58,6 +65,8 @@ export function createDiscogsError(status: number, response: any): DiscogsError 
       return new DiscogsPermissionError(response?.message);
     case 404:
       return new DiscogsResourceNotFoundError(response?.message || 'Resource');
+    case 405:
+      return new DiscogsMethodNotAllowedError(response?.message);
     case 429:
       return new DiscogsRateLimitError(
         response?.message,
