@@ -1,6 +1,6 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
-import { UserService } from '../services/user.js';
+import { UserService } from '../services/user/index.js';
 import { UserWantlistItemParamsSchema, UserWantlistParamsSchema } from '../types/user.js';
 
 /**
@@ -13,7 +13,7 @@ export const getUserWantlistTool: Tool<undefined, typeof UserWantlistParamsSchem
   execute: async (args) => {
     try {
       const userService = new UserService();
-      const wantlist = await userService.getWantlist(args);
+      const wantlist = await userService.wants.getList(args);
 
       return JSON.stringify(wantlist);
     } catch (error) {
@@ -32,7 +32,7 @@ export const addToWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSch
   execute: async (args) => {
     try {
       const userService = new UserService();
-      const wantlistItem = await userService.addToWantlist(args);
+      const wantlistItem = await userService.wants.addItem(args);
 
       return JSON.stringify(wantlistItem);
     } catch (error) {
@@ -51,7 +51,7 @@ export const editItemInWantlistTool: Tool<undefined, typeof UserWantlistItemPara
   execute: async (args) => {
     try {
       const userService = new UserService();
-      const wantlistItem = await userService.editItemInWantlist(args);
+      const wantlistItem = await userService.wants.editItem(args);
 
       return JSON.stringify(wantlistItem);
     } catch (error) {
@@ -70,7 +70,7 @@ export const deleteItemInWantlistTool: Tool<undefined, typeof UserWantlistItemPa
   execute: async (args) => {
     try {
       const userService = new UserService();
-      await userService.deleteItemInWantlist(args);
+      await userService.wants.deleteItem(args);
 
       return 'Release deleted from wantlist';
     } catch (error) {

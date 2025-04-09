@@ -1,7 +1,7 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { ListService } from '../services/list.js';
-import { UserService } from '../services/user.js';
+import { UserService } from '../services/user/index.js';
 import { ListIdParamSchema } from '../types/list.js';
 import { UserListsParamsSchema } from '../types/user.js';
 
@@ -15,7 +15,7 @@ export const getUserListsTool: Tool<undefined, typeof UserListsParamsSchema> = {
   execute: async (args) => {
     try {
       const userService = new UserService();
-      const lists = await userService.getLists(args);
+      const lists = await userService.lists.get(args);
 
       return JSON.stringify(lists);
     } catch (error) {

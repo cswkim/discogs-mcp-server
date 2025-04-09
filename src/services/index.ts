@@ -73,3 +73,12 @@ export abstract class DiscogsService {
     return responseBody as T;
   }
 }
+
+/**
+ * Base class for user-related services
+ */
+export class BaseUserService extends DiscogsService {
+  constructor() {
+    super('/users');
+  }
+}

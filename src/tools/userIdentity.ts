@@ -2,7 +2,7 @@ import type { FastMCP, Tool, ToolParameters } from 'fastmcp';
 import { z } from 'zod';
 import { formatDiscogsError } from '../errors.js';
 import { OAuthService } from '../services/oauth.js';
-import { UserService } from '../services/user.js';
+import { UserService } from '../services/user/index.js';
 import { UsernameInputSchema, UserProfileEditInputSchema } from '../types/user.js';
 
 /**
@@ -34,7 +34,7 @@ export const getUserProfileTool: Tool<undefined, typeof UsernameInputSchema> = {
   execute: async (args) => {
     try {
       const userService = new UserService();
-      const profile = await userService.getProfile(args);
+      const profile = await userService.profile.get(args);
 
       return JSON.stringify(profile);
     } catch (error) {
@@ -53,7 +53,7 @@ export const editUserProfileTool: Tool<undefined, typeof UserProfileEditInputSch
   execute: async (args) => {
     try {
       const userService = new UserService();
-      const profile = await userService.editProfile(args);
+      const profile = await userService.profile.edit(args);
 
       return JSON.stringify(profile);
     } catch (error) {

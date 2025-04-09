@@ -1,6 +1,6 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
-import { UserService } from '../services/user.js';
+import { UserService } from '../services/user/index.js';
 import { UsernameInputSchema } from '../types/user.js';
 
 /**
@@ -13,7 +13,7 @@ export const getUserCollectionValueTool: Tool<undefined, typeof UsernameInputSch
   execute: async (args) => {
     try {
       const userService = new UserService();
-      const collectionValue = await userService.getCollectionValue(args);
+      const collectionValue = await userService.collection.getValue(args);
 
       return JSON.stringify(collectionValue);
     } catch (error) {
