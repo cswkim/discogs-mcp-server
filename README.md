@@ -1,0 +1,188 @@
+# Discogs MCP Server
+
+MCP Server for the Discogs API, enabling music catalog operations, search functionality, and more.
+
+## Table of Contents
+
+- [Acknowledgements](#acknowledgements)
+- [Caveats](#caveats)
+- [Prerequisites](#prerequisites)
+- [Setup](#setup)
+- [Running the Server](#running-the-server-locally)
+  - [Option 1: Local Development](#option-1-local-development)
+  - [Option 2: Docker](#option-2-docker)
+- [Inspection](#inspection)
+- [MCP Clients](#mcp-clients)
+  - [Claude Desktop Configuration](#claude-desktop-configuration)
+    - [NPX](#npx)
+    - [Local Node](#local-node)
+    - [Docker](#docker)
+- [License](#license)
+
+## Acknowledgements
+
+This MCP server is built using [FastMCP](https://github.com/punkpeye/fastmcp), a typescript framework for building MCP servers. For more information about MCP and how to use MCP servers, please refer to the [FastMCP documentation](https://github.com/punkpeye/fastmcp/blob/main/README.md) and the [official MCP documentation](https://modelcontextprotocol.io).
+
+## Caveats
+
+- The [Discogs API documentation](https://www.discogs.com/developers) is not perfect and some endpoints may not be fully documented or may have inconsistencies.
+- Due to the vast number of API endpoints and response types, it's not feasible to verify type safety for every possible response. Please report any type-related issues you encounter.
+- This MCP server allows for editing data in your Discogs collection. Please use with caution and verify your actions before executing them.
+- The Discogs API `per_page` default is `50`, which can be too much data for some clients to process effectively, so within the MCP Server a `discogs.config.defaultPerPage` value has been set to `5`. You can request more data in your prompts, but be aware that some clients may struggle with larger responses.
+
+## Prerequisites
+
+- Node.js (tested with Node.js `20.x.x`, but `18.x.x` should work as well)
+  - Check your Node.js version with: `node --version`
+- Docker (optional, for running a local docker image without having to deal with Node or dependencies)
+
+## Setup
+
+1. Clone the repository
+2. Create a `.env` file in the root directory based on `.env.example`
+3. Set the following environment variables in your `.env`:
+   - `DISCOGS_PERSONAL_ACCESS_TOKEN`: Your Discogs personal access token
+   - `DISCOGS_USER_AGENT_APP_NAME`: Your app name for the user agent
+   - `DISCOGS_USER_AGENT_URL`: Your app's URL for the user agent
+
+To get your Discogs personal access token, go to your [Discogs Settings > Developers](https://www.discogs.com/settings/developers) page and find your token or generate a new one. **DO NOT SHARE YOUR TOKEN**. OAuth support will be added in a future release.
+
+The other environment variables in `.env.example` have sensible defaults and don't need to be changed unless you have specific requirements.
+
+## Running the Server Locally
+
+### Option 1: Local Development
+
+1. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+2. Available commands:
+   - `pnpm run dev`: Start the development server with hot reloading
+   - `pnpm run dev:sse`: Start the development server with hot reloading in SSE mode
+   - `pnpm run build`: Build the production version
+   - `pnpm run start`: Run the production build
+   - `pnpm run inspect`: Run the MCP Inspector (see [Inspection](#inspection) section)
+   - `pnpm run format`: Check code formatting (prettier)
+   - `pnpm run lint`: Run linter (eslint)
+
+### Option 2: Docker
+
+1. Build the Docker image:
+   ```bash
+   docker build -t discogs-mcp-server:latest .
+   ```
+
+2. Run the container:
+   ```bash
+   docker run --env-file .env discogs-mcp-server:latest
+   ```
+
+   For SSE transport mode:
+   ```bash
+   # The port should match what is in your .env file
+   docker run --env-file .env -p 3001:3001 discogs-mcp-server:latest sse
+   ```
+
+## Inspection
+
+Run the MCP Inspector to test your local MCP server:
+
+```bash
+pnpm run inspect
+```
+
+This will start the MCP Inspector at `http://127.0.0.1:6274`. Visit this URL in your browser to interact with your local MCP server.
+
+For more information about the MCP Inspector, visit [the official documentation](https://modelcontextprotocol.io/docs/tools/inspector).
+
+## MCP Clients
+
+Currently, this MCP server has only been tested with Claude Desktop. More client examples will be added in the future.
+
+### Claude Desktop Configuration
+
+Find your `claude_desktop_config.json` at `Claude > Settings > Developer > Edit Config` and depending on which option you'd like, add **JUST ONE** of the following:
+
+#### NPX
+
+Running it straight from the npm registry.
+
+```json
+{
+  "mcpServers": {
+    "discogs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cswkim/discogs-mcp-server"
+      ],
+      "env": {
+        "DISCOGS_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>",
+        "DISCOGS_USER_AGENT_APP_NAME": "<YOUR_APP_NAME>",
+        "DISCOGS_USER_AGENT_URL": "<YOUR_APP_URL>",
+        "DISCOGS_API_URL": "https://api.discogs.com",
+        "DISCOGS_MEDIA_TYPE": "application/vnd.discogs.v2.discogs+json",
+        "PORT": "3001",
+        "SERVER_NAME": "Discogs MCP Server"
+      }
+    }
+  }
+}
+```
+
+#### Local Node
+
+Dependencies should have been installed before you use this method (`pnpm install`).
+
+```json
+{
+  "mcpServers": {
+    "discogs": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "/PATH/TO/YOUR/PROJECT/FOLDER/src/index.ts"
+      ],
+      "env": {
+        "DISCOGS_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>",
+        "DISCOGS_USER_AGENT_APP_NAME": "<YOUR_APP_NAME>",
+        "DISCOGS_USER_AGENT_URL": "<YOUR_APP_URL>",
+        "DISCOGS_API_URL": "https://api.discogs.com",
+        "DISCOGS_MEDIA_TYPE": "application/vnd.discogs.v2.discogs+json",
+        "PORT": "3001",
+        "SERVER_NAME": "Discogs MCP Server"
+      }
+    }
+  }
+}
+```
+
+#### Docker
+
+The docker image should have been built before using this method.
+
+```json
+{
+  "mcpServers": {
+    "discogs": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "--env-file",
+        "/PATH/TO/YOUR/PROJECT/FOLDER/.env",
+        "discogs-mcp-server:latest"
+      ]
+    }
+  }
+}
+```
+
+Any changes to local code will require Claude to be restarted to take effect. Also, Claude requires human-in-the-loop interaction to allow an MCP tool to be run, so everytime a new tool is accessed Claude will ask for permission. You only have to do this once per tool per chat.
+
+## License
+
+This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License. For more details, please see the LICENSE file in the project repository.
