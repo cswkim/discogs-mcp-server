@@ -61,6 +61,13 @@ export const QueryParamsSchema = <T extends readonly [string, ...string[]]>(
   });
 
 /**
+ * Schema for a username input
+ */
+export const UsernameInputSchema = z.object({
+  username: z.string().min(1, 'username is required'),
+});
+
+/**
  * TypeScript type for currency codes
  */
 export type CurrencyCode = z.infer<typeof CurrencyCodeSchema>;
@@ -78,3 +85,8 @@ export type PaginatedResponse<T, K extends string> = z.infer<
 export type QueryParams<T extends readonly [string, ...string[]]> = z.infer<
   ReturnType<typeof QueryParamsSchema<T>>
 >;
+
+/**
+ * TypeScript type for a username input
+ */
+export type UsernameInput = z.infer<typeof UsernameInputSchema>;

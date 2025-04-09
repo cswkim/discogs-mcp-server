@@ -1,7 +1,7 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { UserService } from '../services/user/index.js';
-import { UserWantlistItemParamsSchema, UserWantlistParamsSchema } from '../types/user.js';
+import { UserWantlistItemParamsSchema, UserWantlistParamsSchema } from '../types/user/index.js';
 
 /**
  * MCP tool for fetching a Discogs user's wantlist

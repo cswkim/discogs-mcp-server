@@ -6,7 +6,7 @@ import {
   UserWantlistItemSchema,
   type UserWantlistParams,
   UserWantlistSchema,
-} from '../../types/user.js';
+} from '../../types/user/index.js';
 import { BaseUserService } from '../index.js';
 
 /**

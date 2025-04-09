@@ -1,9 +1,6 @@
 import { isDiscogsError } from '../../errors.js';
-import {
-  type UserCollectionValue,
-  UserCollectionValueSchema,
-  type UsernameInput,
-} from '../../types/user.js';
+import { UsernameInput } from '../../types/common.js';
+import { type UserCollectionValue, UserCollectionValueSchema } from '../../types/user/index.js';
 import { BaseUserService } from '../index.js';
 
 /**

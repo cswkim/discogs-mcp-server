@@ -1,5 +1,5 @@
 import { isDiscogsError } from '../../errors.js';
-import { type UserLists, type UserListsParams, UserListsSchema } from '../../types/user.js';
+import { type UserLists, type UserListsParams, UserListsSchema } from '../../types/user/index.js';
 import { BaseUserService } from '../index.js';
 
 /**

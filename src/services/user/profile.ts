@@ -1,10 +1,10 @@
 import { isDiscogsError } from '../../errors.js';
+import { UsernameInput } from '../../types/common.js';
 import {
-  UserProfile,
-  UserProfileEditInput,
+  type UserProfile,
+  type UserProfileEditInput,
   UserProfileSchema,
-  UsernameInput,
-} from '../../types/user.js';
+} from '../../types/user/index.js';
 import { BaseUserService } from '../index.js';
 
 /**

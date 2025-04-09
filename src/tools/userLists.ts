@@ -3,7 +3,7 @@ import { formatDiscogsError } from '../errors.js';
 import { ListService } from '../services/list.js';
 import { UserService } from '../services/user/index.js';
 import { ListIdParamSchema } from '../types/list.js';
-import { UserListsParamsSchema } from '../types/user.js';
+import { UserListsParamsSchema } from '../types/user/index.js';
 
 /**
  * MCP tool for fetching a Discogs user's lists
