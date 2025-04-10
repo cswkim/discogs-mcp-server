@@ -1,6 +1,8 @@
 import { isDiscogsError } from '../../errors.js';
 import { UsernameInput } from '../../types/common.js';
 import {
+  type UserCollectionCustomFields,
+  UserCollectionCustomFieldsSchema,
   type UserCollectionFolder,
   type UserCollectionFolderCreateParams,
   type UserCollectionFolderParams,
@@ -206,6 +208,33 @@ export class UserCollectionService extends BaseUserService {
 
       // For unexpected errors, wrap them
       throw new Error(`Failed to find release in collection: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Retrieve a list of user-defined collection notes fields. These fields are available on every release in the collection.
+   *
+   * @param username The username of whose collection custom fields you are requesting
+   * @returns {UserCollectionCustomFields} The user's collection custom fields
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to get custom fields of a private collection
+   * @throws {DiscogsResourceNotFoundError} If the username cannot be found
+   * @throws {Error} If there's an unexpected error
+   */
+  async getCustomFields({ username }: UsernameInput): Promise<UserCollectionCustomFields> {
+    try {
+      const response = await this.request<UserCollectionCustomFields>(
+        `/${username}/collection/fields`,
+      );
+
+      const validatedResponse = UserCollectionCustomFieldsSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to get collection custom fields: ${String(error)}`);
     }
   }
 

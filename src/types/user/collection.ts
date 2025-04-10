@@ -15,6 +15,23 @@ export const FolderIdParamSchema = (min?: number) =>
   });
 
 /**
+ * Schema for custom fields in a user's collection
+ */
+export const UserCollectionCustomFieldsSchema = z.object({
+  fields: z.array(
+    z.object({
+      id: z.number().int(),
+      lines: z.number().int().optional(),
+      name: z.string(),
+      options: z.array(z.string()).optional(),
+      position: z.number().int(),
+      public: z.boolean(),
+      type: z.string(),
+    }),
+  ),
+});
+
+/**
  * Schema for a Discogs user collection folder
  */
 export const UserCollectionFolderSchema = z.object({
@@ -136,6 +153,11 @@ export const UserCollectionValueSchema = z.object({
   median: z.string(),
   minimum: z.string(),
 });
+
+/**
+ * TypeScript type for custom fields in a user's collection
+ */
+export type UserCollectionCustomFields = z.infer<typeof UserCollectionCustomFieldsSchema>;
 
 /**
  * TypeScript type for a Discogs user collection folder

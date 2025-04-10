@@ -136,6 +136,25 @@ const findReleaseInUserCollectionTool: Tool<undefined, typeof UserCollectionRele
 };
 
 /**
+ * MCP tool for fetching a Discogs user's collection custom fields
+ */
+const getUserCollectionCustomFieldsTool: Tool<undefined, typeof UsernameInputSchema> = {
+  name: 'get_user_collection_custom_fields',
+  description: `Retrieve a list of user-defined collection notes fields. These fields are available on every release in the collection.`,
+  parameters: UsernameInputSchema,
+  execute: async (args) => {
+    try {
+      const userService = new UserService();
+      const customFields = await userService.collection.getCustomFields(args);
+
+      return JSON.stringify(customFields);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for fetching a Discogs user's collection folder
  */
 const getUserCollectionFolderTool: Tool<undefined, typeof UserCollectionFolderParamsSchema> = {
@@ -240,6 +259,7 @@ export function registerUserCollectionTools(server: FastMCP): void {
   server.addTool(deleteUserCollectionFolderTool);
   server.addTool(editUserCollectionFolderTool);
   server.addTool(findReleaseInUserCollectionTool);
+  server.addTool(getUserCollectionCustomFieldsTool);
   server.addTool(getUserCollectionFolderTool);
   server.addTool(getUserCollectionFoldersTool);
   server.addTool(getUserCollectionItemsTool);
