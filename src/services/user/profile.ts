@@ -50,9 +50,10 @@ export class UserProfileService extends BaseUserService {
    */
   async edit(params: UserProfileEditInput): Promise<UserProfile> {
     try {
-      const response = await this.request<UserProfile>(`/${params.username}`, {
+      const { username, ...body } = params;
+      const response = await this.request<UserProfile>(`/${username}`, {
         method: 'POST',
-        body: params,
+        body,
       });
 
       // Validate the response using Zod schema
