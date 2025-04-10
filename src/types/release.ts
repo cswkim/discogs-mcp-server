@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { urlOrEmptySchema } from '../utils.js';
 import { ArtistBasicSchema } from './artist.js';
-import { CurrencyCodeSchema } from './common.js';
+import { CurrencyCodeSchema, UsernameInputSchema } from './common.js';
 import { LabelBasicSchema } from './label.js';
 
 /**
@@ -165,6 +165,29 @@ export const ReleaseParamsSchema = ReleaseIdParamSchema.extend({
 });
 
 /**
+ * Schema for release rating
+ */
+export const ReleaseRatingSchema = UsernameInputSchema.merge(ReleaseIdParamSchema).extend({
+  rating: z.number(),
+});
+
+/**
+ * Schema for release rating parameters
+ */
+export const ReleaseRatingParamsSchema = UsernameInputSchema.merge(ReleaseIdParamSchema);
+
+/**
+ * Schema for release rating edit parameters
+ */
+export const ReleaseRatingEditParamsSchema = ReleaseRatingParamsSchema.extend({
+  rating: z
+    .number()
+    .int()
+    .min(1, 'The rating must be at least 1')
+    .max(5, 'The rating must be at most 5'),
+});
+
+/**
  * TypeScript type for basic release information
  */
 export type BasicInformation = z.infer<typeof BasicInformationSchema>;
@@ -188,3 +211,18 @@ export type ReleaseIdParam = z.infer<typeof ReleaseIdParamSchema>;
  * TypeScript type for release parameters
  */
 export type ReleaseParams = z.infer<typeof ReleaseParamsSchema>;
+
+/**
+ * TypeScript type for release rating
+ */
+export type ReleaseRating = z.infer<typeof ReleaseRatingSchema>;
+
+/**
+ * TypeScript type for release rating parameters
+ */
+export type ReleaseRatingParams = z.infer<typeof ReleaseRatingParamsSchema>;
+
+/**
+ * TypeScript type for release rating edit parameters
+ */
+export type ReleaseRatingEditParams = z.infer<typeof ReleaseRatingEditParamsSchema>;

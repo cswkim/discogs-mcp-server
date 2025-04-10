@@ -1,7 +1,49 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { ReleaseService } from '../services/release.js';
-import { ReleaseParamsSchema } from '../types/release.js';
+import {
+  ReleaseParamsSchema,
+  ReleaseRatingEditParamsSchema,
+  ReleaseRatingParamsSchema,
+} from '../types/release.js';
+
+/**
+ * MCP tool for deleting a release rating
+ */
+const deleteReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = {
+  name: 'delete_release_rating',
+  description: `Deletes the release's rating for a given user`,
+  parameters: ReleaseRatingParamsSchema,
+  execute: async (args) => {
+    try {
+      const releaseService = new ReleaseService();
+      await releaseService.deleteRatingByUser(args);
+
+      return 'Release rating deleted successfully';
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for editing a release rating
+ */
+const editReleaseRatingTool: Tool<undefined, typeof ReleaseRatingEditParamsSchema> = {
+  name: 'edit_release_rating',
+  description: `Updates the release's rating for a given user`,
+  parameters: ReleaseRatingEditParamsSchema,
+  execute: async (args) => {
+    try {
+      const releaseService = new ReleaseService();
+      const releaseRating = await releaseService.editRatingByUser(args);
+
+      return JSON.stringify(releaseRating);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
 
 /**
  * MCP tool for fetching a Discogs release
@@ -22,6 +64,28 @@ const getReleaseTool: Tool<undefined, typeof ReleaseParamsSchema> = {
   },
 };
 
+/**
+ * MCP tool for fetching a Discogs release rating by user
+ */
+const getReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = {
+  name: 'get_release_rating_by_user',
+  description: `Retrieves the release's rating for a given user`,
+  parameters: ReleaseRatingParamsSchema,
+  execute: async (args) => {
+    try {
+      const releaseService = new ReleaseService();
+      const releaseRating = await releaseService.getRatingByUser(args);
+
+      return JSON.stringify(releaseRating);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
 export function registerDatabaseTools(server: FastMCP): void {
   server.addTool(getReleaseTool);
+  server.addTool(getReleaseRatingTool);
+  server.addTool(editReleaseRatingTool);
+  server.addTool(deleteReleaseRatingTool);
 }
