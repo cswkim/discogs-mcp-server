@@ -140,6 +140,14 @@ export const UserCollectionReleaseRatingParamsSchema =
   });
 
 /**
+ * Schema for a Discogs user collection move release parameters
+ */
+export const UserCollectionMoveReleaseParamsSchema =
+  UserCollectionReleaseDeletedParamsSchema.extend({
+    destination_folder_id: z.number(),
+  });
+
+/**
  * Schema for releases in a user's collection
  */
 export const UserCollectionItemsByReleaseSchema = PaginatedResponseSchema(
@@ -228,6 +236,11 @@ export type UserCollectionReleaseItem = z.infer<typeof UserCollectionReleaseItem
 export type UserCollectionReleaseRatingParams = z.infer<
   typeof UserCollectionReleaseRatingParamsSchema
 >;
+
+/**
+ * TypeScript type for a Discogs user collection move release parameters
+ */
+export type UserCollectionMoveReleaseParams = z.infer<typeof UserCollectionMoveReleaseParamsSchema>;
 
 /**
  * TypeScript type for a Discogs user's collection items by release

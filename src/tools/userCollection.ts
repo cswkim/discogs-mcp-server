@@ -8,6 +8,7 @@ import {
   UserCollectionFolderParamsSchema,
   UserCollectionFolderReleaseParamsSchema,
   UserCollectionItemsParamsSchema,
+  UserCollectionMoveReleaseParamsSchema,
   UserCollectionReleaseDeletedParamsSchema,
   UserCollectionReleaseParamsSchema,
   UserCollectionReleaseRatingParamsSchema,
@@ -232,6 +233,28 @@ const getUserCollectionValueTool: Tool<undefined, typeof UsernameInputSchema> = 
 };
 
 /**
+ * MCP tool for moving a release in a Discogs user's collection to another folder
+ */
+const moveReleaseInUserCollectionTool: Tool<
+  undefined,
+  typeof UserCollectionMoveReleaseParamsSchema
+> = {
+  name: 'move_release_in_user_collection',
+  description: `Move a release in a user's collection to another folder`,
+  parameters: UserCollectionMoveReleaseParamsSchema,
+  execute: async (args) => {
+    try {
+      const userService = new UserService();
+      await userService.collection.moveRelease(args);
+
+      return 'Release moved successfully';
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for rating a release in a Discogs user's collection
  */
 const rateReleaseInUserCollectionTool: Tool<
@@ -263,6 +286,7 @@ export function registerUserCollectionTools(server: FastMCP): void {
   server.addTool(getUserCollectionItemsTool);
   server.addTool(addReleaseToUserCollectionFolderTool);
   server.addTool(rateReleaseInUserCollectionTool);
+  server.addTool(moveReleaseInUserCollectionTool);
   server.addTool(deleteReleaseFromUserCollectionFolderTool);
   server.addTool(getUserCollectionCustomFieldsTool);
   server.addTool(getUserCollectionValueTool);

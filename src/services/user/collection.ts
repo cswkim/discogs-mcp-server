@@ -14,6 +14,7 @@ import {
   type UserCollectionItemsByRelease,
   UserCollectionItemsByReleaseSchema,
   type UserCollectionItemsParams,
+  type UserCollectionMoveReleaseParams,
   type UserCollectionReleaseAdded,
   UserCollectionReleaseAddedSchema,
   type UserCollectionReleaseDeletedParams,
@@ -354,6 +355,34 @@ export class UserCollectionService extends BaseUserService {
 
       // For unexpected errors, wrap them
       throw new Error(`Failed to get collection value: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Move a release in a user's collection to another folder
+   *
+   * @param params The parameters for the release move
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to move a collection release of another user
+   * @throws {DiscogsResourceNotFoundError} If the user, source folder, destination folder, release, or instance cannot be found
+   * @throws {Error} If there's an unexpected error
+   */
+  async moveRelease(params: UserCollectionMoveReleaseParams): Promise<void> {
+    try {
+      const { username, folder_id, release_id, instance_id, ...body } = params;
+      await this.request<void>(
+        `/${username}/collection/folders/${folder_id}/releases/${release_id}/instances/${instance_id}`,
+        {
+          method: 'POST',
+          body: { folder_id: body.destination_folder_id },
+        },
+      );
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to move release: ${String(error)}`);
     }
   }
 
