@@ -25,8 +25,9 @@ export class UserWantsService extends BaseUserService {
    */
   async getList(params: UserWantlistParams): Promise<UserWantlist> {
     try {
-      const response = await this.request<UserWantlist>(`/${params.username}/wants`, {
-        params,
+      const { username, ...options } = params;
+      const response = await this.request<UserWantlist>(`/${username}/wants`, {
+        params: options,
       });
 
       // Validate the response using Zod schema
@@ -55,13 +56,11 @@ export class UserWantsService extends BaseUserService {
    */
   async addItem(params: UserWantlistItemParams): Promise<UserWantlistItem> {
     try {
-      const response = await this.request<UserWantlistItem>(
-        `/${params.username}/wants/${params.release_id}`,
-        {
-          method: 'PUT',
-          body: params,
-        },
-      );
+      const { username, release_id, ...body } = params;
+      const response = await this.request<UserWantlistItem>(`/${username}/wants/${release_id}`, {
+        method: 'PUT',
+        body,
+      });
 
       // Validate the response using Zod schema
       const validatedResponse = UserWantlistItemSchema.parse(response);
@@ -89,13 +88,11 @@ export class UserWantsService extends BaseUserService {
    */
   async editItem(params: UserWantlistItemParams): Promise<UserWantlistItem> {
     try {
-      const response = await this.request<UserWantlistItem>(
-        `/${params.username}/wants/${params.release_id}`,
-        {
-          method: 'POST',
-          body: params,
-        },
-      );
+      const { username, release_id, ...body } = params;
+      const response = await this.request<UserWantlistItem>(`/${username}/wants/${release_id}`, {
+        method: 'POST',
+        body,
+      });
 
       // Validate the response using Zod schema
       const validatedResponse = UserWantlistItemSchema.parse(response);
@@ -120,9 +117,9 @@ export class UserWantsService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username or release_id cannot be found
    * @throws {Error} If there's an unexpected error
    */
-  async deleteItem(params: UserWantlistItemParams): Promise<void> {
+  async deleteItem({ username, release_id }: UserWantlistItemParams): Promise<void> {
     try {
-      await this.request(`/${params.username}/wants/${params.release_id}`, {
+      await this.request(`/${username}/wants/${release_id}`, {
         method: 'DELETE',
       });
     } catch (error) {
