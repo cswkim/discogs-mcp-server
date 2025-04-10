@@ -6,9 +6,10 @@ import { z } from 'zod';
 export const LabelBasicSchema = z.object({
   id: z.number(),
   catno: z.string(),
-  entity_type: z.string(),
+  entity_type: z.string().optional(),
+  entity_type_name: z.string().optional(),
   name: z.string(),
-  resource_url: z.string().url(),
+  resource_url: z.string().urlOrEmpty(),
 });
 
 /**

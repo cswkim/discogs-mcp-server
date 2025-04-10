@@ -18,13 +18,15 @@ export const ReleaseFormatSchema = z.object({
 export const BasicInformationSchema = z.object({
   id: z.number(),
   artists: z.array(ArtistBasicSchema),
-  cover_image: z.string().url(),
+  cover_image: z.string().urlOrEmpty(),
   formats: z.array(ReleaseFormatSchema),
   genres: z.array(z.string()).optional(),
+  master_id: z.number().optional(),
+  master_url: z.string().urlOrEmpty().optional(),
   labels: z.array(LabelBasicSchema),
   resource_url: z.string().urlOrEmpty(),
   styles: z.array(z.string()).optional(),
-  thumb: z.string().url(),
+  thumb: z.string().urlOrEmpty(),
   title: z.string(),
   year: z.number(),
 });

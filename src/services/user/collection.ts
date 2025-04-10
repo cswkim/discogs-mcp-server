@@ -4,9 +4,17 @@ import {
   type UserCollectionFolder,
   type UserCollectionFolderCreateParams,
   type UserCollectionFolderParams,
+  type UserCollectionFolderReleaseParams,
   type UserCollectionFolders,
   UserCollectionFolderSchema,
   UserCollectionFoldersSchema,
+  type UserCollectionItemsByRelease,
+  UserCollectionItemsByReleaseSchema,
+  type UserCollectionItemsParams,
+  type UserCollectionReleaseAdded,
+  UserCollectionReleaseAddedSchema,
+  type UserCollectionReleaseDeletedParams,
+  type UserCollectionReleaseParams,
   type UserCollectionValue,
   UserCollectionValueSchema,
 } from '../../types/user/index.js';
@@ -16,6 +24,40 @@ import { BaseUserService } from '../index.js';
  * Service for Discogs User Collection operations
  */
 export class UserCollectionService extends BaseUserService {
+  /**
+   * Add a release to a folder in a user's collection. The folder_id must be non-zero.
+   *
+   * @param params The parameters for the release addition
+   * @returns {UserCollectionReleaseAdded} The added release
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to add a release to a folder of another user
+   * @throws {DiscogsResourceNotFoundError} If the username, folder_id, or release_id cannot be found
+   * @throws {DiscogsValidationFailedError} If the folder_id is 0
+   * @throws {Error} If there's an unexpected error
+   */
+  async addReleaseToFolder(
+    params: UserCollectionFolderReleaseParams,
+  ): Promise<UserCollectionReleaseAdded> {
+    try {
+      const response = await this.request<UserCollectionReleaseAdded>(
+        `/${params.username}/collection/folders/${params.folder_id}/releases/${params.release_id}`,
+        {
+          method: 'POST',
+          body: params,
+        },
+      );
+
+      const validatedResponse = UserCollectionReleaseAddedSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to add release to folder: ${String(error)}`);
+    }
+  }
+
   /**
    * Create a folder in a user's collection
    *
@@ -74,6 +116,33 @@ export class UserCollectionService extends BaseUserService {
   }
 
   /**
+   * Remove an instance of a release from a user's collection folder
+   *
+   * @param params The parameters for the release deletion
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to delete a release from a folder of another user
+   * @throws {DiscogsResourceNotFoundError} If the username, folder_id, release_id, or instance_id cannot be found
+   * @throws {DiscogsValidationFailedError} If the folder_id is 0
+   * @throws {Error} If there's an unexpected error
+   */
+  async deleteReleaseFromFolder(params: UserCollectionReleaseDeletedParams): Promise<void> {
+    try {
+      await this.request<void>(
+        `/${params.username}/collection/folders/${params.folder_id}/releases/${params.release_id}/instances/${params.instance_id}`,
+        {
+          method: 'DELETE',
+        },
+      );
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to delete release from folder: ${String(error)}`);
+    }
+  }
+
+  /**
    * Edit a folder's metadata. Folders 0 and 1 cannot be renamed.
    *
    * @param params The parameters for the folder edit
@@ -104,6 +173,38 @@ export class UserCollectionService extends BaseUserService {
 
       // For unexpected errors, wrap them
       throw new Error(`Failed to edit folder: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Find a release in a user's collection
+   *
+   * @param params The parameters for the release search
+   * @returns {UserCollectionItemsByRelease} The releases in the user's collection
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to search a private collection
+   * @throws {DiscogsResourceNotFoundError} If the username cannot be found
+   * @throws {Error} If there's an unexpected error
+   */
+  async findRelease(params: UserCollectionReleaseParams): Promise<UserCollectionItemsByRelease> {
+    try {
+      const response = await this.request<UserCollectionItemsByRelease>(
+        `/${params.username}/collection/releases/${params.release_id}`,
+        {
+          params,
+        },
+      );
+
+      // Validate the response using Zod schema
+      const validatedResponse = UserCollectionItemsByReleaseSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      // For unexpected errors, wrap them
+      throw new Error(`Failed to find release in collection: ${String(error)}`);
     }
   }
 
@@ -158,6 +259,36 @@ export class UserCollectionService extends BaseUserService {
       }
 
       throw new Error(`Failed to get folder: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Returns the list of item in a folder in a user’s collection
+   *
+   * @param params The parameters for the item retrieval
+   * @returns {UserCollectionItemsByRelease} The items in the user's collection
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to get a private collection
+   * @throws {DiscogsResourceNotFoundError} If the username or folder cannot be found
+   * @throws {Error} If there's an unexpected error
+   */
+  async getItems(params: UserCollectionItemsParams): Promise<UserCollectionItemsByRelease> {
+    try {
+      const response = await this.request<UserCollectionItemsByRelease>(
+        `/${params.username}/collection/folders/${params.folder_id}/releases`,
+        {
+          params,
+        },
+      );
+
+      const validatedResponse = UserCollectionItemsByReleaseSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to get collection items: ${String(error)}`);
     }
   }
 
