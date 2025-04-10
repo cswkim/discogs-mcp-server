@@ -16,8 +16,9 @@ export class UserListsService extends BaseUserService {
    */
   async get(params: UserListsParams): Promise<UserLists> {
     try {
-      const response = await this.request<UserLists>(`/${params.username}/lists`, {
-        params,
+      const { username, ...options } = params;
+      const response = await this.request<UserLists>(`/${username}/lists`, {
+        params: options,
       });
 
       // Validate the response using Zod schema
