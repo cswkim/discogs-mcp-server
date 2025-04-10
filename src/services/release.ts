@@ -1,8 +1,11 @@
 import { isDiscogsError } from '../errors.js';
 import {
   type Release,
+  type ReleaseIdParam,
   type ReleaseParams,
   type ReleaseRating,
+  type ReleaseRatingCommunity,
+  ReleaseRatingCommunitySchema,
   type ReleaseRatingEditParams,
   type ReleaseRatingParams,
   ReleaseRatingSchema,
@@ -99,6 +102,30 @@ export class ReleaseService extends DiscogsService {
 
       // For validation errors or other unexpected errors, wrap them
       throw new Error(`Failed to get release: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Retrieves the community release rating average and count
+   *
+   * @param params - Parameters for the request
+   * @returns {ReleaseRatingCommunity} The release community rating
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsResourceNotFoundError} If the release cannot be found
+   * @throws {Error} If there's an unexpected error
+   */
+  async getCommunityRating({ release_id }: ReleaseIdParam): Promise<ReleaseRatingCommunity> {
+    try {
+      const response = await this.request<ReleaseRatingCommunity>(`/${release_id}/rating`);
+
+      const validatedResponse = ReleaseRatingCommunitySchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to get release community rating: ${String(error)}`);
     }
   }
 

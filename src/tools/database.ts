@@ -2,6 +2,7 @@ import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { ReleaseService } from '../services/release.js';
 import {
+  ReleaseIdParamSchema,
   ReleaseParamsSchema,
   ReleaseRatingEditParamsSchema,
   ReleaseRatingParamsSchema,
@@ -65,6 +66,25 @@ const getReleaseTool: Tool<undefined, typeof ReleaseParamsSchema> = {
 };
 
 /**
+ * MCP tool for fetching a Discogs release community rating
+ */
+const getReleaseCommunityRatingTool: Tool<undefined, typeof ReleaseIdParamSchema> = {
+  name: 'get_release_community_rating',
+  description: 'Retrieves the release community rating average and count',
+  parameters: ReleaseIdParamSchema,
+  execute: async (args) => {
+    try {
+      const releaseService = new ReleaseService();
+      const releaseRating = await releaseService.getCommunityRating(args);
+
+      return JSON.stringify(releaseRating);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for fetching a Discogs release rating by user
  */
 const getReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = {
@@ -88,4 +108,5 @@ export function registerDatabaseTools(server: FastMCP): void {
   server.addTool(getReleaseRatingTool);
   server.addTool(editReleaseRatingTool);
   server.addTool(deleteReleaseRatingTool);
+  server.addTool(getReleaseCommunityRatingTool);
 }

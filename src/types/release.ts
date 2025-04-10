@@ -172,6 +172,16 @@ export const ReleaseRatingSchema = UsernameInputSchema.merge(ReleaseIdParamSchem
 });
 
 /**
+ * Schema for release rating community
+ */
+export const ReleaseRatingCommunitySchema = ReleaseIdParamSchema.extend({
+  rating: z.object({
+    average: z.number(),
+    count: z.number().int(),
+  }),
+});
+
+/**
  * Schema for release rating parameters
  */
 export const ReleaseRatingParamsSchema = UsernameInputSchema.merge(ReleaseIdParamSchema);
@@ -216,6 +226,11 @@ export type ReleaseParams = z.infer<typeof ReleaseParamsSchema>;
  * TypeScript type for release rating
  */
 export type ReleaseRating = z.infer<typeof ReleaseRatingSchema>;
+
+/**
+ * TypeScript type for release rating community
+ */
+export type ReleaseRatingCommunity = z.infer<typeof ReleaseRatingCommunitySchema>;
 
 /**
  * TypeScript type for release rating parameters
