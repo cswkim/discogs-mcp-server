@@ -1,6 +1,8 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
+import { MasterReleaseService } from '../services/master.js';
 import { ReleaseService } from '../services/release.js';
+import { MasterReleaseIdParamSchema } from '../types/master.js';
 import {
   ReleaseIdParamSchema,
   ReleaseParamsSchema,
@@ -40,6 +42,25 @@ const editReleaseRatingTool: Tool<undefined, typeof ReleaseRatingEditParamsSchem
       const releaseRating = await releaseService.editRatingByUser(args);
 
       return JSON.stringify(releaseRating);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for fetching a Discogs master release
+ */
+const getMasterReleaseTool: Tool<undefined, typeof MasterReleaseIdParamSchema> = {
+  name: 'get_master_release',
+  description: 'Get a master release',
+  parameters: MasterReleaseIdParamSchema,
+  execute: async (args) => {
+    try {
+      const masterReleaseService = new MasterReleaseService();
+      const masterRelease = await masterReleaseService.get(args);
+
+      return JSON.stringify(masterRelease);
     } catch (error) {
       throw formatDiscogsError(error);
     }
@@ -109,4 +130,5 @@ export function registerDatabaseTools(server: FastMCP): void {
   server.addTool(editReleaseRatingTool);
   server.addTool(deleteReleaseRatingTool);
   server.addTool(getReleaseCommunityRatingTool);
+  server.addTool(getMasterReleaseTool);
 }

@@ -89,7 +89,7 @@ export const ReleaseSchema = z.object({
   estimated_weight: z.number().int().optional(),
   extraartists: z.array(ArtistBasicSchema).optional(),
   format_quantity: z.number().int().optional(),
-  formats: z.array(ReleaseFormatSchema),
+  formats: z.array(ReleaseFormatSchema).optional(),
   genres: z.array(z.string()).optional(),
   identifiers: z
     .array(
@@ -111,7 +111,7 @@ export const ReleaseSchema = z.object({
       }),
     )
     .optional(),
-  labels: z.array(LabelBasicSchema),
+  labels: z.array(LabelBasicSchema).optional(),
   lowest_price: z.number().optional(),
   master_id: z.number().optional(),
   master_url: urlOrEmptySchema().optional(),
