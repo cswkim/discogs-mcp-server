@@ -1,7 +1,9 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
+import { ArtistService } from '../services/artist.js';
 import { MasterReleaseService } from '../services/master.js';
 import { ReleaseService } from '../services/release.js';
+import { ArtistIdParamSchema, ArtistReleasesParamsSchema } from '../types/artist.js';
 import { MasterReleaseIdParamSchema } from '../types/master.js';
 import {
   ReleaseIdParamSchema,
@@ -42,6 +44,44 @@ const editReleaseRatingTool: Tool<undefined, typeof ReleaseRatingEditParamsSchem
       const releaseRating = await releaseService.editRatingByUser(args);
 
       return JSON.stringify(releaseRating);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for fetching a Discogs artist
+ */
+const getArtistTool: Tool<undefined, typeof ArtistIdParamSchema> = {
+  name: 'get_artist',
+  description: 'Get an artist',
+  parameters: ArtistIdParamSchema,
+  execute: async (args) => {
+    try {
+      const artistService = new ArtistService();
+      const artist = await artistService.get(args);
+
+      return JSON.stringify(artist);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for fetching a Discogs artist releases
+ */
+const getArtistReleasesTool: Tool<undefined, typeof ArtistReleasesParamsSchema> = {
+  name: 'get_artist_releases',
+  description: `Get an artist's releases`,
+  parameters: ArtistReleasesParamsSchema,
+  execute: async (args) => {
+    try {
+      const artistService = new ArtistService();
+      const artistReleases = await artistService.getReleases(args);
+
+      return JSON.stringify(artistReleases);
     } catch (error) {
       throw formatDiscogsError(error);
     }
@@ -131,4 +171,6 @@ export function registerDatabaseTools(server: FastMCP): void {
   server.addTool(deleteReleaseRatingTool);
   server.addTool(getReleaseCommunityRatingTool);
   server.addTool(getMasterReleaseTool);
+  server.addTool(getArtistTool);
+  server.addTool(getArtistReleasesTool);
 }
