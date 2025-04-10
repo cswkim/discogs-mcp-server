@@ -55,11 +55,13 @@ export const UserCollectionFolderCreateParamsSchema = UsernameInputSchema.extend
   name: z.string().optional(),
 });
 
-/**
- * Schema for a Discogs user collection folder get/edit/delete parameters
- */
-export const UserCollectionFolderParamsSchema =
+export const UserCollectionFolderEditParamsSchema =
   UserCollectionFolderCreateParamsSchema.merge(FolderIdParamSchema());
+
+/**
+ * Schema for a Discogs user collection folder get/delete parameters
+ */
+export const UserCollectionFolderParamsSchema = UsernameInputSchema.merge(FolderIdParamSchema());
 
 /**
  * Schema for a Discogs user collection folder release parameters
@@ -170,6 +172,11 @@ export type UserCollectionFolder = z.infer<typeof UserCollectionFolderSchema>;
 export type UserCollectionFolderCreateParams = z.infer<
   typeof UserCollectionFolderCreateParamsSchema
 >;
+
+/**
+ * TypeScript type for a Discogs user collection folder edit parameters
+ */
+export type UserCollectionFolderEditParams = z.infer<typeof UserCollectionFolderEditParamsSchema>;
 
 /**
  * TypeScript type for a Discogs user collection folder get/edit/delete parameters

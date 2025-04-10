@@ -4,6 +4,7 @@ import { UserService } from '../services/user/index.js';
 import { UsernameInputSchema } from '../types/common.js';
 import {
   UserCollectionFolderCreateParamsSchema,
+  UserCollectionFolderEditParamsSchema,
   UserCollectionFolderParamsSchema,
   UserCollectionFolderReleaseParamsSchema,
   UserCollectionItemsParamsSchema,
@@ -42,7 +43,7 @@ const createUserCollectionFolderTool: Tool<
   typeof UserCollectionFolderCreateParamsSchema
 > = {
   name: 'create_user_collection_folder',
-  description: `Create a folder in a user's collection`,
+  description: `Create a new folder in a user's collection`,
   parameters: UserCollectionFolderCreateParamsSchema,
   execute: async (args) => {
     try {
@@ -100,10 +101,10 @@ const deleteUserCollectionFolderTool: Tool<undefined, typeof UserCollectionFolde
 /**
  * MCP tool for editing a folder in a Discogs user's collection
  */
-const editUserCollectionFolderTool: Tool<undefined, typeof UserCollectionFolderParamsSchema> = {
+const editUserCollectionFolderTool: Tool<undefined, typeof UserCollectionFolderEditParamsSchema> = {
   name: 'edit_user_collection_folder',
   description: `Edit a folder's metadata. Folders 0 and 1 cannot be renamed.`,
-  parameters: UserCollectionFolderParamsSchema,
+  parameters: UserCollectionFolderEditParamsSchema,
   execute: async (args) => {
     try {
       const userService = new UserService();
@@ -253,16 +254,16 @@ const rateReleaseInUserCollectionTool: Tool<
 };
 
 export function registerUserCollectionTools(server: FastMCP): void {
-  server.addTool(addReleaseToUserCollectionFolderTool);
-  server.addTool(createUserCollectionFolderTool);
-  server.addTool(deleteReleaseFromUserCollectionFolderTool);
-  server.addTool(deleteUserCollectionFolderTool);
-  server.addTool(editUserCollectionFolderTool);
-  server.addTool(findReleaseInUserCollectionTool);
-  server.addTool(getUserCollectionCustomFieldsTool);
-  server.addTool(getUserCollectionFolderTool);
   server.addTool(getUserCollectionFoldersTool);
+  server.addTool(createUserCollectionFolderTool);
+  server.addTool(getUserCollectionFolderTool);
+  server.addTool(editUserCollectionFolderTool);
+  server.addTool(deleteUserCollectionFolderTool);
+  server.addTool(findReleaseInUserCollectionTool);
   server.addTool(getUserCollectionItemsTool);
-  server.addTool(getUserCollectionValueTool);
+  server.addTool(addReleaseToUserCollectionFolderTool);
   server.addTool(rateReleaseInUserCollectionTool);
+  server.addTool(deleteReleaseFromUserCollectionFolderTool);
+  server.addTool(getUserCollectionCustomFieldsTool);
+  server.addTool(getUserCollectionValueTool);
 }

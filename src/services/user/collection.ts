@@ -5,6 +5,7 @@ import {
   UserCollectionCustomFieldsSchema,
   type UserCollectionFolder,
   type UserCollectionFolderCreateParams,
+  type UserCollectionFolderEditParams,
   type UserCollectionFolderParams,
   type UserCollectionFolderReleaseParams,
   type UserCollectionFolders,
@@ -42,11 +43,11 @@ export class UserCollectionService extends BaseUserService {
     params: UserCollectionFolderReleaseParams,
   ): Promise<UserCollectionReleaseAdded> {
     try {
+      const { username, folder_id, release_id } = params;
       const response = await this.request<UserCollectionReleaseAdded>(
-        `/${params.username}/collection/folders/${params.folder_id}/releases/${params.release_id}`,
+        `/${username}/collection/folders/${folder_id}/releases/${release_id}`,
         {
           method: 'POST',
-          body: params,
         },
       );
 
@@ -62,7 +63,7 @@ export class UserCollectionService extends BaseUserService {
   }
 
   /**
-   * Create a folder in a user's collection
+   * Create a new folder in a user's collection
    *
    * @param params The parameters for the folder creation
    * @returns {UserCollectionFolder} The created folder
@@ -73,13 +74,11 @@ export class UserCollectionService extends BaseUserService {
    */
   async createFolder(params: UserCollectionFolderCreateParams): Promise<UserCollectionFolder> {
     try {
-      const response = await this.request<UserCollectionFolder>(
-        `/${params.username}/collection/folders`,
-        {
-          method: 'POST',
-          body: params,
-        },
-      );
+      const { username, ...body } = params;
+      const response = await this.request<UserCollectionFolder>(`/${username}/collection/folders`, {
+        method: 'POST',
+        body,
+      });
 
       // Validate the response using Zod schema
       const validatedResponse = UserCollectionFolderSchema.parse(response);
@@ -105,7 +104,8 @@ export class UserCollectionService extends BaseUserService {
    */
   async deleteFolder(params: UserCollectionFolderParams): Promise<void> {
     try {
-      await this.request<void>(`/${params.username}/collection/folders/${params.folder_id}`, {
+      const { username, folder_id } = params;
+      await this.request<void>(`/${username}/collection/folders/${folder_id}`, {
         method: 'DELETE',
       });
     } catch (error) {
@@ -130,8 +130,9 @@ export class UserCollectionService extends BaseUserService {
    */
   async deleteReleaseFromFolder(params: UserCollectionReleaseDeletedParams): Promise<void> {
     try {
+      const { username, folder_id, release_id, instance_id } = params;
       await this.request<void>(
-        `/${params.username}/collection/folders/${params.folder_id}/releases/${params.release_id}/instances/${params.instance_id}`,
+        `/${username}/collection/folders/${folder_id}/releases/${release_id}/instances/${instance_id}`,
         {
           method: 'DELETE',
         },
@@ -156,13 +157,14 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsValidationFailedError} If the folder_id is 0 or 1
    * @throws {Error} If there's an unexpected error
    */
-  async editFolder(params: UserCollectionFolderParams): Promise<UserCollectionFolder> {
+  async editFolder(params: UserCollectionFolderEditParams): Promise<UserCollectionFolder> {
     try {
+      const { username, folder_id, ...body } = params;
       const response = await this.request<UserCollectionFolder>(
-        `/${params.username}/collection/folders/${params.folder_id}`,
+        `/${username}/collection/folders/${folder_id}`,
         {
           method: 'POST',
-          body: params,
+          body,
         },
       );
 
@@ -191,10 +193,11 @@ export class UserCollectionService extends BaseUserService {
    */
   async findRelease(params: UserCollectionReleaseParams): Promise<UserCollectionItemsByRelease> {
     try {
+      const { username, release_id, ...options } = params;
       const response = await this.request<UserCollectionItemsByRelease>(
-        `/${params.username}/collection/releases/${params.release_id}`,
+        `/${username}/collection/releases/${release_id}`,
         {
-          params,
+          params: options,
         },
       );
 
@@ -275,10 +278,13 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username or folder cannot be found
    * @throws {Error} If there's an unexpected error
    */
-  async getFolder(params: UserCollectionFolderParams): Promise<UserCollectionFolder> {
+  async getFolder({
+    username,
+    folder_id,
+  }: UserCollectionFolderParams): Promise<UserCollectionFolder> {
     try {
       const response = await this.request<UserCollectionFolder>(
-        `/${params.username}/collection/folders/${params.folder_id}`,
+        `/${username}/collection/folders/${folder_id}`,
       );
 
       const validatedResponse = UserCollectionFolderSchema.parse(response);
@@ -304,10 +310,11 @@ export class UserCollectionService extends BaseUserService {
    */
   async getItems(params: UserCollectionItemsParams): Promise<UserCollectionItemsByRelease> {
     try {
+      const { username, folder_id, ...options } = params;
       const response = await this.request<UserCollectionItemsByRelease>(
-        `/${params.username}/collection/folders/${params.folder_id}/releases`,
+        `/${username}/collection/folders/${folder_id}/releases`,
         {
-          params,
+          params: options,
         },
       );
 
@@ -361,14 +368,12 @@ export class UserCollectionService extends BaseUserService {
    */
   async rateRelease(params: UserCollectionReleaseRatingParams): Promise<void> {
     try {
-      // Create a copy of params without the folder_id to prevent moving the instance
-      const { folder_id: _folder_id, ...filteredParams } = params;
-
+      const { username, folder_id, release_id, instance_id, ...body } = params;
       await this.request<void>(
-        `/${params.username}/collection/folders/${params.folder_id}/releases/${params.release_id}/instances/${params.instance_id}`,
+        `/${username}/collection/folders/${folder_id}/releases/${release_id}/instances/${instance_id}`,
         {
           method: 'POST',
-          body: filteredParams,
+          body,
         },
       );
     } catch (error) {

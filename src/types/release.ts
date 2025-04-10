@@ -24,7 +24,7 @@ export const BasicInformationSchema = z.object({
   formats: z.array(ReleaseFormatSchema),
   genres: z.array(z.string()).optional(),
   master_id: z.number().optional(),
-  master_url: urlOrEmptySchema().optional(),
+  master_url: urlOrEmptySchema().nullable().optional(),
   labels: z.array(LabelBasicSchema),
   resource_url: urlOrEmptySchema(),
   styles: z.array(z.string()).optional(),
