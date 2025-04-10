@@ -74,14 +74,15 @@ export const ArtistSchema = z.object({
 /**
  * Schema for an artist release
  */
-const ArtistReleaseSchema = z.object({
+export const ArtistReleaseSchema = z.object({
   id: z.number(),
   artist: z.string(),
+  catno: z.string().optional(),
   format: z.string().optional(),
   label: z.string().optional(),
   main_release: z.number().optional(),
   resource_url: urlOrEmptySchema(),
-  role: z.string(),
+  role: z.string().optional(),
   status: z.string().optional(),
   stats: z
     .object({
@@ -98,7 +99,7 @@ const ArtistReleaseSchema = z.object({
   thumb: urlOrEmptySchema().optional(),
   title: z.string(),
   trackinfo: z.string().optional(),
-  type: z.string(),
+  type: z.string().optional(),
   year: z.number().optional(),
 });
 

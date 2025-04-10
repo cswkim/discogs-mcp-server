@@ -1,9 +1,11 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { ArtistService } from '../services/artist.js';
+import { LabelService } from '../services/label.js';
 import { MasterReleaseService } from '../services/master.js';
 import { ReleaseService } from '../services/release.js';
 import { ArtistIdParamSchema, ArtistReleasesParamsSchema } from '../types/artist.js';
+import { LabelIdParamSchema, LabelReleasesParamsSchema } from '../types/label.js';
 import { MasterReleaseIdParamSchema } from '../types/master.js';
 import {
   ReleaseIdParamSchema,
@@ -82,6 +84,44 @@ const getArtistReleasesTool: Tool<undefined, typeof ArtistReleasesParamsSchema> 
       const artistReleases = await artistService.getReleases(args);
 
       return JSON.stringify(artistReleases);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for fetching a Discogs label
+ */
+const getLabelTool: Tool<undefined, typeof LabelIdParamSchema> = {
+  name: 'get_label',
+  description: 'Get a label',
+  parameters: LabelIdParamSchema,
+  execute: async (args) => {
+    try {
+      const labelService = new LabelService();
+      const label = await labelService.get(args);
+
+      return JSON.stringify(label);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for fetching a Discogs label releases
+ */
+const getLabelReleasesTool: Tool<undefined, typeof LabelReleasesParamsSchema> = {
+  name: 'get_label_releases',
+  description: 'Returns a list of Releases associated with the label',
+  parameters: LabelReleasesParamsSchema,
+  execute: async (args) => {
+    try {
+      const labelService = new LabelService();
+      const labelReleases = await labelService.getReleases(args);
+
+      return JSON.stringify(labelReleases);
     } catch (error) {
       throw formatDiscogsError(error);
     }
@@ -173,4 +213,6 @@ export function registerDatabaseTools(server: FastMCP): void {
   server.addTool(getMasterReleaseTool);
   server.addTool(getArtistTool);
   server.addTool(getArtistReleasesTool);
+  server.addTool(getLabelTool);
+  server.addTool(getLabelReleasesTool);
 }
