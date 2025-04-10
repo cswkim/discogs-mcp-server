@@ -113,6 +113,14 @@ export const UserCollectionReleaseItemSchema = z.object({
 });
 
 /**
+ * Schema for a Discogs user collection release rating parameters
+ */
+export const UserCollectionReleaseRatingParamsSchema =
+  UserCollectionReleaseDeletedParamsSchema.extend({
+    rating: z.number().int().min(1).max(5).optional(),
+  });
+
+/**
  * Schema for releases in a user's collection
  */
 export const UserCollectionItemsByReleaseSchema = PaginatedResponseSchema(
@@ -184,6 +192,13 @@ export type UserCollectionReleaseDeletedParams = z.infer<
  * TypeScript type for a Discogs user collection release item
  */
 export type UserCollectionReleaseItem = z.infer<typeof UserCollectionReleaseItemSchema>;
+
+/**
+ * TypeScript type for a Discogs user collection release rating parameters
+ */
+export type UserCollectionReleaseRatingParams = z.infer<
+  typeof UserCollectionReleaseRatingParamsSchema
+>;
 
 /**
  * TypeScript type for a Discogs user's collection items by release

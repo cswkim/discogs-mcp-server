@@ -15,6 +15,7 @@ import {
   UserCollectionReleaseAddedSchema,
   type UserCollectionReleaseDeletedParams,
   type UserCollectionReleaseParams,
+  type UserCollectionReleaseRatingParams,
   type UserCollectionValue,
   UserCollectionValueSchema,
 } from '../../types/user/index.js';
@@ -263,7 +264,7 @@ export class UserCollectionService extends BaseUserService {
   }
 
   /**
-   * Returns the list of item in a folder in a user’s collection
+   * Returns the list of item in a folder in a user's collection
    *
    * @param params The parameters for the item retrieval
    * @returns {UserCollectionItemsByRelease} The items in the user's collection
@@ -317,6 +318,36 @@ export class UserCollectionService extends BaseUserService {
 
       // For unexpected errors, wrap them
       throw new Error(`Failed to get collection value: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Rate a release in a user's collection
+   *
+   * @param params The parameters for the release rating
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to rate a collection release of another user
+   * @throws {DiscogsResourceNotFoundError} If the username, folder_id, release_id, or instance_id cannot be found
+   * @throws {Error} If there's an unexpected error
+   */
+  async rateRelease(params: UserCollectionReleaseRatingParams): Promise<void> {
+    try {
+      // Create a copy of params without the folder_id to prevent moving the instance
+      const { folder_id: _folder_id, ...filteredParams } = params;
+
+      await this.request<void>(
+        `/${params.username}/collection/folders/${params.folder_id}/releases/${params.release_id}/instances/${params.instance_id}`,
+        {
+          method: 'POST',
+          body: filteredParams,
+        },
+      );
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to rate release: ${String(error)}`);
     }
   }
 }

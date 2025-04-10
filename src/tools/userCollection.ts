@@ -9,6 +9,7 @@ import {
   UserCollectionItemsParamsSchema,
   UserCollectionReleaseDeletedParamsSchema,
   UserCollectionReleaseParamsSchema,
+  UserCollectionReleaseRatingParamsSchema,
 } from '../types/user/index.js';
 
 /**
@@ -210,6 +211,28 @@ const getUserCollectionValueTool: Tool<undefined, typeof UsernameInputSchema> = 
   },
 };
 
+/**
+ * MCP tool for rating a release in a Discogs user's collection
+ */
+const rateReleaseInUserCollectionTool: Tool<
+  undefined,
+  typeof UserCollectionReleaseRatingParamsSchema
+> = {
+  name: 'rate_release_in_user_collection',
+  description: `Rate a release in a user's collection. The folder_id must be non-zero.`,
+  parameters: UserCollectionReleaseRatingParamsSchema,
+  execute: async (args) => {
+    try {
+      const userService = new UserService();
+      await userService.collection.rateRelease(args);
+
+      return 'Release rated successfully';
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
 export function registerUserCollectionTools(server: FastMCP): void {
   server.addTool(addReleaseToUserCollectionFolderTool);
   server.addTool(createUserCollectionFolderTool);
@@ -221,4 +244,5 @@ export function registerUserCollectionTools(server: FastMCP): void {
   server.addTool(getUserCollectionFoldersTool);
   server.addTool(getUserCollectionItemsTool);
   server.addTool(getUserCollectionValueTool);
+  server.addTool(rateReleaseInUserCollectionTool);
 }
