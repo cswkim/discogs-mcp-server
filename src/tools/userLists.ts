@@ -8,7 +8,7 @@ import { UserListsParamsSchema } from '../types/user/index.js';
 /**
  * MCP tool for fetching a Discogs user's lists
  */
-export const getUserListsTool: Tool<undefined, typeof UserListsParamsSchema> = {
+const getUserListsTool: Tool<undefined, typeof UserListsParamsSchema> = {
   name: 'get_user_lists',
   description: `Get a user's lists`,
   parameters: UserListsParamsSchema,
@@ -27,7 +27,7 @@ export const getUserListsTool: Tool<undefined, typeof UserListsParamsSchema> = {
 /**
  * MCP tool for fetching a Discogs list by ID
  */
-export const getListTool: Tool<undefined, typeof ListIdParamSchema> = {
+const getListTool: Tool<undefined, typeof ListIdParamSchema> = {
   name: 'get_list',
   description: `Get a list by ID`,
   parameters: ListIdParamSchema,
