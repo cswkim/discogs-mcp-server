@@ -1,10 +1,12 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { ArtistService } from '../services/artist.js';
+import { DatabaseService } from '../services/database.js';
 import { LabelService } from '../services/label.js';
 import { MasterReleaseService } from '../services/master.js';
 import { ReleaseService } from '../services/release.js';
 import { ArtistIdParamSchema, ArtistReleasesParamsSchema } from '../types/artist.js';
+import { SearchParamsSchema } from '../types/database.js';
 import { LabelIdParamSchema, LabelReleasesParamsSchema } from '../types/label.js';
 import { MasterReleaseIdParamSchema } from '../types/master.js';
 import {
@@ -204,6 +206,25 @@ const getReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = 
   },
 };
 
+/**
+ * MCP tool for searching the Discogs database
+ */
+const searchTool: Tool<undefined, typeof SearchParamsSchema> = {
+  name: 'search',
+  description: 'Issue a search query to the Discogs database',
+  parameters: SearchParamsSchema,
+  execute: async (args) => {
+    try {
+      const databaseService = new DatabaseService();
+      const searchResults = await databaseService.search(args);
+
+      return JSON.stringify(searchResults);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
 export function registerDatabaseTools(server: FastMCP): void {
   server.addTool(getReleaseTool);
   server.addTool(getReleaseRatingTool);
@@ -215,4 +236,5 @@ export function registerDatabaseTools(server: FastMCP): void {
   server.addTool(getArtistReleasesTool);
   server.addTool(getLabelTool);
   server.addTool(getLabelReleasesTool);
+  server.addTool(searchTool);
 }
