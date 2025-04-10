@@ -53,16 +53,7 @@ export const UserProfileSchema = z.object({
 export const UserProfileEditInputSchema = z.object({
   ...UsernameInputSchema.shape,
   name: z.string().optional(),
-  home_page: z
-    .string()
-    .refine(
-      (val) =>
-        val === '' ||
-        val.toLowerCase().startsWith('http://') ||
-        val.toLowerCase().startsWith('https://'),
-      'invalid URL - must start with http:// or https://',
-    )
-    .optional(),
+  home_page: z.string().urlOrEmpty().optional(),
   location: z.string().optional(),
   profile: z.string().optional(),
   curr_abbr: CurrencyCodeSchema.optional(),

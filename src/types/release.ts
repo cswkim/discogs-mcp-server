@@ -22,7 +22,7 @@ export const BasicInformationSchema = z.object({
   formats: z.array(ReleaseFormatSchema),
   genres: z.array(z.string()).optional(),
   labels: z.array(LabelBasicSchema),
-  resource_url: z.string().url(),
+  resource_url: z.string().urlOrEmpty(),
   styles: z.array(z.string()).optional(),
   thumb: z.string().url(),
   title: z.string(),
@@ -33,7 +33,7 @@ export const BasicInformationSchema = z.object({
  * Schema for a release_id parameter
  */
 export const ReleaseIdParamSchema = z.object({
-  release_id: z.number(),
+  release_id: z.number().min(1, 'The release_id must be non-zero'),
 });
 
 /**
