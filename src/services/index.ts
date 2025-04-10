@@ -43,11 +43,6 @@ export abstract class DiscogsService {
       });
     }
 
-    // Apply default per_page if not specified
-    if (!url.searchParams.has('per_page')) {
-      url.searchParams.append('per_page', String(config.discogs.defaultPerPage));
-    }
-
     const response = await fetch(url.toString(), {
       method: options?.method || 'GET',
       headers: this.headers,
