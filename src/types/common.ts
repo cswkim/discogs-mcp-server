@@ -1,19 +1,5 @@
 import { z } from 'zod';
 
-// Extend ZodString
-declare module 'zod' {
-  interface ZodString {
-    urlOrEmpty: () => z.ZodEffects<z.ZodString, string, string>;
-  }
-}
-
-// Add the custom method
-z.ZodString.prototype.urlOrEmpty = function () {
-  return this.refine((val) => val === '' || /^https?:\/\/.+/.test(val), {
-    message: 'Must be a valid URL or empty string',
-  });
-};
-
 /**
  * Schema for currency codes supported by Discogs
  */

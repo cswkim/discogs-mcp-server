@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { urlOrEmptySchema } from '../../utils.js';
 import { CurrencyCodeSchema, UsernameInputSchema } from '../common.js';
 
 /**
@@ -53,7 +54,7 @@ export const UserProfileSchema = z.object({
 export const UserProfileEditInputSchema = z.object({
   ...UsernameInputSchema.shape,
   name: z.string().optional(),
-  home_page: z.string().urlOrEmpty().optional(),
+  home_page: urlOrEmptySchema().optional(),
   location: z.string().optional(),
   profile: z.string().optional(),
   curr_abbr: CurrencyCodeSchema.optional(),

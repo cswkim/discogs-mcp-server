@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { urlOrEmptySchema } from '../utils.js';
 
 /**
  * Schema for basic label information
@@ -9,7 +10,7 @@ export const LabelBasicSchema = z.object({
   entity_type: z.string().optional(),
   entity_type_name: z.string().optional(),
   name: z.string(),
-  resource_url: z.string().urlOrEmpty(),
+  resource_url: urlOrEmptySchema(),
 });
 
 /**

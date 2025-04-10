@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { urlOrEmptySchema } from '../utils.js';
 
 /**
  * Schema for basic artist information
@@ -8,7 +9,7 @@ export const ArtistBasicSchema = z.object({
   anv: z.string(),
   join: z.string(),
   name: z.string(),
-  resource_url: z.string().urlOrEmpty(),
+  resource_url: urlOrEmptySchema(),
   role: z.string(),
   tracks: z.string(),
 });
