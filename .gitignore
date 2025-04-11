@@ -18,6 +18,10 @@ yarn-error.log*
 .env
 .env.*
 !.env.example
+!.env.test
+
+# Testing
+coverage/
 
 # OS
 .DS_Store
