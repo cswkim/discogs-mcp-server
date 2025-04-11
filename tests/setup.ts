@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
-import { afterEach, beforeAll } from 'vitest';
-import { resetDiscogsServiceMock } from './mocks/discogsService';
+import { afterEach, beforeAll, vi } from 'vitest';
+import './mocks/discogsService';
 
 // Load test environment variables
 beforeAll(() => {
@@ -9,5 +9,5 @@ beforeAll(() => {
 
 // Reset all mocks after each test
 afterEach(() => {
-  resetDiscogsServiceMock();
+  vi.clearAllMocks();
 });

@@ -10,8 +10,3 @@ vi.mock('../../src/services/index', async () => {
     },
   };
 });
-
-// Reset the mock before each test
-export const resetDiscogsServiceMock = () => {
-  vi.clearAllMocks();
-};
