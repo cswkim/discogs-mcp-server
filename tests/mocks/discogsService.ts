@@ -8,5 +8,8 @@ vi.mock('../../src/services/index', async () => {
     DiscogsService: class {
       request = vi.fn();
     },
+    BaseUserService: class {
+      request = vi.fn();
+    },
   };
 });
