@@ -28,7 +28,7 @@ This MCP server is built using [FastMCP](https://github.com/punkpeye/fastmcp), a
 - The [Discogs API documentation](https://www.discogs.com/developers) is not perfect and some endpoints may not be fully documented or may have inconsistencies.
 - Due to the vast number of API endpoints and response types, it's not feasible to verify type safety for every possible response. Please report any type-related issues you encounter.
 - This MCP server allows for editing data in your Discogs collection. Please use with caution and verify your actions before executing them.
-- The Discogs API `per_page` default is `50`, which can be too much data for some clients to process effectively, so within the MCP Server a `discogs.config.defaultPerPage` value has been set to `5`. You can request more data in your prompts, but be aware that some clients may struggle with larger responses.
+- The Discogs API `per_page` default is `50`, which can be too much data for some clients to process effectively, so within this project a `discogs.config.defaultPerPage` value has been set to `5`. You can request more data in your prompts, but be aware that some clients may struggle with larger responses.
 
 ## Prerequisites
 
@@ -167,7 +167,7 @@ The docker image should have been built before using this method.
 }
 ```
 
-Any changes to local code will require Claude to be restarted to take effect. Also, Claude requires human-in-the-loop interaction to allow an MCP tool to be run, so everytime a new tool is accessed Claude will ask for permission. You only have to do this once per tool per chat.
+Any changes to local code will require Claude to be restarted to take effect. Also, Claude requires human-in-the-loop interaction to allow an MCP tool to be run, so everytime a new tool is accessed Claude will ask for permission. You usually only have to do this once per tool per chat. _If using the free version, long chats may result in more frequent errors trying to run tools as Claude limits the amount of context within a single chat._
 
 ## License
 
