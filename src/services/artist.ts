@@ -50,9 +50,8 @@ export class ArtistService extends DiscogsService {
    * @throws {DiscogsResourceNotFoundError} If the artist cannot be found
    * @throws {Error} If there's an unexpected error
    */
-  async getReleases(params: ArtistReleasesParams): Promise<ArtistReleases> {
+  async getReleases({ artist_id, ...options }: ArtistReleasesParams): Promise<ArtistReleases> {
     try {
-      const { artist_id, ...options } = params;
       const response = await this.request<ArtistReleases>(`/${artist_id}/releases`, {
         params: options,
       });

@@ -48,9 +48,8 @@ export class UserProfileService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
    */
-  async edit(params: UserProfileEditInput): Promise<UserProfile> {
+  async edit({ username, ...body }: UserProfileEditInput): Promise<UserProfile> {
     try {
-      const { username, ...body } = params;
       const response = await this.request<UserProfile>(`/${username}`, {
         method: 'POST',
         body,

@@ -14,9 +14,8 @@ export class UserListsService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
    */
-  async get(params: UserListsParams): Promise<UserLists> {
+  async get({ username, ...options }: UserListsParams): Promise<UserLists> {
     try {
-      const { username, ...options } = params;
       const response = await this.request<UserLists>(`/${username}/lists`, {
         params: options,
       });

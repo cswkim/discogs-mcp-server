@@ -23,9 +23,8 @@ export class UserWantsService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
    */
-  async getList(params: UserWantlistParams): Promise<UserWantlist> {
+  async getList({ username, ...options }: UserWantlistParams): Promise<UserWantlist> {
     try {
-      const { username, ...options } = params;
       const response = await this.request<UserWantlist>(`/${username}/wants`, {
         params: options,
       });
@@ -54,9 +53,12 @@ export class UserWantsService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username or release_id cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
    */
-  async addItem(params: UserWantlistItemParams): Promise<UserWantlistItem> {
+  async addItem({
+    username,
+    release_id,
+    ...body
+  }: UserWantlistItemParams): Promise<UserWantlistItem> {
     try {
-      const { username, release_id, ...body } = params;
       const response = await this.request<UserWantlistItem>(`/${username}/wants/${release_id}`, {
         method: 'PUT',
         body,
@@ -86,9 +88,12 @@ export class UserWantsService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username or release_id cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
    */
-  async editItem(params: UserWantlistItemParams): Promise<UserWantlistItem> {
+  async editItem({
+    username,
+    release_id,
+    ...body
+  }: UserWantlistItemParams): Promise<UserWantlistItem> {
     try {
-      const { username, release_id, ...body } = params;
       const response = await this.request<UserWantlistItem>(`/${username}/wants/${release_id}`, {
         method: 'POST',
         body,

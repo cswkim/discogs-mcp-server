@@ -85,9 +85,8 @@ export class ReleaseService extends DiscogsService {
    * @throws {DiscogsResourceNotFoundError} If the release cannot be found
    * @throws {Error} If there's an unexpected error
    */
-  async get(params: ReleaseParams): Promise<Release> {
+  async get({ release_id, ...options }: ReleaseParams): Promise<Release> {
     try {
-      const { release_id, ...options } = params;
       const response = await this.request<Release>(`/${release_id}`, {
         params: options,
       });

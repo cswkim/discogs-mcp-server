@@ -40,11 +40,12 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsValidationFailedError} If the folder_id is 0
    * @throws {Error} If there's an unexpected error
    */
-  async addReleaseToFolder(
-    params: UserCollectionFolderReleaseParams,
-  ): Promise<UserCollectionReleaseAdded> {
+  async addReleaseToFolder({
+    username,
+    folder_id,
+    release_id,
+  }: UserCollectionFolderReleaseParams): Promise<UserCollectionReleaseAdded> {
     try {
-      const { username, folder_id, release_id } = params;
       const response = await this.request<UserCollectionReleaseAdded>(
         `/${username}/collection/folders/${folder_id}/releases/${release_id}`,
         {
@@ -73,9 +74,11 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
    * @throws {Error} If there's an unexpected error
    */
-  async createFolder(params: UserCollectionFolderCreateParams): Promise<UserCollectionFolder> {
+  async createFolder({
+    username,
+    ...body
+  }: UserCollectionFolderCreateParams): Promise<UserCollectionFolder> {
     try {
-      const { username, ...body } = params;
       const response = await this.request<UserCollectionFolder>(`/${username}/collection/folders`, {
         method: 'POST',
         body,
@@ -103,9 +106,8 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsValidationFailedError} If the folder is not empty
    * @throws {Error} If there's an unexpected error
    */
-  async deleteFolder(params: UserCollectionFolderParams): Promise<void> {
+  async deleteFolder({ username, folder_id }: UserCollectionFolderParams): Promise<void> {
     try {
-      const { username, folder_id } = params;
       await this.request<void>(`/${username}/collection/folders/${folder_id}`, {
         method: 'DELETE',
       });
@@ -129,9 +131,13 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsValidationFailedError} If the folder_id is 0
    * @throws {Error} If there's an unexpected error
    */
-  async deleteReleaseFromFolder(params: UserCollectionReleaseDeletedParams): Promise<void> {
+  async deleteReleaseFromFolder({
+    username,
+    folder_id,
+    release_id,
+    instance_id,
+  }: UserCollectionReleaseDeletedParams): Promise<void> {
     try {
-      const { username, folder_id, release_id, instance_id } = params;
       await this.request<void>(
         `/${username}/collection/folders/${folder_id}/releases/${release_id}/instances/${instance_id}`,
         {
@@ -158,9 +164,12 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsValidationFailedError} If the folder_id is 0 or 1
    * @throws {Error} If there's an unexpected error
    */
-  async editFolder(params: UserCollectionFolderEditParams): Promise<UserCollectionFolder> {
+  async editFolder({
+    username,
+    folder_id,
+    ...body
+  }: UserCollectionFolderEditParams): Promise<UserCollectionFolder> {
     try {
-      const { username, folder_id, ...body } = params;
       const response = await this.request<UserCollectionFolder>(
         `/${username}/collection/folders/${folder_id}`,
         {
@@ -192,9 +201,12 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username cannot be found
    * @throws {Error} If there's an unexpected error
    */
-  async findRelease(params: UserCollectionReleaseParams): Promise<UserCollectionItemsByRelease> {
+  async findRelease({
+    username,
+    release_id,
+    ...options
+  }: UserCollectionReleaseParams): Promise<UserCollectionItemsByRelease> {
     try {
-      const { username, release_id, ...options } = params;
       const response = await this.request<UserCollectionItemsByRelease>(
         `/${username}/collection/releases/${release_id}`,
         {
@@ -309,9 +321,12 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username or folder cannot be found
    * @throws {Error} If there's an unexpected error
    */
-  async getItems(params: UserCollectionItemsParams): Promise<UserCollectionItemsByRelease> {
+  async getItems({
+    username,
+    folder_id,
+    ...options
+  }: UserCollectionItemsParams): Promise<UserCollectionItemsByRelease> {
     try {
-      const { username, folder_id, ...options } = params;
       const response = await this.request<UserCollectionItemsByRelease>(
         `/${username}/collection/folders/${folder_id}/releases`,
         {
@@ -367,9 +382,14 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the user, source folder, destination folder, release, or instance cannot be found
    * @throws {Error} If there's an unexpected error
    */
-  async moveRelease(params: UserCollectionMoveReleaseParams): Promise<void> {
+  async moveRelease({
+    username,
+    folder_id,
+    release_id,
+    instance_id,
+    ...body
+  }: UserCollectionMoveReleaseParams): Promise<void> {
     try {
-      const { username, folder_id, release_id, instance_id, ...body } = params;
       await this.request<void>(
         `/${username}/collection/folders/${folder_id}/releases/${release_id}/instances/${instance_id}`,
         {
@@ -395,9 +415,14 @@ export class UserCollectionService extends BaseUserService {
    * @throws {DiscogsResourceNotFoundError} If the username, folder_id, release_id, or instance_id cannot be found
    * @throws {Error} If there's an unexpected error
    */
-  async rateRelease(params: UserCollectionReleaseRatingParams): Promise<void> {
+  async rateRelease({
+    username,
+    folder_id,
+    release_id,
+    instance_id,
+    ...body
+  }: UserCollectionReleaseRatingParams): Promise<void> {
     try {
-      const { username, folder_id, release_id, instance_id, ...body } = params;
       await this.request<void>(
         `/${username}/collection/folders/${folder_id}/releases/${release_id}/instances/${instance_id}`,
         {
