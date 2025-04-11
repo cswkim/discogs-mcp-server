@@ -40,14 +40,12 @@ This MCP server is built using [FastMCP](https://github.com/punkpeye/fastmcp), a
 
 1. Clone the repository
 2. Create a `.env` file in the root directory based on `.env.example`
-3. Set the following environment variables in your `.env`:
+3. Set the following required environment variables in your `.env`:
    - `DISCOGS_PERSONAL_ACCESS_TOKEN`: Your Discogs personal access token
-   - `DISCOGS_USER_AGENT_APP_NAME`: Your app name for the user agent
-   - `DISCOGS_USER_AGENT_URL`: Your app's URL for the user agent
 
-To get your Discogs personal access token, go to your [Discogs Settings > Developers](https://www.discogs.com/settings/developers) page and find your token or generate a new one. **DO NOT SHARE YOUR TOKEN**. OAuth support will be added in a future release.
+To get your Discogs personal access token, go to your [Discogs Settings > Developers](https://www.discogs.com/settings/developers) page and find your token or generate a new one. **_DO NOT SHARE YOUR TOKEN_**. OAuth support will be added in a future release.
 
-The other environment variables in `.env.example` have sensible defaults and don't need to be changed unless you have specific requirements.
+The other environment variables in `.env.example` are optional and have sensible defaults, so you don't need to set them unless you have specific requirements.
 
 ## Running the Server Locally
 
@@ -119,13 +117,7 @@ Running it straight from the npm registry.
         "@cswkim/discogs-mcp-server"
       ],
       "env": {
-        "DISCOGS_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>",
-        "DISCOGS_USER_AGENT_APP_NAME": "<YOUR_APP_NAME>",
-        "DISCOGS_USER_AGENT_URL": "<YOUR_APP_URL>",
-        "DISCOGS_API_URL": "https://api.discogs.com",
-        "DISCOGS_MEDIA_TYPE": "application/vnd.discogs.v2.discogs+json",
-        "PORT": "3001",
-        "SERVER_NAME": "Discogs MCP Server"
+        "DISCOGS_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
       }
     }
   }
@@ -146,13 +138,7 @@ Dependencies should have been installed before you use this method (`pnpm instal
         "/PATH/TO/YOUR/PROJECT/FOLDER/src/index.ts"
       ],
       "env": {
-        "DISCOGS_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>",
-        "DISCOGS_USER_AGENT_APP_NAME": "<YOUR_APP_NAME>",
-        "DISCOGS_USER_AGENT_URL": "<YOUR_APP_URL>",
-        "DISCOGS_API_URL": "https://api.discogs.com",
-        "DISCOGS_MEDIA_TYPE": "application/vnd.discogs.v2.discogs+json",
-        "PORT": "3001",
-        "SERVER_NAME": "Discogs MCP Server"
+        "DISCOGS_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
       }
     }
   }

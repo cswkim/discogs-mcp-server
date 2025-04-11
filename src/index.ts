@@ -35,8 +35,8 @@ try {
     server.start({
       transportType,
       sse: {
-        port: config.server.port!,
         endpoint: '/sse',
+        port: config.server.port,
       },
     });
   }
