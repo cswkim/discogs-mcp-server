@@ -573,7 +573,7 @@ describe('Database Tools', () => {
                   properties: {
                     artist_id: { type: 'number' },
                     page: { type: 'integer', minimum: 1 },
-                    per_page: { type: 'integer', minimum: 1, maximum: 100, default: 5 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: {
                       type: 'string',
                       enum: ['year', 'title', 'format'],
@@ -746,7 +746,7 @@ describe('Database Tools', () => {
                   properties: {
                     label_id: { type: 'number' },
                     page: { type: 'integer', minimum: 1 },
-                    per_page: { type: 'integer', minimum: 1, maximum: 100, default: 5 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: {
                       type: 'string',
                       enum: [],
@@ -869,7 +869,7 @@ describe('Database Tools', () => {
                     submitter: { type: 'string' },
                     contributor: { type: 'string' },
                     page: { type: 'integer', minimum: 1 },
-                    per_page: { type: 'integer', minimum: 1, maximum: 100, default: 5 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: {
                       type: 'string',
                       enum: ['title', 'artist', 'year'],

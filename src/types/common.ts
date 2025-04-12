@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { config } from '../config.js';
 
 /**
  * Schema for currency codes supported by Discogs
@@ -54,7 +53,7 @@ export const QueryParamsSchema = <T extends readonly [string, ...string[]]>(
   z.object({
     // Pagination
     page: z.number().int().min(1).optional(),
-    per_page: z.number().int().min(1).max(100).optional().default(config.discogs.defaultPerPage),
+    per_page: z.number().int().min(1).max(100).optional(),
 
     // Sorting
     sort: z.enum(validSortKeys).optional(),

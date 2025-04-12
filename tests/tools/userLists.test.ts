@@ -31,7 +31,7 @@ describe('User Lists Tools', () => {
                   properties: {
                     username: { type: 'string', minLength: 1 },
                     page: { type: 'integer', minimum: 1 },
-                    per_page: { type: 'integer', minimum: 1, maximum: 100, default: 5 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: { type: 'string', enum: [] },
                     sort_order: { type: 'string', enum: ['asc', 'desc'] },
                   },
