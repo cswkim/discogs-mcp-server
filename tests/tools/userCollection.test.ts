@@ -98,6 +98,77 @@ describe('User Collection Tools', () => {
     });
   });
 
+  describe('get_user_collection_folder', () => {
+    it('adds get_user_collection_folder tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_user_collection_folder',
+                description: "Retrieve metadata about a folder in a user's collection",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    folder_id: { type: 'integer', minimum: 0 },
+                  },
+                  required: ['username', 'folder_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_user_collection_folder tool', async () => {
+      const mockFolder = {
+        id: 1,
+        name: 'All',
+        count: 100,
+        resource_url: 'https://api.discogs.com/users/testuser/collection/folders/1',
+      };
+
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'getFolder').mockResolvedValue(mockFolder);
+          server.addTool(getUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockFolder) }],
+          });
+        },
+      });
+    });
+  });
+
   describe('create_user_collection_folder', () => {
     it('adds create_user_collection_folder tool', async () => {
       await runWithTestServer({
@@ -169,15 +240,8 @@ describe('User Collection Tools', () => {
     });
   });
 
-  describe('get_user_collection_folder', () => {
-    it('should return a specific collection folder', async () => {
-      const mockFolder = {
-        id: 1,
-        name: 'All',
-        count: 100,
-        resource_url: 'https://api.discogs.com/users/testuser/collection/folders/1',
-      };
-
+  describe('edit_user_collection_folder', () => {
+    it('adds edit_user_collection_folder tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -185,29 +249,34 @@ describe('User Collection Tools', () => {
             version: '1.0.0',
           });
 
-          vi.spyOn(UserCollectionService.prototype, 'getFolder').mockResolvedValue(mockFolder);
-          server.addTool(getUserCollectionFolderTool);
+          server.addTool(editUserCollectionFolderTool);
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'get_user_collection_folder',
-            arguments: {
-              username: 'testuser',
-              folder_id: 1,
-            },
-          });
-
-          expect(result).toEqual({
-            content: [{ type: 'text', text: JSON.stringify(mockFolder) }],
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'edit_user_collection_folder',
+                description: "Edit a folder's metadata. Folders 0 and 1 cannot be renamed.",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    folder_id: { type: 'integer', minimum: 0 },
+                    name: { type: 'string' },
+                  },
+                  required: ['username', 'folder_id'],
+                },
+              },
+            ],
           });
         },
       });
     });
-  });
 
-  describe('edit_user_collection_folder', () => {
-    it('should edit a collection folder', async () => {
+    it('calls edit_user_collection_folder tool', async () => {
       const mockFolder = {
         id: 1,
         name: 'Updated Folder',
@@ -227,16 +296,16 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'edit_user_collection_folder',
-            arguments: {
-              username: 'testuser',
-              folder_id: 1,
-              name: 'Updated Folder',
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'edit_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                name: 'Updated Folder',
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockFolder) }],
           });
         },
@@ -245,7 +314,42 @@ describe('User Collection Tools', () => {
   });
 
   describe('delete_user_collection_folder', () => {
-    it('should delete a collection folder', async () => {
+    it('adds delete_user_collection_folder tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(deleteUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'delete_user_collection_folder',
+                description:
+                  "Delete a folder from a user's collection. A folder must be empty before it can be deleted.",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    folder_id: { type: 'integer', minimum: 0 },
+                  },
+                  required: ['username', 'folder_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls delete_user_collection_folder tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -258,15 +362,15 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'delete_user_collection_folder',
-            arguments: {
-              username: 'testuser',
-              folder_id: 1,
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'delete_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: 'Folder deleted successfully' }],
           });
         },
@@ -275,7 +379,57 @@ describe('User Collection Tools', () => {
   });
 
   describe('get_user_collection_items', () => {
-    it('should return items in a collection folder', async () => {
+    it('adds get_user_collection_items tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserCollectionItemsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_user_collection_items',
+                description: "Retrieve a list of items in a user's collection",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    folder_id: { type: 'integer', minimum: 0 },
+                    page: { type: 'integer', minimum: 1 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
+                    sort: {
+                      type: 'string',
+                      enum: [
+                        'added',
+                        'artist',
+                        'catno',
+                        'format',
+                        'label',
+                        'rating',
+                        'title',
+                        'year',
+                      ],
+                    },
+                    sort_order: { type: 'string', enum: ['asc', 'desc'] },
+                  },
+                  required: ['username', 'folder_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_user_collection_items tool', async () => {
       const mockItems = {
         pagination: {
           page: 1,
@@ -333,17 +487,17 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'get_user_collection_items',
-            arguments: {
-              username: 'testuser',
-              folder_id: 1,
-              page: 1,
-              per_page: 50,
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'get_user_collection_items',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                page: 1,
+                per_page: 50,
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockItems) }],
           });
         },
@@ -352,7 +506,43 @@ describe('User Collection Tools', () => {
   });
 
   describe('add_release_to_user_collection_folder', () => {
-    it('should add a release to a collection folder', async () => {
+    it('adds add_release_to_user_collection_folder tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(addReleaseToUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'add_release_to_user_collection_folder',
+                description:
+                  "Add a release to a folder in a user's collection. The folder_id must be non-zero.",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    folder_id: { type: 'integer', minimum: 1 },
+                    release_id: { type: 'number', minimum: 1 },
+                  },
+                  required: ['username', 'folder_id', 'release_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls add_release_to_user_collection_folder tool', async () => {
       const mockAdded = {
         instance_id: 456,
         resource_url:
@@ -373,16 +563,16 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'add_release_to_user_collection_folder',
-            arguments: {
-              username: 'testuser',
-              folder_id: 1,
-              release_id: 123,
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'add_release_to_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockAdded) }],
           });
         },
@@ -391,7 +581,44 @@ describe('User Collection Tools', () => {
   });
 
   describe('delete_release_from_user_collection_folder', () => {
-    it('should delete a release from a collection folder', async () => {
+    it('adds delete_release_from_user_collection_folder tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(deleteReleaseFromUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'delete_release_from_user_collection_folder',
+                description:
+                  "Remove an instance of a release from a user's collection folder. The folder_id must be non-zero.",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    folder_id: { type: 'integer', minimum: 1 },
+                    release_id: { type: 'number', minimum: 1 },
+                    instance_id: { type: 'integer' },
+                  },
+                  required: ['username', 'folder_id', 'release_id', 'instance_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls delete_release_from_user_collection_folder tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -406,17 +633,17 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'delete_release_from_user_collection_folder',
-            arguments: {
-              username: 'testuser',
-              folder_id: 1,
-              release_id: 123,
-              instance_id: 456,
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'delete_release_from_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+                instance_id: 456,
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: 'Release deleted successfully' }],
           });
         },
@@ -425,7 +652,45 @@ describe('User Collection Tools', () => {
   });
 
   describe('find_release_in_user_collection', () => {
-    it('should find a release in a collection', async () => {
+    it('adds find_release_in_user_collection tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(findReleaseInUserCollectionTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'find_release_in_user_collection',
+                description: "Find a release in a user's collection",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    release_id: { type: 'number', minimum: 1 },
+                    page: { type: 'integer', minimum: 1 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
+                    sort: { type: 'string', enum: [] },
+                    sort_order: { type: 'string', enum: ['asc', 'desc'] },
+                  },
+                  required: ['username', 'release_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls find_release_in_user_collection tool', async () => {
       const mockItems = {
         pagination: {
           page: 1,
@@ -483,17 +748,17 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'find_release_in_user_collection',
-            arguments: {
-              username: 'testuser',
-              release_id: 123,
-              page: 1,
-              per_page: 50,
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'find_release_in_user_collection',
+              arguments: {
+                username: 'testuser',
+                release_id: 123,
+                page: 1,
+                per_page: 50,
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockItems) }],
           });
         },
@@ -502,7 +767,41 @@ describe('User Collection Tools', () => {
   });
 
   describe('get_user_collection_custom_fields', () => {
-    it('should return custom fields for a collection', async () => {
+    it('adds get_user_collection_custom_fields tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserCollectionCustomFieldsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_user_collection_custom_fields',
+                description:
+                  'Retrieve a list of user-defined collection notes fields. These fields are available on every release in the collection.',
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                  },
+                  required: ['username'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_user_collection_custom_fields tool', async () => {
       const mockFields = {
         fields: [
           {
@@ -548,14 +847,14 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'get_user_collection_custom_fields',
-            arguments: {
-              username: 'testuser',
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'get_user_collection_custom_fields',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockFields) }],
           });
         },
@@ -564,7 +863,45 @@ describe('User Collection Tools', () => {
   });
 
   describe('rate_release_in_user_collection', () => {
-    it('should rate a release in a collection', async () => {
+    it('adds rate_release_in_user_collection tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(rateReleaseInUserCollectionTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'rate_release_in_user_collection',
+                description:
+                  "Rate a release in a user's collection. The folder_id must be non-zero.",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    folder_id: { type: 'integer', minimum: 1 },
+                    release_id: { type: 'number', minimum: 1 },
+                    instance_id: { type: 'integer' },
+                    rating: { type: 'integer', minimum: 1, maximum: 5 },
+                  },
+                  required: ['username', 'folder_id', 'release_id', 'instance_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls rate_release_in_user_collection tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -577,18 +914,18 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'rate_release_in_user_collection',
-            arguments: {
-              username: 'testuser',
-              folder_id: 1,
-              release_id: 123,
-              instance_id: 456,
-              rating: 5,
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'rate_release_in_user_collection',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+                instance_id: 456,
+                rating: 5,
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: 'Release rated successfully' }],
           });
         },
@@ -597,7 +934,50 @@ describe('User Collection Tools', () => {
   });
 
   describe('move_release_in_user_collection', () => {
-    it('should move a release to a different folder', async () => {
+    it('adds move_release_in_user_collection tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(moveReleaseInUserCollectionTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'move_release_in_user_collection',
+                description: "Move a release in a user's collection to another folder",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    folder_id: { type: 'integer', minimum: 1 },
+                    release_id: { type: 'number', minimum: 1 },
+                    instance_id: { type: 'integer' },
+                    destination_folder_id: { type: 'number' },
+                  },
+                  required: [
+                    'username',
+                    'folder_id',
+                    'release_id',
+                    'instance_id',
+                    'destination_folder_id',
+                  ],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls move_release_in_user_collection tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -610,18 +990,18 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'move_release_in_user_collection',
-            arguments: {
-              username: 'testuser',
-              folder_id: 1,
-              release_id: 123,
-              instance_id: 456,
-              destination_folder_id: 2,
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'move_release_in_user_collection',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+                instance_id: 456,
+                destination_folder_id: 2,
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: 'Release moved successfully' }],
           });
         },
@@ -630,7 +1010,41 @@ describe('User Collection Tools', () => {
   });
 
   describe('get_user_collection_value', () => {
-    it('should return the value of a collection', async () => {
+    it('adds get_user_collection_value tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserCollectionValueTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_user_collection_value',
+                description:
+                  "Returns the minimum, median, and maximum value of a user's collection",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                  },
+                  required: ['username'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_user_collection_value tool', async () => {
       const mockValue = {
         minimum: '100.00',
         median: '150.00',
@@ -649,14 +1063,14 @@ describe('User Collection Tools', () => {
           return server;
         },
         run: async ({ client }) => {
-          const result = await client.callTool({
-            name: 'get_user_collection_value',
-            arguments: {
-              username: 'testuser',
-            },
-          });
-
-          expect(result).toEqual({
+          expect(
+            await client.callTool({
+              name: 'get_user_collection_value',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockValue) }],
           });
         },
