@@ -9,7 +9,7 @@ import { UserProfileEditInputSchema } from '../types/user/index.js';
 /**
  * MCP tool for fetching the identity of the authenticated Discogs user
  */
-const getUserIdentityTool: Tool<undefined, ToolParameters> = {
+export const getUserIdentityTool: Tool<undefined, ToolParameters> = {
   name: 'get_user_identity',
   description: 'Retrieve basic information about the authenticated user',
   parameters: z.object({}),
@@ -28,7 +28,7 @@ const getUserIdentityTool: Tool<undefined, ToolParameters> = {
 /**
  * MCP tool for fetching a Discogs user's profile
  */
-const getUserProfileTool: Tool<undefined, typeof UsernameInputSchema> = {
+export const getUserProfileTool: Tool<undefined, typeof UsernameInputSchema> = {
   name: 'get_user_profile',
   description: 'Retrieve a user by username',
   parameters: UsernameInputSchema,
@@ -47,7 +47,7 @@ const getUserProfileTool: Tool<undefined, typeof UsernameInputSchema> = {
 /**
  * MCP tool for editing a Discogs user's profile
  */
-const editUserProfileTool: Tool<undefined, typeof UserProfileEditInputSchema> = {
+export const editUserProfileTool: Tool<undefined, typeof UserProfileEditInputSchema> = {
   name: 'edit_user_profile',
   description: `Edit a user's profile data`,
   parameters: UserProfileEditInputSchema,
