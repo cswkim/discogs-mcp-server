@@ -9,7 +9,7 @@ const MediaParamsSchema = z.object({
 /**
  * MCP tool for fetching an image
  */
-const fetchImageTool: Tool<undefined, typeof MediaParamsSchema> = {
+export const fetchImageTool: Tool<undefined, typeof MediaParamsSchema> = {
   name: 'fetch_image',
   description: 'Fetch an image by URL',
   parameters: MediaParamsSchema,
