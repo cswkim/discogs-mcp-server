@@ -92,14 +92,6 @@ describe('MasterReleaseService', () => {
       expect(service['request']).toHaveBeenCalledWith('/123');
     });
 
-    it('should handle Discogs authentication errors properly', async () => {
-      const discogsError = new Error('Discogs API Error');
-      discogsError.name = 'DiscogsAuthenticationError';
-      (service as any).request.mockRejectedValueOnce(discogsError);
-
-      await expect(service.get({ master_id: 999 })).rejects.toThrow('DiscogsAuthenticationError');
-    });
-
     it('should handle Discogs resource not found errors properly', async () => {
       const discogsError = new Error('Discogs API Error');
       discogsError.name = 'DiscogsResourceNotFoundError';

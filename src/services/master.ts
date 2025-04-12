@@ -19,7 +19,6 @@ export class MasterReleaseService extends DiscogsService {
    *
    * @param params - Parameters containing the master release ID
    * @returns {MasterRelease} The master release information
-   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsResourceNotFoundError} If the master release cannot be found
    * @throws {Error} If there's an unexpected error
    */
