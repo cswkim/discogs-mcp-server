@@ -1,6 +1,7 @@
 import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
-import { FastMCP, UserError } from 'fastmcp';
+import { FastMCP } from 'fastmcp';
 import { describe, expect, it, vi } from 'vitest';
+import { formatDiscogsError } from '../../src/errors.js';
 import { ArtistService } from '../../src/services/artist';
 import { DatabaseService } from '../../src/services/database';
 import { LabelService } from '../../src/services/label';
@@ -125,7 +126,7 @@ describe('Database Tools', () => {
 
           // Mock the service to throw a UserError
           vi.spyOn(ReleaseService.prototype, 'get').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(getReleaseTool);
@@ -251,7 +252,7 @@ describe('Database Tools', () => {
           });
 
           vi.spyOn(ReleaseService.prototype, 'getRatingByUser').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(getReleaseRatingTool);
@@ -380,7 +381,7 @@ describe('Database Tools', () => {
           });
 
           vi.spyOn(ReleaseService.prototype, 'editRatingByUser').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(editReleaseRatingTool);
@@ -516,7 +517,7 @@ describe('Database Tools', () => {
           });
 
           vi.spyOn(ReleaseService.prototype, 'deleteRatingByUser').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(deleteReleaseRatingTool);
@@ -643,7 +644,7 @@ describe('Database Tools', () => {
           });
 
           vi.spyOn(ReleaseService.prototype, 'getCommunityRating').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(getReleaseCommunityRatingTool);
@@ -786,7 +787,7 @@ describe('Database Tools', () => {
           });
 
           vi.spyOn(MasterReleaseService.prototype, 'get').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(getMasterReleaseTool);
@@ -912,7 +913,7 @@ describe('Database Tools', () => {
           });
 
           vi.spyOn(ArtistService.prototype, 'get').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(getArtistTool);
@@ -1071,7 +1072,7 @@ describe('Database Tools', () => {
           });
 
           vi.spyOn(ArtistService.prototype, 'getReleases').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(getArtistReleasesTool);
@@ -1197,7 +1198,7 @@ describe('Database Tools', () => {
           });
 
           vi.spyOn(LabelService.prototype, 'get').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(getLabelTool);
@@ -1356,7 +1357,7 @@ describe('Database Tools', () => {
           });
 
           vi.spyOn(LabelService.prototype, 'getReleases').mockRejectedValue(
-            new UserError('Resource not found'),
+            formatDiscogsError('Resource not found'),
           );
 
           server.addTool(getLabelReleasesTool);
