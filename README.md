@@ -17,6 +17,7 @@ MCP Server for the Discogs API, enabling music catalog operations, search functi
     - [NPX](#npx)
     - [Local Node](#local-node)
     - [Docker](#docker)
+- [TODO](#todo)
 - [License](#license)
 
 ## Acknowledgements
@@ -170,6 +171,17 @@ The docker image should have been built before using this method.
 ```
 
 Any changes to local code will require Claude to be restarted to take effect. Also, Claude requires human-in-the-loop interaction to allow an MCP tool to be run, so everytime a new tool is accessed Claude will ask for permission. You usually only have to do this once per tool per chat. _If using the free version, long chats may result in more frequent errors trying to run tools as Claude limits the amount of context within a single chat._
+
+## TODO
+
+- OAuth support
+- Missing tools:
+  - Marketplace tools for creating/editing/deleting listings. Retrieving orders, etc.
+  - Inventory management - uploading/exporting, etc.
+  - Getting user submissions
+  - Getting user contributions
+  - Editing collection custom fields
+  - Getting versions from a master release
 
 ## License
 
