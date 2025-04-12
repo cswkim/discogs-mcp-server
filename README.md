@@ -5,6 +5,7 @@ MCP Server for the Discogs API, enabling music catalog operations, search functi
 ## Table of Contents
 
 - [Acknowledgements](#acknowledgements)
+- [Available Tools](#available-tools)
 - [Caveats](#caveats)
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
@@ -23,6 +24,10 @@ MCP Server for the Discogs API, enabling music catalog operations, search functi
 ## Acknowledgements
 
 This MCP server is built using [FastMCP](https://github.com/punkpeye/fastmcp), a typescript framework for building MCP servers. For more information about MCP and how to use MCP servers, please refer to the [FastMCP documentation](https://github.com/punkpeye/fastmcp/blob/main/README.md) and the [official MCP documentation](https://modelcontextprotocol.io).
+
+## Available Tools
+
+Check out the list of available tools: [TOOLS.md](TOOLS.md)
 
 ## Caveats
 
