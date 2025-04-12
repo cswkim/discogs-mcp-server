@@ -1,4 +1,5 @@
-import { FastMCP } from 'fastmcp';
+import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { FastMCP, UserError } from 'fastmcp';
 import { describe, expect, it, vi } from 'vitest';
 import { ArtistService } from '../../src/services/artist';
 import { DatabaseService } from '../../src/services/database';
@@ -113,6 +114,63 @@ describe('Database Tools', () => {
         },
       });
     });
+
+    it('handles get_release DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          // Mock the service to throw a UserError
+          vi.spyOn(ReleaseService.prototype, 'get').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(getReleaseTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_release',
+              arguments: {
+                release_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_release invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getReleaseTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_release',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('get_release_rating_by_user', () => {
@@ -180,6 +238,63 @@ describe('Database Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockRating) }],
           });
+        },
+      });
+    });
+
+    it('handles get_release_rating_by_user DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(ReleaseService.prototype, 'getRatingByUser').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(getReleaseRatingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_release_rating_by_user',
+              arguments: {
+                release_id: 123,
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_release_rating_by_user invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getReleaseRatingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_release_rating_by_user',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -255,6 +370,78 @@ describe('Database Tools', () => {
         },
       });
     });
+
+    it('handles edit_release_rating DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(ReleaseService.prototype, 'editRatingByUser').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(editReleaseRatingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_release_rating',
+              arguments: {
+                release_id: 123,
+                username: 'testuser',
+                rating: 5,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles edit_release_rating invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(editReleaseRatingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'edit_release_rating',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+
+          try {
+            await client.callTool({
+              name: 'edit_release_rating',
+              arguments: {
+                release_id: 123,
+                username: 'testuser',
+                rating: 6,
+              },
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('delete_release_rating', () => {
@@ -316,6 +503,63 @@ describe('Database Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: 'Release rating deleted successfully' }],
           });
+        },
+      });
+    });
+
+    it('handles delete_release_rating DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(ReleaseService.prototype, 'deleteRatingByUser').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(deleteReleaseRatingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'delete_release_rating',
+              arguments: {
+                release_id: 123,
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles delete_release_rating invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(deleteReleaseRatingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'delete_release_rating',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -386,6 +630,62 @@ describe('Database Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockRating) }],
           });
+        },
+      });
+    });
+
+    it('handles get_release_community_rating DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(ReleaseService.prototype, 'getCommunityRating').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(getReleaseCommunityRatingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_release_community_rating',
+              arguments: {
+                release_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_release_community_rating invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getReleaseCommunityRatingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_release_community_rating',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -476,6 +776,62 @@ describe('Database Tools', () => {
         },
       });
     });
+
+    it('handles get_master_release DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MasterReleaseService.prototype, 'get').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(getMasterReleaseTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_master_release',
+              arguments: {
+                master_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_master_release invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getMasterReleaseTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_master_release',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('get_artist', () => {
@@ -543,6 +899,62 @@ describe('Database Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockArtist) }],
           });
+        },
+      });
+    });
+
+    it('handles get_artist DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(ArtistService.prototype, 'get').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(getArtistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_artist',
+              arguments: {
+                artist_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_artist invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getArtistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_artist',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -649,6 +1061,62 @@ describe('Database Tools', () => {
         },
       });
     });
+
+    it('handles get_artist_releases DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(ArtistService.prototype, 'getReleases').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(getArtistReleasesTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_artist_releases',
+              arguments: {
+                artist_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_artist_releases invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getArtistReleasesTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_artist_releases',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('get_label', () => {
@@ -716,6 +1184,62 @@ describe('Database Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockLabel) }],
           });
+        },
+      });
+    });
+
+    it('handles get_label DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(LabelService.prototype, 'get').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(getLabelTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_label',
+              arguments: {
+                label_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_label invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getLabelTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_label',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -819,6 +1343,62 @@ describe('Database Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockReleases) }],
           });
+        },
+      });
+    });
+
+    it('handles get_label_releases DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(LabelService.prototype, 'getReleases').mockRejectedValue(
+            new UserError('Resource not found'),
+          );
+
+          server.addTool(getLabelReleasesTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_label_releases',
+              arguments: {
+                label_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_label_releases invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getLabelReleasesTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_label_releases',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
