@@ -1,5 +1,7 @@
+import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { FastMCP } from 'fastmcp';
 import { describe, expect, it, vi } from 'vitest';
+import { formatDiscogsError } from '../../src/errors.js';
 import { UserCollectionService } from '../../src/services/user/collection.js';
 import {
   addReleaseToUserCollectionFolderTool,
@@ -96,6 +98,62 @@ describe('User Collection Tools', () => {
         },
       });
     });
+
+    it('handles get_user_collection_folders DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'getFolders').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserCollectionFoldersTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_collection_folders',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_collection_folders invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserCollectionFoldersTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_collection_folders',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('get_user_collection_folder', () => {
@@ -167,6 +225,63 @@ describe('User Collection Tools', () => {
         },
       });
     });
+
+    it('handles get_user_collection_folder DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'getFolder').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_collection_folder invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_collection_folder',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('create_user_collection_folder', () => {
@@ -235,6 +350,63 @@ describe('User Collection Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockFolder) }],
           });
+        },
+      });
+    });
+
+    it('handles create_user_collection_folder DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'createFolder').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(createUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'create_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                name: 'New Folder',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles create_user_collection_folder invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(createUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'create_user_collection_folder',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -311,6 +483,64 @@ describe('User Collection Tools', () => {
         },
       });
     });
+
+    it('handles edit_user_collection_folder DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'editFolder').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(editUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                name: 'Updated Folder',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles edit_user_collection_folder invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(editUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'edit_user_collection_folder',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('delete_user_collection_folder', () => {
@@ -373,6 +603,63 @@ describe('User Collection Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: 'Folder deleted successfully' }],
           });
+        },
+      });
+    });
+
+    it('handles delete_user_collection_folder DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'deleteFolder').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(deleteUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'delete_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles delete_user_collection_folder invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(deleteUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'delete_user_collection_folder',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -503,6 +790,38 @@ describe('User Collection Tools', () => {
         },
       });
     });
+
+    it('handles get_user_collection_items DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'getItems').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserCollectionItemsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_collection_items',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
   });
 
   describe('add_release_to_user_collection_folder', () => {
@@ -578,6 +897,64 @@ describe('User Collection Tools', () => {
         },
       });
     });
+
+    it('handles add_release_to_user_collection_folder DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'addReleaseToFolder').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(addReleaseToUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'add_release_to_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles add_release_to_user_collection_folder invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(addReleaseToUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'add_release_to_user_collection_folder',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('delete_release_from_user_collection_folder', () => {
@@ -646,6 +1023,65 @@ describe('User Collection Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: 'Release deleted successfully' }],
           });
+        },
+      });
+    });
+
+    it('handles delete_release_from_user_collection_folder DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'deleteReleaseFromFolder').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(deleteReleaseFromUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'delete_release_from_user_collection_folder',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+                instance_id: 456,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles delete_release_from_user_collection_folder invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(deleteReleaseFromUserCollectionFolderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'delete_release_from_user_collection_folder',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -764,6 +1200,63 @@ describe('User Collection Tools', () => {
         },
       });
     });
+
+    it('handles find_release_in_user_collection DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'findRelease').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(findReleaseInUserCollectionTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'find_release_in_user_collection',
+              arguments: {
+                username: 'testuser',
+                release_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles find_release_in_user_collection invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(findReleaseInUserCollectionTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'find_release_in_user_collection',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('get_user_collection_custom_fields', () => {
@@ -860,6 +1353,62 @@ describe('User Collection Tools', () => {
         },
       });
     });
+
+    it('handles get_user_collection_custom_fields DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'getCustomFields').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserCollectionCustomFieldsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_collection_custom_fields',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_collection_custom_fields invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserCollectionCustomFieldsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_collection_custom_fields',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('rate_release_in_user_collection', () => {
@@ -928,6 +1477,66 @@ describe('User Collection Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: 'Release rated successfully' }],
           });
+        },
+      });
+    });
+
+    it('handles rate_release_in_user_collection DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'rateRelease').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(rateReleaseInUserCollectionTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'rate_release_in_user_collection',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+                instance_id: 456,
+                rating: 5,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles rate_release_in_user_collection invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(rateReleaseInUserCollectionTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'rate_release_in_user_collection',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -1007,6 +1616,66 @@ describe('User Collection Tools', () => {
         },
       });
     });
+
+    it('handles move_release_in_user_collection DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'moveRelease').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(moveReleaseInUserCollectionTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'move_release_in_user_collection',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+                instance_id: 456,
+                destination_folder_id: 2,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles move_release_in_user_collection invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(moveReleaseInUserCollectionTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'move_release_in_user_collection',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('get_user_collection_value', () => {
@@ -1073,6 +1742,62 @@ describe('User Collection Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockValue) }],
           });
+        },
+      });
+    });
+
+    it('handles get_user_collection_value DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'getValue').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserCollectionValueTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_collection_value',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_collection_value invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserCollectionValueTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_collection_value',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
