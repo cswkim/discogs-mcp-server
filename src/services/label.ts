@@ -19,7 +19,6 @@ export class LabelService extends DiscogsService {
    *
    * @param params - Parameters containing the label ID
    * @returns {Label} The label information
-   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsResourceNotFoundError} If the label cannot be found
    * @throws {Error} If there's an unexpected error
    */
@@ -43,7 +42,6 @@ export class LabelService extends DiscogsService {
    *
    * @param params - Parameters containing the label ID and pagination options
    * @returns {LabelReleases} The label releases
-   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsResourceNotFoundError} If the label cannot be found
    * @throws {Error} If there's an unexpected error
    */
