@@ -81,7 +81,6 @@ export class ReleaseService extends DiscogsService {
    *
    * @param params - Parameters for the request
    * @returns {Release} The release information
-   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsResourceNotFoundError} If the release cannot be found
    * @throws {Error} If there's an unexpected error
    */
@@ -109,7 +108,6 @@ export class ReleaseService extends DiscogsService {
    *
    * @param params - Parameters for the request
    * @returns {ReleaseRatingCommunity} The release community rating
-   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsResourceNotFoundError} If the release cannot be found
    * @throws {Error} If there's an unexpected error
    */
@@ -133,7 +131,6 @@ export class ReleaseService extends DiscogsService {
    *
    * @param params - Parameters for the request
    * @returns {ReleaseRating} The release rating
-   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsResourceNotFoundError} If the release or user cannot be found
    * @throws {Error} If there's an unexpected error
    */

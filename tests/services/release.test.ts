@@ -110,14 +110,6 @@ describe('ReleaseService', () => {
       });
     });
 
-    it('should handle Discogs authentication errors properly', async () => {
-      const discogsError = new Error('Discogs API Error');
-      discogsError.name = 'DiscogsAuthenticationError';
-      (service as any).request.mockRejectedValueOnce(discogsError);
-
-      await expect(service.get({ release_id: 999 })).rejects.toThrow('DiscogsAuthenticationError');
-    });
-
     it('should handle Discogs resource not found errors properly', async () => {
       const discogsError = new Error('Discogs API Error');
       discogsError.name = 'DiscogsResourceNotFoundError';
@@ -154,16 +146,6 @@ describe('ReleaseService', () => {
 
       expect(result).toEqual(mockRating);
       expect(service['request']).toHaveBeenCalledWith('/123/rating/testuser');
-    });
-
-    it('should handle Discogs authentication errors properly', async () => {
-      const discogsError = new Error('Discogs API Error');
-      discogsError.name = 'DiscogsAuthenticationError';
-      (service as any).request.mockRejectedValueOnce(discogsError);
-
-      await expect(
-        service.getRatingByUser({ username: 'testuser', release_id: 999 }),
-      ).rejects.toThrow('DiscogsAuthenticationError');
     });
 
     it('should handle Discogs resource not found errors properly', async () => {
@@ -343,16 +325,6 @@ describe('ReleaseService', () => {
 
       expect(result).toEqual(mockCommunityRating);
       expect(service['request']).toHaveBeenCalledWith('/123/rating');
-    });
-
-    it('should handle Discogs authentication errors properly', async () => {
-      const discogsError = new Error('Discogs API Error');
-      discogsError.name = 'DiscogsAuthenticationError';
-      (service as any).request.mockRejectedValueOnce(discogsError);
-
-      await expect(service.getCommunityRating({ release_id: 999 })).rejects.toThrow(
-        'DiscogsAuthenticationError',
-      );
     });
 
     it('should handle Discogs resource not found errors properly', async () => {
