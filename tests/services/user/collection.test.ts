@@ -521,4 +521,930 @@ describe('UserCollectionService', () => {
       ).rejects.toThrow('Failed to add release to folder:');
     });
   });
+
+  describe('createFolder', () => {
+    it('should create a new folder and return a validated folder object', async () => {
+      (service as any).request.mockResolvedValueOnce(mockCollectionFolder);
+
+      const result = await service.createFolder({
+        username: 'testuser',
+        name: 'Test Folder',
+      });
+
+      expect(result).toEqual(mockCollectionFolder);
+      expect(service['request']).toHaveBeenCalledWith('/testuser/collection/folders', {
+        method: 'POST',
+        body: { name: 'Test Folder' },
+      });
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.createFolder({
+          username: 'testuser',
+          name: 'Test Folder',
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.createFolder({
+          username: 'otheruser',
+          name: 'Test Folder',
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.createFolder({
+          username: 'nonexistent',
+          name: 'Test Folder',
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+
+    it('should handle validation errors properly', async () => {
+      const invalidFolder = {
+        id: 'not-a-number',
+        name: 'Test Folder',
+        count: 10,
+        resource_url: 'https://api.discogs.com/users/testuser/collection/folders/1',
+      };
+      (service as any).request.mockResolvedValueOnce(invalidFolder);
+
+      await expect(
+        service.createFolder({
+          username: 'testuser',
+          name: 'Test Folder',
+        }),
+      ).rejects.toThrow();
+    });
+
+    it('should handle network errors properly', async () => {
+      const networkError = new Error('Network Error');
+      (service as any).request.mockRejectedValueOnce(networkError);
+
+      await expect(
+        service.createFolder({
+          username: 'testuser',
+          name: 'Test Folder',
+        }),
+      ).rejects.toThrow('Failed to create folder:');
+    });
+
+    it('should handle empty folder name', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.createFolder({
+          username: 'testuser',
+          name: '',
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle long folder name', async () => {
+      const longName = 'a'.repeat(256);
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.createFolder({
+          username: 'testuser',
+          name: longName,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+  });
+
+  describe('deleteFolder', () => {
+    it('should delete an empty folder successfully', async () => {
+      (service as any).request.mockResolvedValueOnce(undefined);
+
+      await service.deleteFolder({
+        username: 'testuser',
+        folder_id: 2,
+      });
+
+      expect(service['request']).toHaveBeenCalledWith('/testuser/collection/folders/2', {
+        method: 'DELETE',
+      });
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteFolder({
+          username: 'testuser',
+          folder_id: 2,
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteFolder({
+          username: 'otheruser',
+          folder_id: 2,
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteFolder({
+          username: 'nonexistent',
+          folder_id: 2,
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+
+    it('should handle non-empty folder deletion errors', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteFolder({
+          username: 'testuser',
+          folder_id: 1,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle network errors properly', async () => {
+      const networkError = new Error('Network Error');
+      (service as any).request.mockRejectedValueOnce(networkError);
+
+      await expect(
+        service.deleteFolder({
+          username: 'testuser',
+          folder_id: 2,
+        }),
+      ).rejects.toThrow('Failed to delete folder:');
+    });
+
+    it('should prevent deletion of system folders', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteFolder({
+          username: 'testuser',
+          folder_id: 0,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle invalid folder IDs', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteFolder({
+          username: 'testuser',
+          folder_id: -1,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+  });
+
+  describe('editFolder', () => {
+    it('should edit folder metadata successfully', async () => {
+      const updatedFolder = {
+        ...mockCollectionFolder,
+        name: 'Updated Test Folder',
+      };
+      (service as any).request.mockResolvedValueOnce(updatedFolder);
+
+      const result = await service.editFolder({
+        username: 'testuser',
+        folder_id: 2,
+        name: 'Updated Test Folder',
+      });
+
+      expect(result).toEqual(updatedFolder);
+      expect(service['request']).toHaveBeenCalledWith('/testuser/collection/folders/2', {
+        method: 'POST',
+        body: { name: 'Updated Test Folder' },
+      });
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editFolder({
+          username: 'testuser',
+          folder_id: 2,
+          name: 'Updated Test Folder',
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editFolder({
+          username: 'otheruser',
+          folder_id: 2,
+          name: 'Updated Test Folder',
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editFolder({
+          username: 'nonexistent',
+          folder_id: 2,
+          name: 'Updated Test Folder',
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+
+    it('should prevent editing system folders', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editFolder({
+          username: 'testuser',
+          folder_id: 0,
+          name: 'Updated Test Folder',
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle validation errors properly', async () => {
+      const invalidFolder = {
+        id: 'not-a-number',
+        name: 'Updated Test Folder',
+        count: 10,
+        resource_url: 'https://api.discogs.com/users/testuser/collection/folders/1',
+      };
+      (service as any).request.mockResolvedValueOnce(invalidFolder);
+
+      await expect(
+        service.editFolder({
+          username: 'testuser',
+          folder_id: 2,
+          name: 'Updated Test Folder',
+        }),
+      ).rejects.toThrow();
+    });
+
+    it('should handle network errors properly', async () => {
+      const networkError = new Error('Network Error');
+      (service as any).request.mockRejectedValueOnce(networkError);
+
+      await expect(
+        service.editFolder({
+          username: 'testuser',
+          folder_id: 2,
+          name: 'Updated Test Folder',
+        }),
+      ).rejects.toThrow('Failed to edit folder:');
+    });
+
+    it('should handle empty folder name', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editFolder({
+          username: 'testuser',
+          folder_id: 2,
+          name: '',
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle long folder name', async () => {
+      const longName = 'a'.repeat(256);
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editFolder({
+          username: 'testuser',
+          folder_id: 2,
+          name: longName,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+  });
+
+  describe('getItems', () => {
+    it('should return a validated collection items object', async () => {
+      (service as any).request.mockResolvedValueOnce(mockCollectionItemsByRelease);
+
+      const result = await service.getItems({
+        username: 'testuser',
+        folder_id: 1,
+        page: 1,
+        per_page: 50,
+      });
+
+      expect(result).toEqual(mockCollectionItemsByRelease);
+      expect(service['request']).toHaveBeenCalledWith('/testuser/collection/folders/1/releases', {
+        params: { page: 1, per_page: 50 },
+      });
+    });
+
+    it('should handle sorting and filtering options', async () => {
+      (service as any).request.mockResolvedValueOnce(mockCollectionItemsByRelease);
+
+      const result = await service.getItems({
+        username: 'testuser',
+        folder_id: 1,
+        sort: 'artist',
+        sort_order: 'desc',
+      });
+
+      expect(result).toEqual(mockCollectionItemsByRelease);
+      expect(service['request']).toHaveBeenCalledWith('/testuser/collection/folders/1/releases', {
+        params: { sort: 'artist', sort_order: 'desc' },
+      });
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.getItems({
+          username: 'testuser',
+          folder_id: 1,
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.getItems({
+          username: 'otheruser',
+          folder_id: 1,
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.getItems({
+          username: 'nonexistent',
+          folder_id: 1,
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+
+    it('should handle validation errors properly', async () => {
+      const invalidItems = {
+        pagination: {
+          page: 'not-a-number',
+          pages: 1,
+          per_page: 50,
+          items: 1,
+          urls: {},
+        },
+        releases: [],
+      };
+      (service as any).request.mockResolvedValueOnce(invalidItems);
+
+      await expect(
+        service.getItems({
+          username: 'testuser',
+          folder_id: 1,
+        }),
+      ).rejects.toThrow();
+    });
+
+    it('should handle network errors properly', async () => {
+      const networkError = new Error('Network Error');
+      (service as any).request.mockRejectedValueOnce(networkError);
+
+      await expect(
+        service.getItems({
+          username: 'testuser',
+          folder_id: 1,
+        }),
+      ).rejects.toThrow('Failed to get collection items:');
+    });
+
+    it('should handle invalid folder IDs', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.getItems({
+          username: 'testuser',
+          folder_id: -1,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle invalid pagination parameters', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.getItems({
+          username: 'testuser',
+          folder_id: 1,
+          page: 0,
+          per_page: 0,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+  });
+
+  describe('moveRelease', () => {
+    it('should move a release between folders successfully', async () => {
+      (service as any).request.mockResolvedValueOnce(undefined);
+
+      await service.moveRelease({
+        username: 'testuser',
+        folder_id: 1,
+        release_id: 123,
+        instance_id: 456,
+        destination_folder_id: 2,
+      });
+
+      expect(service['request']).toHaveBeenCalledWith(
+        '/testuser/collection/folders/1/releases/123/instances/456',
+        {
+          method: 'POST',
+          body: { folder_id: 2 },
+        },
+      );
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.moveRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          destination_folder_id: 2,
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.moveRelease({
+          username: 'otheruser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          destination_folder_id: 2,
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.moveRelease({
+          username: 'nonexistent',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          destination_folder_id: 2,
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+
+    it('should handle validation errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.moveRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          destination_folder_id: 0,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle network errors properly', async () => {
+      const networkError = new Error('Network Error');
+      (service as any).request.mockRejectedValueOnce(networkError);
+
+      await expect(
+        service.moveRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          destination_folder_id: 2,
+        }),
+      ).rejects.toThrow('Failed to move release:');
+    });
+
+    it('should handle invalid source folder ID', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.moveRelease({
+          username: 'testuser',
+          folder_id: -1,
+          release_id: 123,
+          instance_id: 456,
+          destination_folder_id: 2,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle invalid target folder ID', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.moveRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          destination_folder_id: -1,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle invalid release ID', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.moveRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: -1,
+          instance_id: 456,
+          destination_folder_id: 2,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+  });
+
+  describe('rateRelease', () => {
+    it('should rate a release successfully', async () => {
+      (service as any).request.mockResolvedValueOnce(undefined);
+
+      await service.rateRelease({
+        username: 'testuser',
+        folder_id: 1,
+        release_id: 123,
+        instance_id: 456,
+        rating: 5,
+      });
+
+      expect(service['request']).toHaveBeenCalledWith(
+        '/testuser/collection/folders/1/releases/123/instances/456',
+        {
+          method: 'POST',
+          body: { rating: 5 },
+        },
+      );
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.rateRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          rating: 5,
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.rateRelease({
+          username: 'otheruser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          rating: 5,
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.rateRelease({
+          username: 'nonexistent',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          rating: 5,
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+
+    it('should handle validation errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.rateRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          rating: 6,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle network errors properly', async () => {
+      const networkError = new Error('Network Error');
+      (service as any).request.mockRejectedValueOnce(networkError);
+
+      await expect(
+        service.rateRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          rating: 5,
+        }),
+      ).rejects.toThrow('Failed to rate release:');
+    });
+
+    it('should handle invalid folder ID', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.rateRelease({
+          username: 'testuser',
+          folder_id: -1,
+          release_id: 123,
+          instance_id: 456,
+          rating: 5,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle invalid release ID', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.rateRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: -1,
+          instance_id: 456,
+          rating: 5,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle invalid rating value', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.rateRelease({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          rating: 0,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+  });
+
+  describe('deleteReleaseFromFolder', () => {
+    it('should delete a release from a folder successfully', async () => {
+      (service as any).request.mockResolvedValueOnce(undefined);
+
+      await service.deleteReleaseFromFolder({
+        username: 'testuser',
+        folder_id: 1,
+        release_id: 123,
+        instance_id: 456,
+      });
+
+      expect(service['request']).toHaveBeenCalledWith(
+        '/testuser/collection/folders/1/releases/123/instances/456',
+        {
+          method: 'DELETE',
+        },
+      );
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteReleaseFromFolder({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteReleaseFromFolder({
+          username: 'otheruser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteReleaseFromFolder({
+          username: 'nonexistent',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+
+    it('should handle validation errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteReleaseFromFolder({
+          username: 'testuser',
+          folder_id: 0,
+          release_id: 123,
+          instance_id: 456,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle network errors properly', async () => {
+      const networkError = new Error('Network Error');
+      (service as any).request.mockRejectedValueOnce(networkError);
+
+      await expect(
+        service.deleteReleaseFromFolder({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+        }),
+      ).rejects.toThrow('Failed to delete release from folder:');
+    });
+
+    it('should handle invalid folder ID', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteReleaseFromFolder({
+          username: 'testuser',
+          folder_id: -1,
+          release_id: 123,
+          instance_id: 456,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle invalid release ID', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteReleaseFromFolder({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: -1,
+          instance_id: 456,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+
+    it('should handle invalid instance ID', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.deleteReleaseFromFolder({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: -1,
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+  });
 });
