@@ -1,5 +1,7 @@
+import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { FastMCP } from 'fastmcp';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { formatDiscogsError } from '../../src/errors.js';
 import { UserWantsService } from '../../src/services/user/wants.js';
 import {
   addToWantlistTool,
@@ -66,7 +68,7 @@ const mockWantlist = {
 
 describe('User Wantlist Tools', () => {
   describe('get_user_wantlist', () => {
-    test('adds get_user_wantlist tool', async () => {
+    it('adds get_user_wantlist tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -106,7 +108,7 @@ describe('User Wantlist Tools', () => {
       });
     });
 
-    test('calls get_user_wantlist tool', async () => {
+    it('calls get_user_wantlist tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -132,10 +134,66 @@ describe('User Wantlist Tools', () => {
         },
       });
     });
+
+    it('handles get_user_wantlist DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserWantsService.prototype, 'getList').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserWantlistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_wantlist',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_wantlist invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserWantlistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_wantlist',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('add_to_wantlist', () => {
-    test('adds add_to_wantlist tool', async () => {
+    it('adds add_to_wantlist tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -171,7 +229,7 @@ describe('User Wantlist Tools', () => {
       });
     });
 
-    test('calls add_to_wantlist tool', async () => {
+    it('calls add_to_wantlist tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -200,10 +258,69 @@ describe('User Wantlist Tools', () => {
         },
       });
     });
+
+    it('handles add_to_wantlist DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserWantsService.prototype, 'addItem').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(addToWantlistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'add_to_wantlist',
+              arguments: {
+                username: 'testuser',
+                release_id: 123,
+                notes: 'Test notes',
+                rating: 5,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles add_to_wantlist invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(addToWantlistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'add_to_wantlist',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('edit_item_in_wantlist', () => {
-    test('adds edit_item_in_wantlist tool', async () => {
+    it('adds edit_item_in_wantlist tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -239,7 +356,7 @@ describe('User Wantlist Tools', () => {
       });
     });
 
-    test('calls edit_item_in_wantlist tool', async () => {
+    it('calls edit_item_in_wantlist tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -267,10 +384,68 @@ describe('User Wantlist Tools', () => {
         },
       });
     });
+
+    it('handles edit_item_in_wantlist DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserWantsService.prototype, 'editItem').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(editItemInWantlistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_item_in_wantlist',
+              arguments: {
+                username: 'testuser',
+                release_id: 123,
+                rating: 4,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles edit_item_in_wantlist invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(editItemInWantlistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'edit_item_in_wantlist',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
   });
 
   describe('delete_item_in_wantlist', () => {
-    test('adds delete_item_in_wantlist tool', async () => {
+    it('adds delete_item_in_wantlist tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -306,7 +481,7 @@ describe('User Wantlist Tools', () => {
       });
     });
 
-    test('calls delete_item_in_wantlist tool', async () => {
+    it('calls delete_item_in_wantlist tool', async () => {
       await runWithTestServer({
         server: async () => {
           const server = new FastMCP({
@@ -330,6 +505,63 @@ describe('User Wantlist Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: 'Release deleted from wantlist' }],
           });
+        },
+      });
+    });
+
+    it('handles delete_item_in_wantlist DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserWantsService.prototype, 'deleteItem').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(deleteItemInWantlistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'delete_item_in_wantlist',
+              arguments: {
+                username: 'testuser',
+                release_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles delete_item_in_wantlist invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(deleteItemInWantlistTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'delete_item_in_wantlist',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
