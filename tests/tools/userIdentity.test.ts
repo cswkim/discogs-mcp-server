@@ -1,5 +1,7 @@
+import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { FastMCP } from 'fastmcp';
 import { describe, expect, it, vi } from 'vitest';
+import { formatDiscogsError } from '../../src/errors';
 import { OAuthService } from '../../src/services/oauth';
 import { UserProfileService } from '../../src/services/user/profile';
 import {
@@ -69,6 +71,60 @@ describe('User Identity Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockIdentity) }],
           });
+        },
+      });
+    });
+
+    it('handles get_user_identity DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(OAuthService.prototype, 'getUserIdentity').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserIdentityTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_identity',
+              arguments: {},
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_identity invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserIdentityTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_identity',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -166,6 +222,62 @@ describe('User Identity Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockProfile) }],
           });
+        },
+      });
+    });
+
+    it('handles get_user_profile DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserProfileService.prototype, 'get').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserProfileTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_profile',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_profile invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserProfileTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_profile',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
@@ -287,6 +399,65 @@ describe('User Identity Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockUpdatedProfile) }],
           });
+        },
+      });
+    });
+
+    it('handles edit_user_profile DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserProfileService.prototype, 'edit').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(editUserProfileTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_user_profile',
+              arguments: {
+                username: 'testuser',
+                name: 'Updated Name',
+                profile: 'Updated profile',
+                location: 'Updated Location',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles edit_user_profile invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(editUserProfileTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'edit_user_profile',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
