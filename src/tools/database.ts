@@ -19,7 +19,7 @@ import {
 /**
  * MCP tool for deleting a release rating
  */
-const deleteReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = {
+export const deleteReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = {
   name: 'delete_release_rating',
   description: `Deletes the release's rating for a given user`,
   parameters: ReleaseRatingParamsSchema,
@@ -38,7 +38,7 @@ const deleteReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema>
 /**
  * MCP tool for editing a release rating
  */
-const editReleaseRatingTool: Tool<undefined, typeof ReleaseRatingEditParamsSchema> = {
+export const editReleaseRatingTool: Tool<undefined, typeof ReleaseRatingEditParamsSchema> = {
   name: 'edit_release_rating',
   description: `Updates the release's rating for a given user`,
   parameters: ReleaseRatingEditParamsSchema,
@@ -57,7 +57,7 @@ const editReleaseRatingTool: Tool<undefined, typeof ReleaseRatingEditParamsSchem
 /**
  * MCP tool for fetching a Discogs artist
  */
-const getArtistTool: Tool<undefined, typeof ArtistIdParamSchema> = {
+export const getArtistTool: Tool<undefined, typeof ArtistIdParamSchema> = {
   name: 'get_artist',
   description: 'Get an artist',
   parameters: ArtistIdParamSchema,
@@ -76,7 +76,7 @@ const getArtistTool: Tool<undefined, typeof ArtistIdParamSchema> = {
 /**
  * MCP tool for fetching a Discogs artist releases
  */
-const getArtistReleasesTool: Tool<undefined, typeof ArtistReleasesParamsSchema> = {
+export const getArtistReleasesTool: Tool<undefined, typeof ArtistReleasesParamsSchema> = {
   name: 'get_artist_releases',
   description: `Get an artist's releases`,
   parameters: ArtistReleasesParamsSchema,
@@ -95,7 +95,7 @@ const getArtistReleasesTool: Tool<undefined, typeof ArtistReleasesParamsSchema> 
 /**
  * MCP tool for fetching a Discogs label
  */
-const getLabelTool: Tool<undefined, typeof LabelIdParamSchema> = {
+export const getLabelTool: Tool<undefined, typeof LabelIdParamSchema> = {
   name: 'get_label',
   description: 'Get a label',
   parameters: LabelIdParamSchema,
@@ -114,7 +114,7 @@ const getLabelTool: Tool<undefined, typeof LabelIdParamSchema> = {
 /**
  * MCP tool for fetching a Discogs label releases
  */
-const getLabelReleasesTool: Tool<undefined, typeof LabelReleasesParamsSchema> = {
+export const getLabelReleasesTool: Tool<undefined, typeof LabelReleasesParamsSchema> = {
   name: 'get_label_releases',
   description: 'Returns a list of Releases associated with the label',
   parameters: LabelReleasesParamsSchema,
@@ -133,7 +133,7 @@ const getLabelReleasesTool: Tool<undefined, typeof LabelReleasesParamsSchema> = 
 /**
  * MCP tool for fetching a Discogs master release
  */
-const getMasterReleaseTool: Tool<undefined, typeof MasterReleaseIdParamSchema> = {
+export const getMasterReleaseTool: Tool<undefined, typeof MasterReleaseIdParamSchema> = {
   name: 'get_master_release',
   description: 'Get a master release',
   parameters: MasterReleaseIdParamSchema,
@@ -152,7 +152,7 @@ const getMasterReleaseTool: Tool<undefined, typeof MasterReleaseIdParamSchema> =
 /**
  * MCP tool for fetching a Discogs release
  */
-const getReleaseTool: Tool<undefined, typeof ReleaseParamsSchema> = {
+export const getReleaseTool: Tool<undefined, typeof ReleaseParamsSchema> = {
   name: 'get_release',
   description: 'Get a release',
   parameters: ReleaseParamsSchema,
@@ -171,7 +171,7 @@ const getReleaseTool: Tool<undefined, typeof ReleaseParamsSchema> = {
 /**
  * MCP tool for fetching a Discogs release community rating
  */
-const getReleaseCommunityRatingTool: Tool<undefined, typeof ReleaseIdParamSchema> = {
+export const getReleaseCommunityRatingTool: Tool<undefined, typeof ReleaseIdParamSchema> = {
   name: 'get_release_community_rating',
   description: 'Retrieves the release community rating average and count',
   parameters: ReleaseIdParamSchema,
@@ -190,7 +190,7 @@ const getReleaseCommunityRatingTool: Tool<undefined, typeof ReleaseIdParamSchema
 /**
  * MCP tool for fetching a Discogs release rating by user
  */
-const getReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = {
+export const getReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = {
   name: 'get_release_rating_by_user',
   description: `Retrieves the release's rating for a given user`,
   parameters: ReleaseRatingParamsSchema,
@@ -209,7 +209,7 @@ const getReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = 
 /**
  * MCP tool for searching the Discogs database
  */
-const searchTool: Tool<undefined, typeof SearchParamsSchema> = {
+export const searchTool: Tool<undefined, typeof SearchParamsSchema> = {
   name: 'search',
   description: 'Issue a search query to the Discogs database',
   parameters: SearchParamsSchema,
