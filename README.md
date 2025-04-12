@@ -64,6 +64,8 @@ The other environment variables in `.env.example` are optional and have sensible
    - `pnpm run inspect`: Run the MCP Inspector (see [Inspection](#inspection) section)
    - `pnpm run format`: Check code formatting (prettier)
    - `pnpm run lint`: Run linter (eslint)
+   - `pnpm run test`: Run vitest
+   - `pnpm run test:coverage`: Run vitest v8 coverage
 
 ### Option 2: Docker
 
