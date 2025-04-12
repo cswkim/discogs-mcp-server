@@ -139,7 +139,7 @@ describe('DatabaseService', () => {
       });
     });
 
-    it('should handle Discogs errors properly', async () => {
+    it('should handle Discogs authentication errors properly', async () => {
       const discogsError = new Error('Discogs API Error');
       discogsError.name = 'DiscogsAuthenticationError';
       (service as any).request.mockRejectedValueOnce(discogsError);

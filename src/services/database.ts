@@ -14,6 +14,7 @@ export class DatabaseService extends DiscogsService {
    * Issue a search query to the Discogs database
    *
    * @param params - Search parameters
+   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {Error} If the search times out or an unexpected error occurs
    * @returns {SearchResults} Search results
    */
