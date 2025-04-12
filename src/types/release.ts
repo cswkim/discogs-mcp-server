@@ -96,6 +96,7 @@ export const ReleaseSchema = z.object({
       z.object({
         type: z.string(),
         value: z.string(),
+        description: z.string().optional(),
       }),
     )
     .optional(),
@@ -132,6 +133,7 @@ export const ReleaseSchema = z.object({
         position: z.string(),
         title: z.string(),
         type_: z.string().optional(),
+        extraartists: z.array(ArtistBasicSchema).optional(),
       }),
     )
     .optional(),
@@ -139,7 +141,7 @@ export const ReleaseSchema = z.object({
   videos: z
     .array(
       z.object({
-        description: z.string().optional(),
+        description: z.string().nullable().optional(),
         duration: z.number().int().optional(),
         embed: z.boolean().optional(),
         title: z.string().optional(),
