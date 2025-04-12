@@ -6,7 +6,7 @@ import { UserWantlistItemParamsSchema, UserWantlistParamsSchema } from '../types
 /**
  * MCP tool for fetching a Discogs user's wantlist
  */
-const getUserWantlistTool: Tool<undefined, typeof UserWantlistParamsSchema> = {
+export const getUserWantlistTool: Tool<undefined, typeof UserWantlistParamsSchema> = {
   name: 'get_user_wantlist',
   description: `Returns the list of releases in a user's wantlist`,
   parameters: UserWantlistParamsSchema,
@@ -25,7 +25,7 @@ const getUserWantlistTool: Tool<undefined, typeof UserWantlistParamsSchema> = {
 /**
  * MCP tool for adding a release to a user's wantlist
  */
-const addToWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
+export const addToWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
   name: 'add_to_wantlist',
   description: `Add a release to a user's wantlist`,
   parameters: UserWantlistItemParamsSchema,
@@ -44,7 +44,7 @@ const addToWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = 
 /**
  * MCP tool for editing a release in a user's wantlist
  */
-const editItemInWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
+export const editItemInWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
   name: 'edit_item_in_wantlist',
   description: `Edit a release in a user's wantlist`,
   parameters: UserWantlistItemParamsSchema,
@@ -63,7 +63,7 @@ const editItemInWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchem
 /**
  * MCP tool for deleting a release from a user's wantlist
  */
-const deleteItemInWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
+export const deleteItemInWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
   name: 'delete_item_in_wantlist',
   description: `Delete a release from a user's wantlist`,
   parameters: UserWantlistItemParamsSchema,
