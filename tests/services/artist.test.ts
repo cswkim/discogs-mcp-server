@@ -98,12 +98,12 @@ describe('ArtistService', () => {
       expect(service['request']).toHaveBeenCalledWith('/123');
     });
 
-    it('should handle Discogs errors properly', async () => {
+    it('should handle Discogs resource not found errors properly', async () => {
       const discogsError = new Error('Discogs API Error');
-      discogsError.name = 'DiscogsAuthenticationError';
+      discogsError.name = 'DiscogsResourceNotFoundError';
       (service as any).request.mockRejectedValueOnce(discogsError);
 
-      await expect(service.get({ artist_id: 999 })).rejects.toThrow('DiscogsAuthenticationError');
+      await expect(service.get({ artist_id: 999 })).rejects.toThrow('DiscogsResourceNotFoundError');
     });
 
     it('should handle validation errors properly', async () => {
@@ -167,7 +167,7 @@ describe('ArtistService', () => {
       });
     });
 
-    it('should handle Discogs errors properly', async () => {
+    it('should handle Discogs resource not found errors properly', async () => {
       const discogsError = new Error('Discogs API Error');
       discogsError.name = 'DiscogsResourceNotFoundError';
       (service as any).request.mockRejectedValueOnce(discogsError);

@@ -22,7 +22,6 @@ export class ArtistService extends DiscogsService {
    *
    * @param params - Parameters containing the artist ID
    * @returns {Artist} The artist information
-   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsResourceNotFoundError} If the artist cannot be found
    * @throws {Error} If there's an unexpected error
    */
@@ -46,7 +45,6 @@ export class ArtistService extends DiscogsService {
    *
    * @param params - Parameters containing the artist ID and pagination options
    * @returns {ArtistReleases} The artist releases
-   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsResourceNotFoundError} If the artist cannot be found
    * @throws {Error} If there's an unexpected error
    */
