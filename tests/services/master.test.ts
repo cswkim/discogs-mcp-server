@@ -1,3 +1,6 @@
+// Mock imports need to go before all other imports
+import '../mocks/discogsService';
+
 import { beforeEach, describe, expect, it } from 'vitest';
 import { MasterReleaseService } from '../../src/services/master';
 import type { MasterRelease } from '../../src/types/master';
