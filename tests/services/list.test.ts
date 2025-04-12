@@ -59,14 +59,6 @@ describe('ListService', () => {
       expect(service['request']).toHaveBeenCalledWith('/123');
     });
 
-    it('should handle Discogs authentication errors properly', async () => {
-      const discogsError = new Error('Discogs API Error');
-      discogsError.name = 'DiscogsAuthenticationError';
-      (service as any).request.mockRejectedValueOnce(discogsError);
-
-      await expect(service.getList({ list_id: 999 })).rejects.toThrow('DiscogsAuthenticationError');
-    });
-
     it('should handle Discogs permission errors properly', async () => {
       const discogsError = new Error('Discogs API Error');
       discogsError.name = 'DiscogsPermissionError';

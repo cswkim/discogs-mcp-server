@@ -15,7 +15,6 @@ export class ListService extends DiscogsService {
    *
    * @param params - Parameters containing the list ID
    * @returns {List} The list information
-   * @throws {DiscogsAuthenticationError} If authentication fails
    * @throws {DiscogsPermissionError} If the user doesn't have permission to access the list
    * @throws {DiscogsResourceNotFoundError} If the list cannot be found
    * @throws {Error} If there's a validation error or other unexpected error
