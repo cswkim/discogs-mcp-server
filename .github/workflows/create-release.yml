@@ -10,6 +10,8 @@ jobs:
     uses: ./.github/workflows/_checks.yml
 
   create-release:
+    # prevents this action from running on forks
+    if: github.repository == 'cswkim/discogs-mcp-server'
     needs: checks
     runs-on: ubuntu-latest
     permissions:
@@ -22,6 +24,8 @@ jobs:
           generateReleaseNotes: true
 
   publish:
+    # prevents this action from running on forks
+    if: github.repository == 'cswkim/discogs-mcp-server'
     runs-on: ubuntu-latest
     needs: create-release
     steps:
