@@ -10,10 +10,8 @@ runs:
         cache: 'pnpm'
         registry-url: ${{ inputs.registry-url || '' }}
 
-    - name: Set up pnpm
-      uses: pnpm/action-setup@v4.1.0
-      with:
-        version: 'latest'
+    - name: Install pnpm
+      run: npm install -g pnpm
 
 inputs:
   registry-url:
