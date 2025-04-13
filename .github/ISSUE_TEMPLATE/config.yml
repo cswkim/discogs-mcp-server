@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Bugs, Requests & Questions
+    url: https://github.com/cswkim/discogs-mcp-server/issues
+    about: Report bugs, request features, or ask questions.

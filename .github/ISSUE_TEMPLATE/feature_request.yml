@@ -1,0 +1,45 @@
+name: 💡 Feature Request
+description: Suggest a new idea or enhancement
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your idea! Please describe the feature clearly so we can evaluate it.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: What's the idea?
+      placeholder: I'd like to be able to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why do you need this? What problem does it solve?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: importance
+    attributes:
+      label: Importance
+      description: How important is this feature to you?
+      options:
+        - nice to have
+        - would make my life easier
+        - i cannot (or will not) use discogs mcp server without this
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any links, mockups, or notes?
+    validations:
+      required: false
