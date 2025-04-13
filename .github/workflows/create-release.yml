@@ -12,6 +12,8 @@ jobs:
   create-release:
     needs: checks
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: ncipollo/release-action@v1
