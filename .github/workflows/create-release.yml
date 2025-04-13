@@ -17,11 +17,14 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v2
+
       - uses: actions/checkout@v4
       - uses: ncipollo/release-action@v1
         with:
-          tag: ${{ github.ref_name }}
-          generateReleaseNotes: true
+          body: ${{ steps.extract-release-notes.outputs.release_notes }}
 
   publish:
     # prevents this action from running on forks
