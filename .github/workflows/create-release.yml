@@ -1,4 +1,4 @@
-name: Create Release
+name: Create Release & Publish To NPM
 
 on:
   push:
@@ -20,3 +20,25 @@ jobs:
         with:
           tag: ${{ github.ref_name }}
           generateReleaseNotes: true
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: create-release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-pnpm
+        with:
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Publish to npm
+        run: pnpm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
