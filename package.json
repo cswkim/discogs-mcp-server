@@ -41,7 +41,7 @@
     "test:ui": "vitest --ui",
     "test:watch": "vitest watch",
     "version:check": "node .github/scripts/check-version.js",
-    "version:sync": "tsx scripts/sync-version.js",
+    "version:sync": "node scripts/sync-version.js",
     "changeset:version": "changeset version && pnpm version:sync && git add --all",
     "changeset:tag": "changeset tag"
   },
