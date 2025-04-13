@@ -33,4 +33,12 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
+  {
+    files: ['.github/**/*.{ts,js}'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+      'no-console': 'off',
+      'no-undef': 'off',
+    },
+  },
 ];
