@@ -39,7 +39,8 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "version:check": "node .github/scripts/check-version.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.9.0",

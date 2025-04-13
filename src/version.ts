@@ -1,3 +1,2 @@
-// This should match the version in package.json or else it will break
-// .github/workflows/version-check.yml.
+// This should match the version in package.json or else it will break the CI workflow
 export const VERSION = '0.1.0';

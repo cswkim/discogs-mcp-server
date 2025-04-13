@@ -72,6 +72,7 @@ The other environment variables in `.env.example` are optional and have sensible
    - `pnpm run lint`: Run linter (eslint)
    - `pnpm run test`: Run vitest
    - `pnpm run test:coverage`: Run vitest v8 coverage
+   - `pnpm run version:check`: Checks that the package.json version and src/version.ts match
 
 ### Option 2: Docker
 
@@ -122,7 +123,7 @@ Running it straight from the npm registry.
       "command": "npx",
       "args": [
         "-y",
-        "@cswkim/discogs-mcp-server"
+        "discogs-mcp-server"
       ],
       "env": {
         "DISCOGS_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"

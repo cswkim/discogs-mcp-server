@@ -1,0 +1,9 @@
+name: Check PR
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  run-checks:
+    uses: ./.github/workflows/_checks.yml
