@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Bugs, Requests & Questions
-    url: https://github.com/cswkim/discogs-mcp-server/issues
-    about: Report bugs, request features, or ask questions.
+  - name: Questions & Help
+    url: https://www.discogs.com/forum/thread/1118574
+    about: Discogs forum thread for discussing the MCP server.
