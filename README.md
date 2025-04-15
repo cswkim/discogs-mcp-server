@@ -2,6 +2,10 @@
 
 MCP Server for the Discogs API, enabling music catalog operations, search functionality, and more.
 
+## Quickstart
+
+If you just want to get started immediately using this MCP Server with the [Claude](https://claude.ai) desktop app and don't care about development or running the server yourself, then make sure you have [Node.js](https://nodejs.org/en) installed and your Discogs personal access token ready and skip straight to the [Claude configuration section](#claude-desktop-configuration). Use the `NPX` method from that section.
+
 ## Table of Contents
 
 - [Acknowledgements](#acknowledgements)
