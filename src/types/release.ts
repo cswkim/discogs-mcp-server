@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { urlOrEmptySchema } from '../utils.js';
 import { ArtistBasicSchema } from './artist.js';
-import { CurrencyCodeSchema, UsernameInputSchema } from './common.js';
+import { CurrencyCodeSchema, ImageSchema, UsernameInputSchema } from './common.js';
 import { LabelBasicSchema } from './label.js';
 
 /**
@@ -100,18 +100,7 @@ export const ReleaseSchema = z.object({
       }),
     )
     .optional(),
-  images: z
-    .array(
-      z.object({
-        height: z.number().int().optional(),
-        width: z.number().int().optional(),
-        resource_url: urlOrEmptySchema(),
-        type: z.string().optional(),
-        uri: urlOrEmptySchema().optional(),
-        uri150: urlOrEmptySchema().optional(),
-      }),
-    )
-    .optional(),
+  images: z.array(ImageSchema).optional(),
   labels: z.array(LabelBasicSchema).optional(),
   lowest_price: z.number().optional(),
   master_id: z.number().optional(),

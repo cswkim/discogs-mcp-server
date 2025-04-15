@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { urlOrEmptySchema } from '../utils.js';
 import { ArtistReleaseSchema } from './artist.js';
-import { PaginatedResponseSchema, QueryParamsSchema } from './common.js';
+import { ImageSchema, PaginatedResponseSchema, QueryParamsSchema } from './common.js';
 
 /**
  * Schema for a label ID parameter
@@ -29,18 +29,7 @@ export const LabelSchema = z.object({
   id: z.number(),
   contact_info: z.string().optional(),
   data_quality: z.string().optional(),
-  images: z
-    .array(
-      z.object({
-        height: z.number().int().optional(),
-        resource_url: urlOrEmptySchema(),
-        type: z.string().optional(),
-        uri: urlOrEmptySchema(),
-        uri150: urlOrEmptySchema().optional(),
-        width: z.number().int().optional(),
-      }),
-    )
-    .optional(),
+  images: z.array(ImageSchema).optional(),
   name: z.string(),
   parent_label: z
     .object({
