@@ -349,6 +349,19 @@
 
 **Returns**: Success message as string
 
+#### `get_marketplace_order`
+**Description**: Get a marketplace order
+
+**Inputs**:
+- `order_id` (number, required): The ID of the order to get
+
+**Returns**: Order information as JSON string, including:
+- Order details (ID, status, creation date)
+- Items with release information and pricing
+- Shipping information
+- Seller and buyer details
+- Total amount and fees
+
 ## User Lists Tools
 
 #### `get_user_lists`

@@ -20,6 +20,19 @@ const SleeveConditionSchema = z.enum([
   'No Cover',
 ]);
 
+const OrderStatusSchema = z.enum([
+  'New Order',
+  'Buyer Contacted',
+  'Invoice Sent',
+  'Payment Pending',
+  'Payment Received',
+  'Shipped',
+  'Refund Sent',
+  'Cancelled (Non-Paying Buyer)',
+  'Cancelled (Item Unavailable)',
+  `Cancelled (Per Buyer's Request)`,
+]);
+
 const ListingReleaseSchema = z.object({
   catalog_number: z.string().optional(),
   resource_url: urlOrEmptySchema(),
@@ -134,6 +147,53 @@ export const ListingNewResponseSchema = z.object({
 
 export const ListingUpdateParamsSchema = ListingIdParamSchema.merge(ListingNewParamsSchema);
 
+export const OrderIdParamSchema = z.object({
+  order_id: z.number(),
+});
+
+export const OrderResponseSchema = z.object({
+  id: z.number(),
+  resource_url: urlOrEmptySchema(),
+  messages_url: urlOrEmptySchema(),
+  uri: urlOrEmptySchema(),
+  status: OrderStatusSchema,
+  next_status: z.array(OrderStatusSchema),
+  fee: PriceSchema,
+  created: z.string(),
+  items: z.array(
+    z.object({
+      release: z.object({
+        id: z.number(),
+        description: z.string().optional(),
+      }),
+      price: PriceSchema,
+      media_condition: ConditionSchema,
+      sleeve_condition: SleeveConditionSchema.optional(),
+      id: z.number(),
+    }),
+  ),
+  shipping: z.object({
+    currency: CurrencyCodeSchema,
+    method: z.string(),
+    value: z.number(),
+  }),
+  shipping_address: z.string(),
+  address_instructions: z.string().optional(),
+  archived: z.boolean().optional(),
+  seller: z.object({
+    id: z.number(),
+    username: z.string(),
+    resource_url: urlOrEmptySchema().optional(),
+  }),
+  last_activity: z.string().optional(),
+  buyer: z.object({
+    id: z.number(),
+    username: z.string(),
+    resource_url: urlOrEmptySchema().optional(),
+  }),
+  total: PriceSchema,
+});
+
 /**
  * The listing ID parameter type
  */
@@ -163,3 +223,13 @@ export type ListingUpdateParams = z.infer<typeof ListingUpdateParamsSchema>;
  * The listing schema
  */
 export type Listing = z.infer<typeof ListingSchema>;
+
+/**
+ * The order ID parameter type
+ */
+export type OrderIdParam = z.infer<typeof OrderIdParamSchema>;
+
+/**
+ * The order response type
+ */
+export type OrderResponse = z.infer<typeof OrderResponseSchema>;

@@ -8,6 +8,9 @@ import {
   ListingNewResponseSchema,
   ListingSchema,
   type ListingUpdateParams,
+  type OrderIdParam,
+  type OrderResponse,
+  OrderResponseSchema,
 } from '../types/marketplace.js';
 import { DiscogsService } from './index.js';
 
@@ -88,6 +91,31 @@ export class MarketplaceService extends DiscogsService {
       }
 
       throw new Error(`Failed to get listing: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Get a marketplace order
+   *
+   * @param params - Parameters containing the order ID
+   * @throws {DiscogsAuthenticationError} If the user is not authenticated
+   * @throws {DiscogsPermissionError} If the user does not have permission to view the order
+   * @throws {DiscogsResourceNotFoundError} If the order cannot be found
+   * @throws {Error} If there's an unexpected error
+   * @returns {OrderResponse} The order information
+   */
+  async getOrder({ order_id }: OrderIdParam): Promise<OrderResponse> {
+    try {
+      const response = await this.request<OrderResponse>(`/orders/${order_id}`);
+
+      const validatedResponse = OrderResponseSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to get order: ${String(error)}`);
     }
   }
 

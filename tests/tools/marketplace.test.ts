@@ -7,6 +7,7 @@ import {
   createMarketplaceListingTool,
   deleteMarketplaceListingTool,
   getMarketplaceListingTool,
+  getMarketplaceOrderTool,
   updateMarketplaceListingTool,
 } from '../../src/tools/marketplace.js';
 import { CurrencyCodeSchema } from '../../src/types/common.js';
@@ -641,6 +642,169 @@ describe('Marketplace Tools', () => {
           try {
             await client.callTool({
               name: 'update_marketplace_listing',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('get_marketplace_order', () => {
+    const mockOrder = {
+      id: 123,
+      resource_url: 'https://api.discogs.com/marketplace/orders/123',
+      messages_url: 'https://api.discogs.com/marketplace/orders/123/messages',
+      uri: 'https://www.discogs.com/sell/order/123',
+      status: 'New Order' as const,
+      next_status: ['Buyer Contacted' as const, 'Invoice Sent' as const],
+      fee: {
+        currency: 'USD' as const,
+        value: 1.99,
+      },
+      created: '2024-04-15T18:43:39-07:00',
+      items: [
+        {
+          release: {
+            id: 12345,
+            description: 'Test Release - LP, Album',
+          },
+          price: {
+            currency: 'USD' as const,
+            value: 19.99,
+          },
+          media_condition: 'Very Good (VG)' as const,
+          sleeve_condition: 'Very Good (VG)' as const,
+          id: 1,
+        },
+      ],
+      shipping: {
+        currency: 'USD' as const,
+        method: 'Standard',
+        value: 5.0,
+      },
+      shipping_address: '123 Test St, Test City, Test Country',
+      address_instructions: 'Leave at front door',
+      archived: false,
+      seller: {
+        id: 12345,
+        username: 'TestSeller',
+        resource_url: 'https://api.discogs.com/users/TestSeller',
+      },
+      last_activity: '2024-04-15T18:43:39-07:00',
+      buyer: {
+        id: 67890,
+        username: 'TestBuyer',
+        resource_url: 'https://api.discogs.com/users/TestBuyer',
+      },
+      total: {
+        currency: 'USD' as const,
+        value: 26.98,
+      },
+    };
+
+    it('adds get_marketplace_order tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getMarketplaceOrderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_marketplace_order',
+                description: 'Get a marketplace order',
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    order_id: { type: 'number' },
+                  },
+                  required: ['order_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_marketplace_order tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MarketplaceService.prototype, 'getOrder').mockResolvedValue(mockOrder);
+          server.addTool(getMarketplaceOrderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_marketplace_order',
+              arguments: { order_id: 123 },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockOrder) }],
+          });
+        },
+      });
+    });
+
+    it('handles get_marketplace_order not found', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({ name: 'Test', version: '1.0.0' });
+
+          vi.spyOn(MarketplaceService.prototype, 'getOrder').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getMarketplaceOrderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_marketplace_order',
+              arguments: { order_id: 123 },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_marketplace_order invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getMarketplaceOrderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_marketplace_order',
               arguments: {},
             });
           } catch (error) {
