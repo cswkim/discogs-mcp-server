@@ -3,7 +3,12 @@ import { FastMCP } from 'fastmcp';
 import { describe, expect, it, vi } from 'vitest';
 import { formatDiscogsError } from '../../src/errors.js';
 import { MarketplaceService } from '../../src/services/marketplace.js';
-import { getMarketplaceListingTool } from '../../src/tools/marketplace.js';
+import {
+  createMarketplaceListingTool,
+  deleteMarketplaceListingTool,
+  getMarketplaceListingTool,
+  updateMarketplaceListingTool,
+} from '../../src/tools/marketplace.js';
 import { CurrencyCodeSchema } from '../../src/types/common.js';
 import { runWithTestServer } from '../utils/testServer.js';
 
@@ -86,7 +91,176 @@ const mockListing = {
   },
 };
 
+const mockListingNewResponse = {
+  listing_id: 123,
+  resource_url: 'https://api.discogs.com/marketplace/listings/123',
+};
+
 describe('Marketplace Tools', () => {
+  describe('create_marketplace_listing', () => {
+    it('adds create_marketplace_listing tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(createMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'create_marketplace_listing',
+                description: 'Create a new marketplace listing',
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    release_id: { type: 'integer' },
+                    condition: {
+                      type: 'string',
+                      enum: [
+                        'Mint (M)',
+                        'Near Mint (NM or M-)',
+                        'Very Good Plus (VG+)',
+                        'Very Good (VG)',
+                        'Good Plus (G+)',
+                        'Good (G)',
+                        'Fair (F)',
+                        'Poor (P)',
+                      ],
+                    },
+                    sleeve_condition: {
+                      type: 'string',
+                      enum: [
+                        'Mint (M)',
+                        'Near Mint (NM or M-)',
+                        'Very Good Plus (VG+)',
+                        'Very Good (VG)',
+                        'Good Plus (G+)',
+                        'Good (G)',
+                        'Fair (F)',
+                        'Poor (P)',
+                        'Generic',
+                        'Not Graded',
+                        'No Cover',
+                      ],
+                    },
+                    price: { type: 'number' },
+                    status: {
+                      type: 'string',
+                      enum: ['For Sale', 'Expired', 'Draft'],
+                    },
+                    format_quantity: { type: 'number' },
+                    comments: { type: 'string' },
+                    allow_offers: { type: 'boolean' },
+                    external_id: { type: 'string' },
+                    location: { type: 'string' },
+                    weight: { type: 'number' },
+                  },
+                  required: ['release_id', 'condition', 'price', 'status'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls create_marketplace_listing tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MarketplaceService.prototype, 'createListing').mockResolvedValue(
+            mockListingNewResponse,
+          );
+          server.addTool(createMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'create_marketplace_listing',
+              arguments: {
+                release_id: 123,
+                condition: 'Very Good (VG)',
+                price: 19.99,
+                status: 'For Sale',
+                format_quantity: 1,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockListingNewResponse) }],
+          });
+        },
+      });
+    });
+
+    it('handles create_marketplace_listing not found', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({ name: 'Test', version: '1.0.0' });
+
+          vi.spyOn(MarketplaceService.prototype, 'createListing').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(createMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'create_marketplace_listing',
+              arguments: {
+                release_id: 123,
+                condition: 'Very Good (VG)',
+                price: 19.99,
+                status: 'For Sale',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles create_marketplace_listing invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(createMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'create_marketplace_listing',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
   describe('get_marketplace_listing', () => {
     it('adds get_marketplace_listing tool', async () => {
       await runWithTestServer({
@@ -141,7 +315,7 @@ describe('Marketplace Tools', () => {
           expect(
             await client.callTool({
               name: 'get_marketplace_listing',
-              arguments: { listing_id: 123, currency: 'USD' },
+              arguments: { listing_id: 123, curr_abbr: 'USD' },
             }),
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockListing) }],
@@ -166,7 +340,7 @@ describe('Marketplace Tools', () => {
           expect(
             await client.callTool({
               name: 'get_marketplace_listing',
-              arguments: { listing_id: 123, currency: 'USD' },
+              arguments: { listing_id: 123, curr_abbr: 'USD' },
             }),
           ).toEqual({
             content: [{ type: 'text', text: 'Resource not found' }],
@@ -191,6 +365,282 @@ describe('Marketplace Tools', () => {
           try {
             await client.callTool({
               name: 'get_marketplace_listing',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('delete_marketplace_listing', () => {
+    it('adds delete_marketplace_listing tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(deleteMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'delete_marketplace_listing',
+                description: 'Delete a marketplace listing',
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    listing_id: { type: 'integer' },
+                  },
+                  required: ['listing_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls delete_marketplace_listing tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MarketplaceService.prototype, 'deleteListing').mockResolvedValue(undefined);
+          server.addTool(deleteMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'delete_marketplace_listing',
+              arguments: { listing_id: 123 },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Listing deleted successfully' }],
+          });
+        },
+      });
+    });
+
+    it('handles delete_marketplace_listing not found', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({ name: 'Test', version: '1.0.0' });
+
+          vi.spyOn(MarketplaceService.prototype, 'deleteListing').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(deleteMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'delete_marketplace_listing',
+              arguments: { listing_id: 123 },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles delete_marketplace_listing invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(deleteMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'delete_marketplace_listing',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('update_marketplace_listing', () => {
+    it('adds update_marketplace_listing tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(updateMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'update_marketplace_listing',
+                description: 'Update a marketplace listing',
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    listing_id: { type: 'integer' },
+                    release_id: { type: 'integer' },
+                    condition: {
+                      type: 'string',
+                      enum: [
+                        'Mint (M)',
+                        'Near Mint (NM or M-)',
+                        'Very Good Plus (VG+)',
+                        'Very Good (VG)',
+                        'Good Plus (G+)',
+                        'Good (G)',
+                        'Fair (F)',
+                        'Poor (P)',
+                      ],
+                    },
+                    sleeve_condition: {
+                      type: 'string',
+                      enum: [
+                        'Mint (M)',
+                        'Near Mint (NM or M-)',
+                        'Very Good Plus (VG+)',
+                        'Very Good (VG)',
+                        'Good Plus (G+)',
+                        'Good (G)',
+                        'Fair (F)',
+                        'Poor (P)',
+                        'Generic',
+                        'Not Graded',
+                        'No Cover',
+                      ],
+                    },
+                    price: { type: 'number' },
+                    status: {
+                      type: 'string',
+                      enum: ['For Sale', 'Expired', 'Draft'],
+                    },
+                    format_quantity: { type: 'number' },
+                    comments: { type: 'string' },
+                    allow_offers: { type: 'boolean' },
+                    external_id: { type: 'string' },
+                    location: { type: 'string' },
+                    weight: { type: 'number' },
+                  },
+                  required: ['listing_id', 'release_id', 'condition', 'price', 'status'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls update_marketplace_listing tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MarketplaceService.prototype, 'updateListing').mockResolvedValue(undefined);
+          server.addTool(updateMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'update_marketplace_listing',
+              arguments: {
+                listing_id: 123,
+                release_id: 123,
+                condition: 'Very Good (VG)',
+                price: 19.99,
+                status: 'For Sale',
+                format_quantity: 1,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Listing updated successfully' }],
+          });
+        },
+      });
+    });
+
+    it('handles update_marketplace_listing not found', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({ name: 'Test', version: '1.0.0' });
+
+          vi.spyOn(MarketplaceService.prototype, 'updateListing').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(updateMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'update_marketplace_listing',
+              arguments: {
+                listing_id: 123,
+                release_id: 123,
+                condition: 'Very Good (VG)',
+                price: 19.99,
+                status: 'For Sale',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles update_marketplace_listing invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(updateMarketplaceListingTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'update_marketplace_listing',
               arguments: {},
             });
           } catch (error) {

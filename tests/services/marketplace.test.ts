@@ -83,6 +83,11 @@ const mockListing = {
   },
 };
 
+const mockListingNewResponse = {
+  listing_id: 123,
+  resource_url: 'https://api.discogs.com/marketplace/listings/123',
+};
+
 describe('MarketplaceService', () => {
   let service: MarketplaceService;
 
@@ -90,33 +95,171 @@ describe('MarketplaceService', () => {
     service = new MarketplaceService();
   });
 
-  it('should get a listing', async () => {
-    (service as any).request.mockResolvedValueOnce(mockListing);
+  describe('createListing', () => {
+    it('should create a listing', async () => {
+      (service as any).request.mockResolvedValueOnce(mockListingNewResponse);
 
-    const listing = await service.getListing({ listing_id: 123 });
+      const result = await service.createListing({
+        release_id: 123,
+        condition: 'Very Good (VG)',
+        sleeve_condition: 'Very Good (VG)',
+        price: 19.99,
+        status: 'For Sale',
+        format_quantity: 1,
+      });
 
-    expect(listing).toEqual(mockListing);
-    expect(service['request']).toHaveBeenCalledWith('/listings/123', { params: {} });
-  });
+      expect(result).toEqual(mockListingNewResponse);
+      expect(service['request']).toHaveBeenCalledWith('/listings', {
+        method: 'POST',
+        body: {
+          release_id: 123,
+          condition: 'Very Good (VG)',
+          sleeve_condition: 'Very Good (VG)',
+          price: 19.99,
+          status: 'For Sale',
+          format_quantity: 1,
+        },
+      });
+    });
 
-  it('should handle currency parameter', async () => {
-    (service as any).request.mockResolvedValueOnce(mockListing);
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
 
-    const result = await service.getListing({ listing_id: 123, curr_abbr: 'USD' });
-
-    expect(result).toEqual(mockListing);
-    expect(service['request']).toHaveBeenCalledWith('/listings/123', {
-      params: { curr_abbr: 'USD' },
+      await expect(
+        service.createListing({
+          release_id: 123,
+          condition: 'Very Good (VG)',
+          sleeve_condition: 'Very Good (VG)',
+          price: 19.99,
+          status: 'For Sale',
+          format_quantity: 1,
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
     });
   });
 
-  it('should handle Discogs resource not found errors properly', async () => {
-    const discogsError = new Error('Discogs API Error');
-    discogsError.name = 'DiscogsResourceNotFoundError';
-    (service as any).request.mockRejectedValueOnce(discogsError);
+  describe('deleteListing', () => {
+    it('should delete a listing', async () => {
+      (service as any).request.mockResolvedValueOnce(undefined);
 
-    await expect(service.getListing({ listing_id: 999 })).rejects.toThrow(
-      'DiscogsResourceNotFoundError',
-    );
+      await service.deleteListing({ listing_id: 123 });
+
+      expect(service['request']).toHaveBeenCalledWith('/listings/123', {
+        method: 'DELETE',
+      });
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.deleteListing({ listing_id: 123 })).rejects.toThrow(
+        'DiscogsPermissionError',
+      );
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.deleteListing({ listing_id: 999 })).rejects.toThrow(
+        'DiscogsResourceNotFoundError',
+      );
+    });
+  });
+
+  describe('getListing', () => {
+    it('should get a listing', async () => {
+      (service as any).request.mockResolvedValueOnce(mockListing);
+
+      const listing = await service.getListing({ listing_id: 123 });
+
+      expect(listing).toEqual(mockListing);
+      expect(service['request']).toHaveBeenCalledWith('/listings/123', { params: {} });
+    });
+
+    it('should handle currency parameter', async () => {
+      (service as any).request.mockResolvedValueOnce(mockListing);
+
+      const result = await service.getListing({ listing_id: 123, curr_abbr: 'USD' });
+
+      expect(result).toEqual(mockListing);
+      expect(service['request']).toHaveBeenCalledWith('/listings/123', {
+        params: { curr_abbr: 'USD' },
+      });
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.getListing({ listing_id: 999 })).rejects.toThrow(
+        'DiscogsResourceNotFoundError',
+      );
+    });
+  });
+
+  describe('updateListing', () => {
+    it('should update a listing', async () => {
+      (service as any).request.mockResolvedValueOnce(undefined);
+
+      await service.updateListing({
+        listing_id: 123,
+        release_id: 123,
+        condition: 'Very Good (VG)',
+        price: 19.99,
+        status: 'For Sale',
+        format_quantity: 1,
+      });
+
+      expect(service['request']).toHaveBeenCalledWith('/listings/123', {
+        method: 'POST',
+        body: {
+          release_id: 123,
+          condition: 'Very Good (VG)',
+          price: 19.99,
+          status: 'For Sale',
+          format_quantity: 1,
+        },
+      });
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.updateListing({
+          listing_id: 123,
+          release_id: 123,
+          condition: 'Very Good (VG)',
+          price: 19.99,
+          status: 'For Sale',
+          format_quantity: 1,
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.updateListing({
+          listing_id: 999,
+          release_id: 123,
+          condition: 'Very Good (VG)',
+          price: 19.99,
+          status: 'For Sale',
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
   });
 });

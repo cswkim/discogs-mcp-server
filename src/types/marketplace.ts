@@ -2,6 +2,24 @@ import { z } from 'zod';
 import { urlOrEmptySchema } from '../utils.js';
 import { CurrencyCodeSchema, ImageSchema } from './common.js';
 
+const ConditionSchema = z.enum([
+  'Mint (M)',
+  'Near Mint (NM or M-)',
+  'Very Good Plus (VG+)',
+  'Very Good (VG)',
+  'Good Plus (G+)',
+  'Good (G)',
+  'Fair (F)',
+  'Poor (P)',
+]);
+
+const SleeveConditionSchema = z.enum([
+  ...ConditionSchema.options,
+  'Generic',
+  'Not Graded',
+  'No Cover',
+]);
+
 const ListingReleaseSchema = z.object({
   catalog_number: z.string().optional(),
   resource_url: urlOrEmptySchema(),
@@ -95,6 +113,27 @@ export const ListingGetParamsSchema = ListingIdParamSchema.extend({
   curr_abbr: CurrencyCodeSchema.optional(),
 });
 
+export const ListingNewParamsSchema = z.object({
+  release_id: z.number().int(),
+  condition: ConditionSchema,
+  sleeve_condition: SleeveConditionSchema.optional(),
+  price: z.number(),
+  comments: z.string().optional(),
+  allow_offers: z.boolean().optional(),
+  status: SaleStatusSchema,
+  external_id: z.string().optional(),
+  location: z.string().optional(),
+  weight: z.number().optional(),
+  format_quantity: z.number().optional(),
+});
+
+export const ListingNewResponseSchema = z.object({
+  listing_id: z.number().int(),
+  resource_url: z.string().url(),
+});
+
+export const ListingUpdateParamsSchema = ListingIdParamSchema.merge(ListingNewParamsSchema);
+
 /**
  * The listing ID parameter type
  */
@@ -104,6 +143,21 @@ export type ListingIdParam = z.infer<typeof ListingIdParamSchema>;
  * The listing get parameters type
  */
 export type ListingGetParams = z.infer<typeof ListingGetParamsSchema>;
+
+/**
+ * The listing new parameters type
+ */
+export type ListingNewParams = z.infer<typeof ListingNewParamsSchema>;
+
+/**
+ * The listing new response type
+ */
+export type ListingNewResponse = z.infer<typeof ListingNewResponseSchema>;
+
+/**
+ * The listing update parameters type
+ */
+export type ListingUpdateParams = z.infer<typeof ListingUpdateParamsSchema>;
 
 /**
  * The listing schema
