@@ -21,6 +21,7 @@ export class MarketplaceService extends DiscogsService {
    *
    * @param params - Parameters containing the listing data
    * @returns {ListingNewResponse} The listing information
+   * @throws {DiscogsAuthenticationError} If the user is not authenticated
    * @throws {DiscogsPermissionError} If the user does not have permission to create a listing
    * @throws {Error} If there's an unexpected error
    */
@@ -46,6 +47,7 @@ export class MarketplaceService extends DiscogsService {
    * Delete a listing from the marketplace
    *
    * @param params - Parameters containing the listing ID
+   * @throws {DiscogsAuthenticationError} If the user is not authenticated
    * @throws {DiscogsPermissionError} If the user does not have permission to delete a listing
    * @throws {DiscogsResourceNotFoundError} If the listing cannot be found
    * @throws {Error} If there's an unexpected error
@@ -93,6 +95,7 @@ export class MarketplaceService extends DiscogsService {
    * Update a marketplace listing
    *
    * @param params - Parameters containing the listing ID and the listing data
+   * @throws {DiscogsAuthenticationError} If the user is not authenticated
    * @throws {DiscogsResourceNotFoundError} If the listing cannot be found
    * @throws {Error} If there's an unexpected error
    */

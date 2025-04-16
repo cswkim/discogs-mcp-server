@@ -122,6 +122,22 @@ describe('MarketplaceService', () => {
       });
     });
 
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.createListing({
+          release_id: 123,
+          condition: 'Very Good (VG)',
+          sleeve_condition: 'Very Good (VG)',
+          price: 19.99,
+          status: 'For Sale',
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
     it('should handle Discogs permission errors properly', async () => {
       const discogsError = new Error('Discogs API Error');
       discogsError.name = 'DiscogsPermissionError';
@@ -149,6 +165,16 @@ describe('MarketplaceService', () => {
       expect(service['request']).toHaveBeenCalledWith('/listings/123', {
         method: 'DELETE',
       });
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.deleteListing({ listing_id: 123 })).rejects.toThrow(
+        'DiscogsAuthenticationError',
+      );
     });
 
     it('should handle Discogs permission errors properly', async () => {
@@ -227,6 +253,22 @@ describe('MarketplaceService', () => {
           format_quantity: 1,
         },
       });
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.updateListing({
+          listing_id: 123,
+          release_id: 123,
+          condition: 'Very Good (VG)',
+          price: 19.99,
+          status: 'For Sale',
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
     });
 
     it('should handle Discogs permission errors properly', async () => {
