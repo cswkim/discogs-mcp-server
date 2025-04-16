@@ -75,6 +75,43 @@ export const OriginalPriceSchema = z.object({
   value: z.number(),
 });
 
+const OrderMessageSchema = z.object({
+  timestamp: z.string().optional(),
+  message: z.string(),
+  type: z.string().optional(),
+  order: z.object({
+    id: z.number(),
+    resource_url: urlOrEmptySchema(),
+  }),
+  subject: z.string().optional(),
+  refund: z
+    .object({
+      amount: z.number(),
+      order: z.object({
+        id: z.number(),
+        resource_url: urlOrEmptySchema(),
+      }),
+    })
+    .optional(),
+  from: z
+    .object({
+      id: z.number(),
+      resource_url: urlOrEmptySchema(),
+      username: z.string(),
+      avatar_url: urlOrEmptySchema().optional(),
+    })
+    .optional(),
+  status_id: z.number().optional(),
+  actor: z
+    .object({
+      username: z.string(),
+      resource_url: urlOrEmptySchema(),
+    })
+    .optional(),
+  original: z.number().optional(),
+  new: z.number().optional(),
+});
+
 export const SaleStatusSchema = z.enum(['For Sale', 'Expired', 'Draft']);
 
 /**
@@ -160,6 +197,10 @@ export const OrderEditParamsSchema = OrderIdParamSchema.extend({
   status: OrderStatusSchema.optional(),
   shipping: z.number().optional(),
 });
+
+export const OrderMessagesParamsSchema = QueryParamsSchema().merge(OrderIdParamSchema);
+
+export const OrderMessagesResponseSchema = PaginatedResponseSchema(OrderMessageSchema, 'messages');
 
 export const OrdersParamsSchema = z
   .object({
@@ -254,6 +295,16 @@ export type OrderIdParam = z.infer<typeof OrderIdParamSchema>;
  * The order edit parameters type
  */
 export type OrderEditParams = z.infer<typeof OrderEditParamsSchema>;
+
+/**
+ * The order messages parameters type
+ */
+export type OrderMessagesParams = z.infer<typeof OrderMessagesParamsSchema>;
+
+/**
+ * The order messages response type
+ */
+export type OrderMessagesResponse = z.infer<typeof OrderMessagesResponseSchema>;
 
 /**
  * The orders parameters type

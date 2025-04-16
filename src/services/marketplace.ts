@@ -8,12 +8,15 @@ import {
   ListingNewResponseSchema,
   ListingSchema,
   type ListingUpdateParams,
-  OrderEditParams,
+  type OrderEditParams,
   type OrderIdParam,
+  type OrderMessagesParams,
+  type OrderMessagesResponse,
+  OrderMessagesResponseSchema,
   type OrderResponse,
   OrderResponseSchema,
-  OrdersParams,
-  OrdersResponse,
+  type OrdersParams,
+  type OrdersResponse,
   OrdersResponseSchema,
 } from '../types/marketplace.js';
 import { DiscogsService } from './index.js';
@@ -120,6 +123,36 @@ export class MarketplaceService extends DiscogsService {
       }
 
       throw new Error(`Failed to get order: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Get a list of an order's messages
+   *
+   * @param params - OrderMessagesParams
+   * @throws {DiscogsAuthenticationError} If the user is not authenticated
+   * @throws {DiscogsPermissionError} If the user does not have permission to view the order messages
+   * @throws {DiscogsResourceNotFoundError} If the order cannot be found
+   * @throws {Error} If there's an unexpected error
+   * @returns {OrderMessagesResponse} The order messages
+   */
+  async getOrderMessages({
+    order_id,
+    ...options
+  }: OrderMessagesParams): Promise<OrderMessagesResponse> {
+    try {
+      const response = await this.request<OrderMessagesResponse>(`/orders/${order_id}/messages`, {
+        params: options,
+      });
+
+      const validatedResponse = OrderMessagesResponseSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to get order messages: ${String(error)}`);
     }
   }
 

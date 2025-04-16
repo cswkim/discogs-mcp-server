@@ -399,6 +399,24 @@
   - Seller and buyer details
   - Total amount and fees
 
+#### `get_marketplace_order_messages`
+**Description**: Get a list of an order's messages
+
+**Inputs**:
+- `order_id` (number, required): The ID of the order to get messages for
+- `page` (integer, optional): Page number (minimum: 1)
+- `per_page` (integer, optional): Items per page (minimum: 1, maximum: 100)
+- `sort_order` (string, optional): Sort direction (asc, desc)
+
+**Returns**: List of messages as JSON string, including:
+- Pagination information (page, pages, items count)
+- List of messages, each containing:
+  - Message details (timestamp, content, type, subject)
+  - Order reference information
+  - Sender information (ID, username, avatar)
+  - Status information
+  - Actor information
+
 ## User Lists Tools
 
 #### `get_user_lists`

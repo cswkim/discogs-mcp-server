@@ -8,6 +8,7 @@ import {
   deleteMarketplaceListingTool,
   editMarketplaceOrderTool,
   getMarketplaceListingTool,
+  getMarketplaceOrderMessagesTool,
   getMarketplaceOrdersTool,
   getMarketplaceOrderTool,
   updateMarketplaceListingTool,
@@ -1198,6 +1199,169 @@ describe('Marketplace Tools', () => {
             await client.callTool({
               name: 'get_marketplace_orders',
               arguments: {
+                page: 0, // Invalid page number
+              },
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('get_marketplace_order_messages', () => {
+    const mockOrderMessagesResponse = {
+      pagination: {
+        page: 1,
+        pages: 1,
+        per_page: 50,
+        items: 1,
+        urls: {
+          last: 'https://api.discogs.com/marketplace/orders/123/messages?page=1&per_page=50',
+          next: 'https://api.discogs.com/marketplace/orders/123/messages?page=1&per_page=50',
+        },
+      },
+      messages: [
+        {
+          timestamp: '2024-04-15T18:43:39-07:00',
+          message: 'Test message',
+          type: 'message',
+          order: {
+            id: 123,
+            resource_url: 'https://api.discogs.com/marketplace/orders/123',
+          },
+          subject: 'Test subject',
+          from: {
+            id: 12345,
+            resource_url: 'https://api.discogs.com/users/TestSeller',
+            username: 'TestSeller',
+            avatar_url: 'https://i.discogs.com/avatar.jpg',
+          },
+          status_id: 1,
+          actor: {
+            username: 'TestSeller',
+            resource_url: 'https://api.discogs.com/users/TestSeller',
+          },
+        },
+      ],
+    };
+
+    it('adds get_marketplace_order_messages tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getMarketplaceOrderMessagesTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_marketplace_order_messages',
+                description: `Get a list of an order's messages`,
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    order_id: { type: 'number' },
+                    page: { type: 'integer', minimum: 1 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
+                    sort: { type: 'string', enum: [] },
+                    sort_order: { type: 'string', enum: ['asc', 'desc'] },
+                  },
+                  required: ['order_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_marketplace_order_messages tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MarketplaceService.prototype, 'getOrderMessages').mockResolvedValue(
+            mockOrderMessagesResponse,
+          );
+          server.addTool(getMarketplaceOrderMessagesTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_marketplace_order_messages',
+              arguments: {
+                order_id: 123,
+                page: 1,
+                per_page: 50,
+                sort_order: 'desc',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockOrderMessagesResponse) }],
+          });
+        },
+      });
+    });
+
+    it('handles get_marketplace_order_messages not found', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({ name: 'Test', version: '1.0.0' });
+
+          vi.spyOn(MarketplaceService.prototype, 'getOrderMessages').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getMarketplaceOrderMessagesTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_marketplace_order_messages',
+              arguments: {
+                order_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_marketplace_order_messages invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getMarketplaceOrderMessagesTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_marketplace_order_messages',
+              arguments: {
+                order_id: 123,
                 page: 0, // Invalid page number
               },
             });
