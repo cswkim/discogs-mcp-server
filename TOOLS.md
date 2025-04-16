@@ -362,6 +362,21 @@
 - Seller and buyer details
 - Total amount and fees
 
+#### `edit_marketplace_order`
+**Description**: Edit a marketplace order
+
+**Inputs**:
+- `order_id` (number, required): The ID of the order to edit
+- `status` (string, optional): New status of the order (New Order, Buyer Contacted, Invoice Sent, Payment Pending, Payment Received, Shipped, Refund Sent, Cancelled (Non-Paying Buyer), Cancelled (Item Unavailable), Cancelled (Per Buyer's Request))
+- `shipping` (number, optional): New shipping cost
+
+**Returns**: Updated order information as JSON string, including:
+- Updated order details
+- Items with release information and pricing
+- Shipping information
+- Seller and buyer details
+- Total amount and fees
+
 ## User Lists Tools
 
 #### `get_user_lists`

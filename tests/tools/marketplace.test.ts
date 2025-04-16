@@ -6,6 +6,7 @@ import { MarketplaceService } from '../../src/services/marketplace.js';
 import {
   createMarketplaceListingTool,
   deleteMarketplaceListingTool,
+  editMarketplaceOrderTool,
   getMarketplaceListingTool,
   getMarketplaceOrderTool,
   updateMarketplaceListingTool,
@@ -805,6 +806,185 @@ describe('Marketplace Tools', () => {
           try {
             await client.callTool({
               name: 'get_marketplace_order',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('edit_marketplace_order', () => {
+    const mockOrder = {
+      id: 123,
+      resource_url: 'https://api.discogs.com/marketplace/orders/123',
+      messages_url: 'https://api.discogs.com/marketplace/orders/123/messages',
+      uri: 'https://www.discogs.com/sell/order/123',
+      status: 'New Order' as const,
+      next_status: ['Buyer Contacted' as const, 'Invoice Sent' as const],
+      fee: {
+        currency: 'USD' as const,
+        value: 1.99,
+      },
+      created: '2024-04-15T18:43:39-07:00',
+      items: [
+        {
+          release: {
+            id: 12345,
+            description: 'Test Release - LP, Album',
+          },
+          price: {
+            currency: 'USD' as const,
+            value: 19.99,
+          },
+          media_condition: 'Very Good (VG)' as const,
+          sleeve_condition: 'Very Good (VG)' as const,
+          id: 1,
+        },
+      ],
+      shipping: {
+        currency: 'USD' as const,
+        method: 'Standard',
+        value: 5.0,
+      },
+      shipping_address: '123 Test St, Test City, Test Country',
+      address_instructions: 'Leave at front door',
+      archived: false,
+      seller: {
+        id: 12345,
+        username: 'TestSeller',
+        resource_url: 'https://api.discogs.com/users/TestSeller',
+      },
+      last_activity: '2024-04-15T18:43:39-07:00',
+      buyer: {
+        id: 67890,
+        username: 'TestBuyer',
+        resource_url: 'https://api.discogs.com/users/TestBuyer',
+      },
+      total: {
+        currency: 'USD' as const,
+        value: 26.98,
+      },
+    };
+
+    it('adds edit_marketplace_order tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(editMarketplaceOrderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'edit_marketplace_order',
+                description: 'Edit a marketplace order',
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    order_id: { type: 'number' },
+                    status: {
+                      type: 'string',
+                      enum: [
+                        'New Order',
+                        'Buyer Contacted',
+                        'Invoice Sent',
+                        'Payment Pending',
+                        'Payment Received',
+                        'Shipped',
+                        'Refund Sent',
+                        'Cancelled (Non-Paying Buyer)',
+                        'Cancelled (Item Unavailable)',
+                        "Cancelled (Per Buyer's Request)",
+                      ],
+                    },
+                    shipping: { type: 'number' },
+                  },
+                  required: ['order_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls edit_marketplace_order tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MarketplaceService.prototype, 'editOrder').mockResolvedValue(mockOrder);
+          server.addTool(editMarketplaceOrderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_marketplace_order',
+              arguments: { order_id: 123, status: 'Buyer Contacted', shipping: 5.0 },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockOrder) }],
+          });
+        },
+      });
+    });
+
+    it('handles edit_marketplace_order not found', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({ name: 'Test', version: '1.0.0' });
+
+          vi.spyOn(MarketplaceService.prototype, 'editOrder').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(editMarketplaceOrderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_marketplace_order',
+              arguments: { order_id: 123, status: 'Buyer Contacted' },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles edit_marketplace_order invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(editMarketplaceOrderTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'edit_marketplace_order',
               arguments: {},
             });
           } catch (error) {

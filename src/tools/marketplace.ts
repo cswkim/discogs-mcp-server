@@ -6,6 +6,7 @@ import {
   ListingIdParamSchema,
   ListingNewParamsSchema,
   ListingUpdateParamsSchema,
+  OrderEditParamsSchema,
   OrderIdParamSchema,
 } from '../types/marketplace.js';
 
@@ -86,6 +87,25 @@ export const getMarketplaceOrderTool: Tool<undefined, typeof OrderIdParamSchema>
 };
 
 /**
+ * MCP tool for editing a marketplace order
+ */
+export const editMarketplaceOrderTool: Tool<undefined, typeof OrderEditParamsSchema> = {
+  name: 'edit_marketplace_order',
+  description: 'Edit a marketplace order',
+  parameters: OrderEditParamsSchema,
+  execute: async (args) => {
+    try {
+      const marketplaceService = new MarketplaceService();
+      const order = await marketplaceService.editOrder(args);
+
+      return JSON.stringify(order);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for updating a marketplace listing
  */
 export const updateMarketplaceListingTool: Tool<undefined, typeof ListingUpdateParamsSchema> = {
@@ -110,4 +130,5 @@ export function registerMarketplaceTools(server: FastMCP): void {
   server.addTool(updateMarketplaceListingTool);
   server.addTool(deleteMarketplaceListingTool);
   server.addTool(getMarketplaceOrderTool);
+  server.addTool(editMarketplaceOrderTool);
 }

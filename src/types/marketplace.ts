@@ -151,6 +151,11 @@ export const OrderIdParamSchema = z.object({
   order_id: z.number(),
 });
 
+export const OrderEditParamsSchema = OrderIdParamSchema.extend({
+  status: OrderStatusSchema.optional(),
+  shipping: z.number().optional(),
+});
+
 export const OrderResponseSchema = z.object({
   id: z.number(),
   resource_url: urlOrEmptySchema(),
@@ -228,6 +233,11 @@ export type Listing = z.infer<typeof ListingSchema>;
  * The order ID parameter type
  */
 export type OrderIdParam = z.infer<typeof OrderIdParamSchema>;
+
+/**
+ * The order edit parameters type
+ */
+export type OrderEditParams = z.infer<typeof OrderEditParamsSchema>;
 
 /**
  * The order response type

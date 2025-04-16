@@ -8,6 +8,7 @@ import {
   ListingNewResponseSchema,
   ListingSchema,
   type ListingUpdateParams,
+  OrderEditParams,
   type OrderIdParam,
   type OrderResponse,
   OrderResponseSchema,
@@ -116,6 +117,33 @@ export class MarketplaceService extends DiscogsService {
       }
 
       throw new Error(`Failed to get order: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Edit a marketplace order
+   *
+   * @param params - Parameters containing the order ID and the order data
+   * @throws {DiscogsAuthenticationError} If the user is not authenticated
+   * @throws {DiscogsPermissionError} If the user does not have permission to edit the order
+   * @throws {DiscogsResourceNotFoundError} If the order cannot be found
+   * @throws {Error} If there's an unexpected error
+   */
+  async editOrder({ order_id, ...body }: OrderEditParams): Promise<OrderResponse> {
+    try {
+      const response = await this.request<OrderResponse>(`/orders/${order_id}`, {
+        method: 'POST',
+        body,
+      });
+
+      const validatedResponse = OrderResponseSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to edit order: ${String(error)}`);
     }
   }
 
