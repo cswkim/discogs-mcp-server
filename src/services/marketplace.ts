@@ -8,8 +8,11 @@ import {
   ListingNewResponseSchema,
   ListingSchema,
   type ListingUpdateParams,
+  OrderCreateMessageParams,
   type OrderEditParams,
   type OrderIdParam,
+  type OrderMessageResponse,
+  OrderMessageSchema,
   type OrderMessagesParams,
   type OrderMessagesResponse,
   OrderMessagesResponseSchema,
@@ -50,6 +53,37 @@ export class MarketplaceService extends DiscogsService {
       }
 
       throw new Error(`Failed to create listing: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Adds a new message to the order's message log
+   *
+   * @param params - Parameters containing the order ID and the message data
+   * @returns {OrderMessageResponse} The order message information
+   * @throws {DiscogsAuthenticationError} If the user is not authenticated
+   * @throws {DiscogsPermissionError} If the user does not have permission to create a message
+   * @throws {DiscogsResourceNotFoundError} If the order cannot be found
+   * @throws {Error} If there's an unexpected error
+   */
+  async createOrderMessage({
+    order_id,
+    ...body
+  }: OrderCreateMessageParams): Promise<OrderMessageResponse> {
+    try {
+      const response = await this.request<OrderMessageResponse>(`/orders/${order_id}/messages`, {
+        method: 'POST',
+        body,
+      });
+
+      const validatedResponse = OrderMessageSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to create order message: ${String(error)}`);
     }
   }
 

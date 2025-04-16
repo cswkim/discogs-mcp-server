@@ -5,6 +5,7 @@ import { formatDiscogsError } from '../../src/errors.js';
 import { MarketplaceService } from '../../src/services/marketplace.js';
 import {
   createMarketplaceListingTool,
+  createMarketplaceOrderMessageTool,
   deleteMarketplaceListingTool,
   editMarketplaceOrderTool,
   getMarketplaceListingTool,
@@ -1363,6 +1364,167 @@ describe('Marketplace Tools', () => {
               arguments: {
                 order_id: 123,
                 page: 0, // Invalid page number
+              },
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('create_marketplace_order_message', () => {
+    const mockOrderMessageResponse = {
+      timestamp: '2024-04-15T18:43:39-07:00',
+      message: 'Test message',
+      type: 'message',
+      order: {
+        id: 123,
+        resource_url: 'https://api.discogs.com/marketplace/orders/123',
+      },
+      subject: 'Test subject',
+      from: {
+        id: 12345,
+        resource_url: 'https://api.discogs.com/users/TestSeller',
+        username: 'TestSeller',
+        avatar_url: 'https://i.discogs.com/avatar.jpg',
+      },
+      status_id: 1,
+      actor: {
+        username: 'TestSeller',
+        resource_url: 'https://api.discogs.com/users/TestSeller',
+      },
+    };
+
+    it('adds create_marketplace_order_message tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(createMarketplaceOrderMessageTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'create_marketplace_order_message',
+                description: `Adds a new message to the order's message log`,
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    order_id: { type: 'number' },
+                    message: { type: 'string' },
+                    status: {
+                      type: 'string',
+                      enum: [
+                        'New Order',
+                        'Buyer Contacted',
+                        'Invoice Sent',
+                        'Payment Pending',
+                        'Payment Received',
+                        'Shipped',
+                        'Refund Sent',
+                        'Cancelled (Non-Paying Buyer)',
+                        'Cancelled (Item Unavailable)',
+                        "Cancelled (Per Buyer's Request)",
+                      ],
+                    },
+                  },
+                  required: ['order_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls create_marketplace_order_message tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MarketplaceService.prototype, 'createOrderMessage').mockResolvedValue(
+            mockOrderMessageResponse,
+          );
+          server.addTool(createMarketplaceOrderMessageTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'create_marketplace_order_message',
+              arguments: {
+                order_id: 123,
+                message: 'Test message',
+                status: 'Buyer Contacted',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockOrderMessageResponse) }],
+          });
+        },
+      });
+    });
+
+    it('handles create_marketplace_order_message not found', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({ name: 'Test', version: '1.0.0' });
+
+          vi.spyOn(MarketplaceService.prototype, 'createOrderMessage').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(createMarketplaceOrderMessageTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'create_marketplace_order_message',
+              arguments: {
+                order_id: 123,
+                message: 'Test message',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles create_marketplace_order_message invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(createMarketplaceOrderMessageTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'create_marketplace_order_message',
+              arguments: {
+                order_id: 123,
+                // Missing required message parameter
               },
             });
           } catch (error) {

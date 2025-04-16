@@ -732,4 +732,103 @@ describe('MarketplaceService', () => {
       );
     });
   });
+
+  describe('createOrderMessage', () => {
+    const mockOrderMessageResponse = {
+      timestamp: '2024-04-15T18:43:39-07:00',
+      message: 'Test message',
+      type: 'message',
+      order: {
+        id: 123,
+        resource_url: 'https://api.discogs.com/marketplace/orders/123',
+      },
+      subject: 'Test subject',
+      from: {
+        id: 12345,
+        resource_url: 'https://api.discogs.com/users/TestSeller',
+        username: 'TestSeller',
+        avatar_url: 'https://i.discogs.com/avatar.jpg',
+      },
+      status_id: 1,
+      actor: {
+        username: 'TestSeller',
+        resource_url: 'https://api.discogs.com/users/TestSeller',
+      },
+    };
+
+    it('should create an order message', async () => {
+      (service as any).request.mockResolvedValueOnce(mockOrderMessageResponse);
+
+      const message = await service.createOrderMessage({
+        order_id: 123,
+        message: 'Test message',
+        status: 'Buyer Contacted',
+      });
+
+      expect(message).toEqual(mockOrderMessageResponse);
+      expect(service['request']).toHaveBeenCalledWith('/orders/123/messages', {
+        method: 'POST',
+        body: {
+          message: 'Test message',
+          status: 'Buyer Contacted',
+        },
+      });
+    });
+
+    it('should create an order message with only required parameters', async () => {
+      (service as any).request.mockResolvedValueOnce(mockOrderMessageResponse);
+
+      const message = await service.createOrderMessage({
+        order_id: 123,
+        message: 'Test message',
+      });
+
+      expect(message).toEqual(mockOrderMessageResponse);
+      expect(service['request']).toHaveBeenCalledWith('/orders/123/messages', {
+        method: 'POST',
+        body: {
+          message: 'Test message',
+        },
+      });
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.createOrderMessage({
+          order_id: 123,
+          message: 'Test message',
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.createOrderMessage({
+          order_id: 123,
+          message: 'Test message',
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.createOrderMessage({
+          order_id: 999,
+          message: 'Test message',
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+  });
 });

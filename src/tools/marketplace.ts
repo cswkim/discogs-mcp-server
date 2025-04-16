@@ -6,6 +6,7 @@ import {
   ListingIdParamSchema,
   ListingNewParamsSchema,
   ListingUpdateParamsSchema,
+  OrderCreateMessageParamsSchema,
   OrderEditParamsSchema,
   OrderIdParamSchema,
   OrderMessagesParamsSchema,
@@ -25,6 +26,28 @@ export const createMarketplaceListingTool: Tool<undefined, typeof ListingNewPara
       const listing = await marketplaceService.createListing(args);
 
       return JSON.stringify(listing);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for creating a marketplace order message
+ */
+export const createMarketplaceOrderMessageTool: Tool<
+  undefined,
+  typeof OrderCreateMessageParamsSchema
+> = {
+  name: 'create_marketplace_order_message',
+  description: `Adds a new message to the order's message log`,
+  parameters: OrderCreateMessageParamsSchema,
+  execute: async (args) => {
+    try {
+      const marketplaceService = new MarketplaceService();
+      const message = await marketplaceService.createOrderMessage(args);
+
+      return JSON.stringify(message);
     } catch (error) {
       throw formatDiscogsError(error);
     }
@@ -173,4 +196,5 @@ export function registerMarketplaceTools(server: FastMCP): void {
   server.addTool(editMarketplaceOrderTool);
   server.addTool(getMarketplaceOrdersTool);
   server.addTool(getMarketplaceOrderMessagesTool);
+  server.addTool(createMarketplaceOrderMessageTool);
 }

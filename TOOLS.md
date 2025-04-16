@@ -417,6 +417,21 @@
   - Status information
   - Actor information
 
+#### `create_marketplace_order_message`
+**Description**: Adds a new message to the order's message log
+
+**Inputs**:
+- `order_id` (number, required): The ID of the order to add a message to
+- `message` (string, optional): The message content
+- `status` (string, optional): New status of the order (New Order, Buyer Contacted, Invoice Sent, Payment Pending, Payment Received, Shipped, Refund Sent, Cancelled (Non-Paying Buyer), Cancelled (Item Unavailable), Cancelled (Per Buyer's Request))
+
+**Returns**: Created message information as JSON string, including:
+- Message details (timestamp, content, type, subject)
+- Order reference information
+- Sender information (ID, username, avatar)
+- Status information
+- Actor information
+
 ## User Lists Tools
 
 #### `get_user_lists`

@@ -75,7 +75,7 @@ export const OriginalPriceSchema = z.object({
   value: z.number(),
 });
 
-const OrderMessageSchema = z.object({
+export const OrderMessageSchema = z.object({
   timestamp: z.string().optional(),
   message: z.string(),
   type: z.string().optional(),
@@ -95,7 +95,7 @@ const OrderMessageSchema = z.object({
     .optional(),
   from: z
     .object({
-      id: z.number(),
+      id: z.number().optional(),
       resource_url: urlOrEmptySchema(),
       username: z.string(),
       avatar_url: urlOrEmptySchema().optional(),
@@ -191,6 +191,11 @@ export const ListingUpdateParamsSchema = ListingIdParamSchema.merge(ListingNewPa
 
 export const OrderIdParamSchema = z.object({
   order_id: z.number(),
+});
+
+export const OrderCreateMessageParamsSchema = OrderIdParamSchema.extend({
+  message: z.string().optional(),
+  status: OrderStatusSchema.optional(),
 });
 
 export const OrderEditParamsSchema = OrderIdParamSchema.extend({
@@ -292,6 +297,11 @@ export type Listing = z.infer<typeof ListingSchema>;
 export type OrderIdParam = z.infer<typeof OrderIdParamSchema>;
 
 /**
+ * The order create message parameters type
+ */
+export type OrderCreateMessageParams = z.infer<typeof OrderCreateMessageParamsSchema>;
+
+/**
  * The order edit parameters type
  */
 export type OrderEditParams = z.infer<typeof OrderEditParamsSchema>;
@@ -300,6 +310,11 @@ export type OrderEditParams = z.infer<typeof OrderEditParamsSchema>;
  * The order messages parameters type
  */
 export type OrderMessagesParams = z.infer<typeof OrderMessagesParamsSchema>;
+
+/**
+ * The order message type
+ */
+export type OrderMessageResponse = z.infer<typeof OrderMessageSchema>;
 
 /**
  * The order messages response type
