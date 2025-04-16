@@ -186,7 +186,6 @@ Any changes to local code will require Claude to be restarted to take effect. Al
 
 - OAuth support
 - Missing tools:
-  - Marketplace tools for creating/editing/deleting listings. Retrieving orders, etc.
   - Inventory management - uploading/exporting, etc.
   - Getting user submissions
   - Getting user contributions

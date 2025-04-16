@@ -293,6 +293,157 @@
 
 **Returns**: Rating information as JSON string
 
+## Marketplace Tools
+
+#### `get_marketplace_listing`
+**Description**: Get a listing from the marketplace
+
+**Inputs**:
+- `listing_id` (integer, required): The ID of the listing to get
+- `curr_abbr` (string, optional): Currency code (USD, GBP, EUR, CAD, AUD, JPY, CHF, MXN, BRL, NZD, SEK, ZAR)
+
+**Returns**: Listing information as JSON string
+
+#### `create_marketplace_listing`
+**Description**: Create a new marketplace listing
+
+**Inputs**:
+- `release_id` (integer, required): The ID of the release to list
+- `condition` (string, required): Condition of the item (Mint (M), Near Mint (NM or M-), Very Good Plus (VG+), Very Good (VG), Good Plus (G+), Good (G), Fair (F), Poor (P))
+- `price` (number, required): Price of the item
+- `status` (string, required): Status of the listing (For Sale, Expired, Draft)
+- `sleeve_condition` (string, optional): Condition of the sleeve (Mint (M), Near Mint (NM or M-), Very Good Plus (VG+), Very Good (VG), Good Plus (G+), Good (G), Fair (F), Poor (P), Generic, Not Graded, No Cover)
+- `format_quantity` (number, optional): Number of items
+- `comments` (string, optional): Comments about the listing
+- `allow_offers` (boolean, optional): Whether to allow offers
+- `external_id` (string, optional): External ID for the listing
+- `location` (string, optional): Location of the item
+- `weight` (number, optional): Weight of the item
+
+**Returns**: Created listing information as JSON string
+
+#### `update_marketplace_listing`
+**Description**: Update a marketplace listing
+
+**Inputs**:
+- `listing_id` (integer, required): The ID of the listing to update
+- `release_id` (integer, required): The ID of the release
+- `condition` (string, required): Condition of the item (Mint (M), Near Mint (NM or M-), Very Good Plus (VG+), Very Good (VG), Good Plus (G+), Good (G), Fair (F), Poor (P))
+- `price` (number, required): Price of the item
+- `status` (string, required): Status of the listing (For Sale, Expired, Draft)
+- `sleeve_condition` (string, optional): Condition of the sleeve (Mint (M), Near Mint (NM or M-), Very Good Plus (VG+), Very Good (VG), Good Plus (G+), Good (G), Fair (F), Poor (P), Generic, Not Graded, No Cover)
+- `format_quantity` (number, optional): Number of items
+- `comments` (string, optional): Comments about the listing
+- `allow_offers` (boolean, optional): Whether to allow offers
+- `external_id` (string, optional): External ID for the listing
+- `location` (string, optional): Location of the item
+- `weight` (number, optional): Weight of the item
+
+**Returns**: Success message as string
+
+#### `delete_marketplace_listing`
+**Description**: Delete a marketplace listing
+
+**Inputs**:
+- `listing_id` (integer, required): The ID of the listing to delete
+
+**Returns**: Success message as string
+
+#### `get_marketplace_order`
+**Description**: Get a marketplace order
+
+**Inputs**:
+- `order_id` (number, required): The ID of the order to get
+
+**Returns**: Order information as JSON string, including:
+- Order details (ID, status, creation date)
+- Items with release information and pricing
+- Shipping information
+- Seller and buyer details
+- Total amount and fees
+
+#### `edit_marketplace_order`
+**Description**: Edit a marketplace order
+
+**Inputs**:
+- `order_id` (number, required): The ID of the order to edit
+- `status` (string, optional): New status of the order (New Order, Buyer Contacted, Invoice Sent, Payment Pending, Payment Received, Shipped, Refund Sent, Cancelled (Non-Paying Buyer), Cancelled (Item Unavailable), Cancelled (Per Buyer's Request))
+- `shipping` (number, optional): New shipping cost
+
+**Returns**: Updated order information as JSON string, including:
+- Updated order details
+- Items with release information and pricing
+- Shipping information
+- Seller and buyer details
+- Total amount and fees
+
+#### `get_marketplace_orders`
+**Description**: Get a list of marketplace orders
+
+**Inputs**:
+- `status` (string, optional): Filter by order status (New Order, Buyer Contacted, Invoice Sent, Payment Pending, Payment Received, Shipped, Refund Sent, Cancelled (Non-Paying Buyer), Cancelled (Item Unavailable), Cancelled (Per Buyer's Request))
+- `created_after` (string, optional): Filter orders created after this date (YYYY-MM-DD)
+- `created_before` (string, optional): Filter orders created before this date (YYYY-MM-DD)
+- `archived` (boolean, optional): Filter by archived status
+- `page` (integer, optional): Page number (minimum: 1)
+- `per_page` (integer, optional): Items per page (minimum: 1, maximum: 100)
+- `sort` (string, optional): Sort field (id, buyer, created, status, last_activity)
+- `sort_order` (string, optional): Sort direction (asc, desc)
+
+**Returns**: List of orders as JSON string, including:
+- Pagination information (page, pages, items count)
+- List of orders, each containing:
+  - Order details (ID, status, creation date)
+  - Items with release information and pricing
+  - Shipping information
+  - Seller and buyer details
+  - Total amount and fees
+
+#### `get_marketplace_order_messages`
+**Description**: Get a list of an order's messages
+
+**Inputs**:
+- `order_id` (number, required): The ID of the order to get messages for
+- `page` (integer, optional): Page number (minimum: 1)
+- `per_page` (integer, optional): Items per page (minimum: 1, maximum: 100)
+- `sort_order` (string, optional): Sort direction (asc, desc)
+
+**Returns**: List of messages as JSON string, including:
+- Pagination information (page, pages, items count)
+- List of messages, each containing:
+  - Message details (timestamp, content, type, subject)
+  - Order reference information
+  - Sender information (ID, username, avatar)
+  - Status information
+  - Actor information
+
+#### `create_marketplace_order_message`
+**Description**: Adds a new message to the order's message log
+
+**Inputs**:
+- `order_id` (number, required): The ID of the order to add a message to
+- `message` (string, optional): The message content
+- `status` (string, optional): New status of the order (New Order, Buyer Contacted, Invoice Sent, Payment Pending, Payment Received, Shipped, Refund Sent, Cancelled (Non-Paying Buyer), Cancelled (Item Unavailable), Cancelled (Per Buyer's Request))
+
+**Returns**: Created message information as JSON string, including:
+- Message details (timestamp, content, type, subject)
+- Order reference information
+- Sender information (ID, username, avatar)
+- Status information
+- Actor information
+
+#### `get_marketplace_release_stats`
+**Description**: Retrieve marketplace statistics for the provided Release ID
+
+**Inputs**:
+- `release_id` (number, required, minimum: 1): The ID of the release to get stats for
+- `curr_abbr` (string, optional): Currency code (USD, GBP, EUR, CAD, AUD, JPY, CHF, MXN, BRL, NZD, SEK, ZAR)
+
+**Returns**: Release statistics as JSON string, including:
+- `lowest_price`: The lowest price for the release (with currency and value)
+- `num_for_sale`: The number of items for sale
+- `blocked_from_sale`: Whether the release is blocked from sale
+
 ## User Lists Tools
 
 #### `get_user_lists`

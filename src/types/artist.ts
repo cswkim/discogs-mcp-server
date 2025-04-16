@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { urlOrEmptySchema } from '../utils.js';
-import { PaginatedResponseSchema, QueryParamsSchema } from './common.js';
+import { ImageSchema, PaginatedResponseSchema, QueryParamsSchema } from './common.js';
 
 /**
  * Schema for an artist ID parameter
@@ -38,18 +38,7 @@ export const ArtistSchema = z.object({
     )
     .optional(),
   data_quality: z.string().optional(),
-  images: z
-    .array(
-      z.object({
-        height: z.number().int().optional(),
-        resource_url: urlOrEmptySchema(),
-        type: z.string().optional(),
-        uri: urlOrEmptySchema(),
-        uri150: urlOrEmptySchema().optional(),
-        width: z.number().int().optional(),
-      }),
-    )
-    .optional(),
+  images: z.array(ImageSchema).optional(),
   members: z
     .array(
       z.object({

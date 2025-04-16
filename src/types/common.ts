@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { urlOrEmptySchema } from '../utils.js';
 
 /**
  * Schema for currency codes supported by Discogs
@@ -17,6 +18,15 @@ export const CurrencyCodeSchema = z.enum([
   'SEK', // Swedish Krona
   'ZAR', // South African Rand
 ]);
+
+export const ImageSchema = z.object({
+  width: z.number().int().optional(),
+  height: z.number().int().optional(),
+  resource_url: urlOrEmptySchema(),
+  type: z.string().optional(),
+  uri: urlOrEmptySchema(),
+  uri150: urlOrEmptySchema().optional(),
+});
 
 /**
  * Schema for a paginated response
