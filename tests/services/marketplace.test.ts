@@ -507,4 +507,128 @@ describe('MarketplaceService', () => {
       ).rejects.toThrow('DiscogsResourceNotFoundError');
     });
   });
+
+  describe('getOrders', () => {
+    const mockOrdersResponse = {
+      pagination: {
+        page: 1,
+        pages: 1,
+        per_page: 50,
+        items: 1,
+        urls: {
+          last: 'https://api.discogs.com/marketplace/orders?page=1&per_page=50',
+          next: 'https://api.discogs.com/marketplace/orders?page=1&per_page=50',
+        },
+      },
+      orders: [
+        {
+          id: 123,
+          resource_url: 'https://api.discogs.com/marketplace/orders/123',
+          messages_url: 'https://api.discogs.com/marketplace/orders/123/messages',
+          uri: 'https://www.discogs.com/sell/order/123',
+          status: 'New Order' as const,
+          next_status: ['Buyer Contacted' as const, 'Invoice Sent' as const],
+          fee: {
+            currency: 'USD' as const,
+            value: 1.99,
+          },
+          created: '2024-04-15T18:43:39-07:00',
+          items: [
+            {
+              release: {
+                id: 12345,
+                description: 'Test Release - LP, Album',
+              },
+              price: {
+                currency: 'USD' as const,
+                value: 19.99,
+              },
+              media_condition: 'Very Good (VG)' as const,
+              sleeve_condition: 'Very Good (VG)' as const,
+              id: 1,
+            },
+          ],
+          shipping: {
+            currency: 'USD' as const,
+            method: 'Standard',
+            value: 5.0,
+          },
+          shipping_address: '123 Test St, Test City, Test Country',
+          address_instructions: 'Leave at front door',
+          archived: false,
+          seller: {
+            id: 12345,
+            username: 'TestSeller',
+            resource_url: 'https://api.discogs.com/users/TestSeller',
+          },
+          last_activity: '2024-04-15T18:43:39-07:00',
+          buyer: {
+            id: 67890,
+            username: 'TestBuyer',
+            resource_url: 'https://api.discogs.com/users/TestBuyer',
+          },
+          total: {
+            currency: 'USD' as const,
+            value: 26.98,
+          },
+        },
+      ],
+    };
+
+    it('should get orders', async () => {
+      (service as any).request.mockResolvedValueOnce(mockOrdersResponse);
+
+      const orders = await service.getOrders({});
+
+      expect(orders).toEqual(mockOrdersResponse);
+      expect(service['request']).toHaveBeenCalledWith('/orders', {
+        params: {},
+      });
+    });
+
+    it('should get orders with filters', async () => {
+      (service as any).request.mockResolvedValueOnce(mockOrdersResponse);
+
+      const orders = await service.getOrders({
+        status: 'New Order',
+        created_after: '2024-01-01',
+        created_before: '2024-12-31',
+        archived: false,
+        page: 1,
+        per_page: 50,
+        sort: 'created',
+        sort_order: 'desc',
+      });
+
+      expect(orders).toEqual(mockOrdersResponse);
+      expect(service['request']).toHaveBeenCalledWith('/orders', {
+        params: {
+          status: 'New Order',
+          created_after: '2024-01-01',
+          created_before: '2024-12-31',
+          archived: false,
+          page: 1,
+          per_page: 50,
+          sort: 'created',
+          sort_order: 'desc',
+        },
+      });
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.getOrders({})).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.getOrders({})).rejects.toThrow('DiscogsPermissionError');
+    });
+  });
 });

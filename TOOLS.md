@@ -377,6 +377,28 @@
 - Seller and buyer details
 - Total amount and fees
 
+#### `get_marketplace_orders`
+**Description**: Get a list of marketplace orders
+
+**Inputs**:
+- `status` (string, optional): Filter by order status (New Order, Buyer Contacted, Invoice Sent, Payment Pending, Payment Received, Shipped, Refund Sent, Cancelled (Non-Paying Buyer), Cancelled (Item Unavailable), Cancelled (Per Buyer's Request))
+- `created_after` (string, optional): Filter orders created after this date (YYYY-MM-DD)
+- `created_before` (string, optional): Filter orders created before this date (YYYY-MM-DD)
+- `archived` (boolean, optional): Filter by archived status
+- `page` (integer, optional): Page number (minimum: 1)
+- `per_page` (integer, optional): Items per page (minimum: 1, maximum: 100)
+- `sort` (string, optional): Sort field (id, buyer, created, status, last_activity)
+- `sort_order` (string, optional): Sort direction (asc, desc)
+
+**Returns**: List of orders as JSON string, including:
+- Pagination information (page, pages, items count)
+- List of orders, each containing:
+  - Order details (ID, status, creation date)
+  - Items with release information and pricing
+  - Shipping information
+  - Seller and buyer details
+  - Total amount and fees
+
 ## User Lists Tools
 
 #### `get_user_lists`

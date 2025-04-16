@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { urlOrEmptySchema } from '../utils.js';
-import { CurrencyCodeSchema, ImageSchema } from './common.js';
+import {
+  CurrencyCodeSchema,
+  ImageSchema,
+  PaginatedResponseSchema,
+  QueryParamsSchema,
+} from './common.js';
 
 const ConditionSchema = z.enum([
   'Mint (M)',
@@ -156,6 +161,15 @@ export const OrderEditParamsSchema = OrderIdParamSchema.extend({
   shipping: z.number().optional(),
 });
 
+export const OrdersParamsSchema = z
+  .object({
+    status: OrderStatusSchema.optional(),
+    created_after: z.string().optional(),
+    created_before: z.string().optional(),
+    archived: z.boolean().optional(),
+  })
+  .merge(QueryParamsSchema(['id', 'buyer', 'created', 'status', 'last_activity'] as const));
+
 export const OrderResponseSchema = z.object({
   id: z.number(),
   resource_url: urlOrEmptySchema(),
@@ -199,6 +213,8 @@ export const OrderResponseSchema = z.object({
   total: PriceSchema,
 });
 
+export const OrdersResponseSchema = PaginatedResponseSchema(OrderResponseSchema, 'orders');
+
 /**
  * The listing ID parameter type
  */
@@ -240,6 +256,16 @@ export type OrderIdParam = z.infer<typeof OrderIdParamSchema>;
 export type OrderEditParams = z.infer<typeof OrderEditParamsSchema>;
 
 /**
+ * The orders parameters type
+ */
+export type OrdersParams = z.infer<typeof OrdersParamsSchema>;
+
+/**
  * The order response type
  */
 export type OrderResponse = z.infer<typeof OrderResponseSchema>;
+
+/**
+ * The orders response type
+ */
+export type OrdersResponse = z.infer<typeof OrdersResponseSchema>;

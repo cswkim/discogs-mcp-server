@@ -12,6 +12,9 @@ import {
   type OrderIdParam,
   type OrderResponse,
   OrderResponseSchema,
+  OrdersParams,
+  OrdersResponse,
+  OrdersResponseSchema,
 } from '../types/marketplace.js';
 import { DiscogsService } from './index.js';
 
@@ -117,6 +120,32 @@ export class MarketplaceService extends DiscogsService {
       }
 
       throw new Error(`Failed to get order: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Get a list of marketplace orders
+   *
+   * @param params - OrdersParams
+   * @throws {DiscogsAuthenticationError} If the user is not authenticated
+   * @throws {DiscogsPermissionError} If the user does not have permission to view the orders
+   * @throws {Error} If there's an unexpected error
+   * @returns {OrdersResponse} The order information
+   */
+  async getOrders(params: OrdersParams): Promise<OrdersResponse> {
+    try {
+      const response = await this.request<OrdersResponse>(`/orders`, {
+        params,
+      });
+
+      const validatedResponse = OrdersResponseSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to get orders: ${String(error)}`);
     }
   }
 
