@@ -432,6 +432,18 @@
 - Status information
 - Actor information
 
+#### `get_marketplace_release_stats`
+**Description**: Retrieve marketplace statistics for the provided Release ID
+
+**Inputs**:
+- `release_id` (number, required, minimum: 1): The ID of the release to get stats for
+- `curr_abbr` (string, optional): Currency code (USD, GBP, EUR, CAD, AUD, JPY, CHF, MXN, BRL, NZD, SEK, ZAR)
+
+**Returns**: Release statistics as JSON string, including:
+- `lowest_price`: The lowest price for the release (with currency and value)
+- `num_for_sale`: The number of items for sale
+- `blocked_from_sale`: Whether the release is blocked from sale
+
 ## User Lists Tools
 
 #### `get_user_lists`

@@ -12,6 +12,7 @@ import {
   OrderMessagesParamsSchema,
   OrdersParamsSchema,
 } from '../types/marketplace.js';
+import { ReleaseParamsSchema } from '../types/release.js';
 
 /**
  * MCP tool for creating a marketplace listing
@@ -150,6 +151,25 @@ export const getMarketplaceOrderMessagesTool: Tool<undefined, typeof OrderMessag
 };
 
 /**
+ * MCP tool for getting a release stats
+ */
+export const getMarketplaceReleaseStatsTool: Tool<undefined, typeof ReleaseParamsSchema> = {
+  name: 'get_marketplace_release_stats',
+  description: 'Retrieve marketplace statistics for the provided Release ID',
+  parameters: ReleaseParamsSchema,
+  execute: async (args) => {
+    try {
+      const marketplaceService = new MarketplaceService();
+      const stats = await marketplaceService.getReleaseStats(args);
+
+      return JSON.stringify(stats);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for editing a marketplace order
  */
 export const editMarketplaceOrderTool: Tool<undefined, typeof OrderEditParamsSchema> = {
@@ -197,4 +217,5 @@ export function registerMarketplaceTools(server: FastMCP): void {
   server.addTool(getMarketplaceOrdersTool);
   server.addTool(getMarketplaceOrderMessagesTool);
   server.addTool(createMarketplaceOrderMessageTool);
+  server.addTool(getMarketplaceReleaseStatsTool);
 }

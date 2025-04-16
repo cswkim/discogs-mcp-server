@@ -261,6 +261,12 @@ export const OrderResponseSchema = z.object({
 
 export const OrdersResponseSchema = PaginatedResponseSchema(OrderResponseSchema, 'orders');
 
+export const ReleaseStatsResponseSchema = z.object({
+  lowest_price: PriceSchema.nullable().optional(),
+  num_for_sale: z.number().nullable().optional(),
+  blocked_from_sale: z.boolean(),
+});
+
 /**
  * The listing ID parameter type
  */
@@ -335,3 +341,8 @@ export type OrderResponse = z.infer<typeof OrderResponseSchema>;
  * The orders response type
  */
 export type OrdersResponse = z.infer<typeof OrdersResponseSchema>;
+
+/**
+ * The release stats response type
+ */
+export type ReleaseStatsResponse = z.infer<typeof ReleaseStatsResponseSchema>;

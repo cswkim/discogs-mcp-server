@@ -831,4 +831,47 @@ describe('MarketplaceService', () => {
       ).rejects.toThrow('DiscogsResourceNotFoundError');
     });
   });
+
+  describe('getReleaseStats', () => {
+    const mockReleaseStatsResponse = {
+      lowest_price: {
+        currency: 'USD',
+        value: 19.99,
+      },
+      num_for_sale: 5,
+      blocked_from_sale: false,
+    };
+
+    it('should get release stats', async () => {
+      (service as any).request.mockResolvedValueOnce(mockReleaseStatsResponse);
+
+      const stats = await service.getReleaseStats({ release_id: 123 });
+
+      expect(stats).toEqual(mockReleaseStatsResponse);
+      expect(service['request']).toHaveBeenCalledWith('/stats/123', {
+        params: {},
+      });
+    });
+
+    it('should get release stats with currency parameter', async () => {
+      (service as any).request.mockResolvedValueOnce(mockReleaseStatsResponse);
+
+      const stats = await service.getReleaseStats({ release_id: 123, curr_abbr: 'USD' });
+
+      expect(stats).toEqual(mockReleaseStatsResponse);
+      expect(service['request']).toHaveBeenCalledWith('/stats/123', {
+        params: { curr_abbr: 'USD' },
+      });
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.getReleaseStats({ release_id: 999 })).rejects.toThrow(
+        'DiscogsResourceNotFoundError',
+      );
+    });
+  });
 });

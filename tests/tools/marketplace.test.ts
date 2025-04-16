@@ -12,6 +12,7 @@ import {
   getMarketplaceOrderMessagesTool,
   getMarketplaceOrdersTool,
   getMarketplaceOrderTool,
+  getMarketplaceReleaseStatsTool,
   updateMarketplaceListingTool,
 } from '../../src/tools/marketplace.js';
 import { CurrencyCodeSchema } from '../../src/types/common.js';
@@ -1525,6 +1526,153 @@ describe('Marketplace Tools', () => {
               arguments: {
                 order_id: 123,
                 // Missing required message parameter
+              },
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('get_marketplace_release_stats', () => {
+    const mockReleaseStatsResponse = {
+      lowest_price: {
+        currency: 'USD' as const,
+        value: 19.99,
+      },
+      num_for_sale: 5,
+      blocked_from_sale: false,
+    };
+
+    it('adds get_marketplace_release_stats tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getMarketplaceReleaseStatsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_marketplace_release_stats',
+                description: 'Retrieve marketplace statistics for the provided Release ID',
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    release_id: { type: 'number', minimum: 1 },
+                    curr_abbr: {
+                      type: 'string',
+                      enum: [
+                        'USD',
+                        'GBP',
+                        'EUR',
+                        'CAD',
+                        'AUD',
+                        'JPY',
+                        'CHF',
+                        'MXN',
+                        'BRL',
+                        'NZD',
+                        'SEK',
+                        'ZAR',
+                      ],
+                    },
+                  },
+                  required: ['release_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_marketplace_release_stats tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MarketplaceService.prototype, 'getReleaseStats').mockResolvedValue(
+            mockReleaseStatsResponse,
+          );
+          server.addTool(getMarketplaceReleaseStatsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_marketplace_release_stats',
+              arguments: {
+                release_id: 123,
+                curr_abbr: 'USD',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockReleaseStatsResponse) }],
+          });
+        },
+      });
+    });
+
+    it('handles get_marketplace_release_stats not found', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({ name: 'Test', version: '1.0.0' });
+
+          vi.spyOn(MarketplaceService.prototype, 'getReleaseStats').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getMarketplaceReleaseStatsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_marketplace_release_stats',
+              arguments: {
+                release_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_marketplace_release_stats invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getMarketplaceReleaseStatsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_marketplace_release_stats',
+              arguments: {
+                // Missing required release_id parameter
+                curr_abbr: 'USD',
               },
             });
           } catch (error) {

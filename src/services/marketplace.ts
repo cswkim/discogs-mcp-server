@@ -21,7 +21,10 @@ import {
   type OrdersParams,
   type OrdersResponse,
   OrdersResponseSchema,
+  type ReleaseStatsResponse,
+  ReleaseStatsResponseSchema,
 } from '../types/marketplace.js';
+import type { ReleaseParams } from '../types/release.js';
 import { DiscogsService } from './index.js';
 
 export class MarketplaceService extends DiscogsService {
@@ -213,6 +216,31 @@ export class MarketplaceService extends DiscogsService {
       }
 
       throw new Error(`Failed to get orders: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Retrieve marketplace statistics for the provided Release ID
+   *
+   * @param params - Parameters containing the release ID and optional currency code
+   * @throws {DiscogsResourceNotFoundError} If the release cannot be found
+   * @throws {Error} If there's an unexpected error
+   * @returns {ReleaseStatsResponse} The release stats
+   */
+  async getReleaseStats({ release_id, ...options }: ReleaseParams): Promise<ReleaseStatsResponse> {
+    try {
+      const response = await this.request<ReleaseStatsResponse>(`/stats/${release_id}`, {
+        params: options,
+      });
+
+      const validatedResponse = ReleaseStatsResponseSchema.parse(response);
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to get release stats: ${String(error)}`);
     }
   }
 
