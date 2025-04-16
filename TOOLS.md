@@ -293,6 +293,62 @@
 
 **Returns**: Rating information as JSON string
 
+## Marketplace Tools
+
+#### `get_marketplace_listing`
+**Description**: Get a listing from the marketplace
+
+**Inputs**:
+- `listing_id` (integer, required): The ID of the listing to get
+- `curr_abbr` (string, optional): Currency code (USD, GBP, EUR, CAD, AUD, JPY, CHF, MXN, BRL, NZD, SEK, ZAR)
+
+**Returns**: Listing information as JSON string
+
+#### `create_marketplace_listing`
+**Description**: Create a new marketplace listing
+
+**Inputs**:
+- `release_id` (integer, required): The ID of the release to list
+- `condition` (string, required): Condition of the item (Mint (M), Near Mint (NM or M-), Very Good Plus (VG+), Very Good (VG), Good Plus (G+), Good (G), Fair (F), Poor (P))
+- `price` (number, required): Price of the item
+- `status` (string, required): Status of the listing (For Sale, Expired, Draft)
+- `sleeve_condition` (string, optional): Condition of the sleeve (Mint (M), Near Mint (NM or M-), Very Good Plus (VG+), Very Good (VG), Good Plus (G+), Good (G), Fair (F), Poor (P), Generic, Not Graded, No Cover)
+- `format_quantity` (number, optional): Number of items
+- `comments` (string, optional): Comments about the listing
+- `allow_offers` (boolean, optional): Whether to allow offers
+- `external_id` (string, optional): External ID for the listing
+- `location` (string, optional): Location of the item
+- `weight` (number, optional): Weight of the item
+
+**Returns**: Created listing information as JSON string
+
+#### `update_marketplace_listing`
+**Description**: Update a marketplace listing
+
+**Inputs**:
+- `listing_id` (integer, required): The ID of the listing to update
+- `release_id` (integer, required): The ID of the release
+- `condition` (string, required): Condition of the item (Mint (M), Near Mint (NM or M-), Very Good Plus (VG+), Very Good (VG), Good Plus (G+), Good (G), Fair (F), Poor (P))
+- `price` (number, required): Price of the item
+- `status` (string, required): Status of the listing (For Sale, Expired, Draft)
+- `sleeve_condition` (string, optional): Condition of the sleeve (Mint (M), Near Mint (NM or M-), Very Good Plus (VG+), Very Good (VG), Good Plus (G+), Good (G), Fair (F), Poor (P), Generic, Not Graded, No Cover)
+- `format_quantity` (number, optional): Number of items
+- `comments` (string, optional): Comments about the listing
+- `allow_offers` (boolean, optional): Whether to allow offers
+- `external_id` (string, optional): External ID for the listing
+- `location` (string, optional): Location of the item
+- `weight` (number, optional): Weight of the item
+
+**Returns**: Success message as string
+
+#### `delete_marketplace_listing`
+**Description**: Delete a marketplace listing
+
+**Inputs**:
+- `listing_id` (integer, required): The ID of the listing to delete
+
+**Returns**: Success message as string
+
 ## User Lists Tools
 
 #### `get_user_lists`
