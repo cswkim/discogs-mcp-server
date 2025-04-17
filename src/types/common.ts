@@ -71,6 +71,11 @@ export const QueryParamsSchema = <T extends readonly [string, ...string[]]>(
   });
 
 /**
+ * Schema for status values
+ */
+export const StatusSchema = z.enum(['Accepted', 'Draft', 'Deleted', 'Rejected']);
+
+/**
  * Schema for a username input
  */
 export const UsernameInputSchema = z.object({
