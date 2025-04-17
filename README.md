@@ -190,7 +190,6 @@ Any changes to local code will require Claude to be restarted to take effect. Al
   - Getting user submissions
   - Getting user contributions
   - Editing collection custom fields
-  - Getting versions from a master release
 
 ## License
 
