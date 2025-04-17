@@ -29,6 +29,30 @@ export const ImageSchema = z.object({
 });
 
 /**
+ * Schema for a filtered response
+ */
+export const FilteredResponseSchema = z.object({
+  filters: z.object({
+    applied: z.record(z.array(z.any())).default({}),
+    available: z.record(z.record(z.number().int())).default({}),
+  }),
+  filter_facets: z.array(
+    z.object({
+      title: z.string(),
+      id: z.string(),
+      values: z.array(
+        z.object({
+          title: z.string(),
+          value: z.string(),
+          count: z.number().int(),
+        }),
+      ),
+      allows_multiple_values: z.boolean(),
+    }),
+  ),
+});
+
+/**
  * Schema for a paginated response
  * @param itemSchema The schema for the items in the array
  * @param resultsFieldName The name of the field containing the array of items
