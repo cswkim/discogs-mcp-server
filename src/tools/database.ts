@@ -8,7 +8,7 @@ import { ReleaseService } from '../services/release.js';
 import { ArtistIdParamSchema, ArtistReleasesParamsSchema } from '../types/artist.js';
 import { SearchParamsSchema } from '../types/database.js';
 import { LabelIdParamSchema, LabelReleasesParamsSchema } from '../types/label.js';
-import { MasterReleaseIdParamSchema } from '../types/master.js';
+import { MasterReleaseIdParamSchema, MasterReleaseVersionsParamSchema } from '../types/master.js';
 import {
   ReleaseIdParamSchema,
   ReleaseParamsSchema,
@@ -150,6 +150,28 @@ export const getMasterReleaseTool: Tool<undefined, typeof MasterReleaseIdParamSc
 };
 
 /**
+ * MCP tool for fetching Discogs master release versions
+ */
+export const getMasterReleaseVersionsTool: Tool<
+  undefined,
+  typeof MasterReleaseVersionsParamSchema
+> = {
+  name: 'get_master_release_versions',
+  description: 'Retrieves a list of all Releases that are versions of this master',
+  parameters: MasterReleaseVersionsParamSchema,
+  execute: async (args) => {
+    try {
+      const masterReleaseService = new MasterReleaseService();
+      const masterReleaseVersions = await masterReleaseService.getVersions(args);
+
+      return JSON.stringify(masterReleaseVersions);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for fetching a Discogs release
  */
 export const getReleaseTool: Tool<undefined, typeof ReleaseParamsSchema> = {
@@ -232,6 +254,7 @@ export function registerDatabaseTools(server: FastMCP): void {
   server.addTool(deleteReleaseRatingTool);
   server.addTool(getReleaseCommunityRatingTool);
   server.addTool(getMasterReleaseTool);
+  server.addTool(getMasterReleaseVersionsTool);
   server.addTool(getArtistTool);
   server.addTool(getArtistReleasesTool);
   server.addTool(getLabelTool);

@@ -15,6 +15,7 @@ import {
   getLabelReleasesTool,
   getLabelTool,
   getMasterReleaseTool,
+  getMasterReleaseVersionsTool,
   getReleaseCommunityRatingTool,
   getReleaseRatingTool,
   getReleaseTool,
@@ -1521,6 +1522,217 @@ describe('Database Tools', () => {
           ).toEqual({
             content: [{ type: 'text', text: JSON.stringify(mockResults) }],
           });
+        },
+      });
+    });
+  });
+
+  describe('get_master_release_versions', () => {
+    it('adds get_master_release_versions tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getMasterReleaseVersionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_master_release_versions',
+                description: 'Retrieves a list of all Releases that are versions of this master',
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    master_id: { type: 'integer' },
+                    page: { type: 'integer', minimum: 1 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
+                    sort: {
+                      type: 'string',
+                      enum: ['released', 'title', 'format', 'label', 'catno', 'country'],
+                    },
+                    sort_order: {
+                      type: 'string',
+                      enum: ['asc', 'desc'],
+                    },
+                    format: { type: 'string' },
+                    label: { type: 'string' },
+                    released: { type: 'string' },
+                    country: { type: 'string' },
+                  },
+                  required: ['master_id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_master_release_versions tool', async () => {
+      const mockVersions = {
+        pagination: {
+          page: 1,
+          per_page: 50,
+          pages: 2,
+          items: 75,
+          urls: {
+            first: 'https://api.discogs.com/masters/123/versions?page=1',
+            next: 'https://api.discogs.com/masters/123/versions?page=2',
+            last: 'https://api.discogs.com/masters/123/versions?page=2',
+          },
+        },
+        versions: [
+          {
+            id: 456,
+            label: 'Test Label',
+            country: 'US',
+            title: 'Test Release',
+            major_formats: ['Vinyl'],
+            format: 'LP',
+            catno: 'TEST-001',
+            released: '2024',
+            status: 'Accepted',
+            resource_url: 'https://api.discogs.com/releases/456',
+            thumb: 'https://example.com/thumb.jpg',
+            stats: {
+              community: {
+                in_wantlist: 10,
+                in_collection: 20,
+              },
+              user: {
+                in_wantlist: 1,
+                in_collection: 0,
+              },
+            },
+          },
+        ],
+        filters: {
+          applied: {},
+          available: {
+            format: { LP: 50, CD: 25 },
+            country: { US: 40, UK: 35 },
+          },
+        },
+        filter_facets: [
+          {
+            title: 'Format',
+            id: 'format',
+            values: [
+              { title: 'LP', value: 'LP', count: 50 },
+              { title: 'CD', value: 'CD', count: 25 },
+            ],
+            allows_multiple_values: true,
+          },
+          {
+            title: 'Country',
+            id: 'country',
+            values: [
+              { title: 'US', value: 'US', count: 40 },
+              { title: 'UK', value: 'UK', count: 35 },
+            ],
+            allows_multiple_values: true,
+          },
+        ],
+      };
+
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MasterReleaseService.prototype, 'getVersions').mockResolvedValue(mockVersions);
+          server.addTool(getMasterReleaseVersionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_master_release_versions',
+              arguments: {
+                master_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockVersions) }],
+          });
+        },
+      });
+    });
+
+    it('handles get_master_release_versions DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(MasterReleaseService.prototype, 'getVersions').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getMasterReleaseVersionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_master_release_versions',
+              arguments: {
+                master_id: 123,
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_master_release_versions invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getMasterReleaseVersionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_master_release_versions',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+
+          try {
+            await client.callTool({
+              name: 'get_master_release_versions',
+              arguments: {
+                master_id: 123,
+                per_page: 200,
+              },
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
         },
       });
     });
