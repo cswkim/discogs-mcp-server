@@ -119,4 +119,127 @@ describe('MasterReleaseService', () => {
       );
     });
   });
+
+  describe('getVersions', () => {
+    const mockVersionsResponse = {
+      pagination: {
+        page: 1,
+        per_page: 50,
+        pages: 2,
+        items: 75,
+        urls: {
+          first: 'https://api.discogs.com/masters/123/versions?page=1',
+          next: 'https://api.discogs.com/masters/123/versions?page=2',
+          last: 'https://api.discogs.com/masters/123/versions?page=2',
+        },
+      },
+      versions: [
+        {
+          id: 456,
+          label: 'Test Label',
+          country: 'US',
+          title: 'Test Release',
+          major_formats: ['Vinyl'],
+          format: 'LP',
+          catno: 'TEST-001',
+          released: '2024',
+          status: 'Accepted',
+          resource_url: 'https://api.discogs.com/releases/456',
+          thumb: 'https://example.com/thumb.jpg',
+          stats: {
+            community: {
+              in_wantlist: 10,
+              in_collection: 20,
+            },
+            user: {
+              in_wantlist: 1,
+              in_collection: 0,
+            },
+          },
+        },
+      ],
+      filters: {
+        applied: {},
+        available: {
+          format: { LP: 50, CD: 25 },
+          country: { US: 40, UK: 35 },
+        },
+      },
+      filter_facets: [
+        {
+          title: 'Format',
+          id: 'format',
+          values: [
+            { title: 'LP', value: 'LP', count: 50 },
+            { title: 'CD', value: 'CD', count: 25 },
+          ],
+          allows_multiple_values: true,
+        },
+        {
+          title: 'Country',
+          id: 'country',
+          values: [
+            { title: 'US', value: 'US', count: 40 },
+            { title: 'UK', value: 'UK', count: 35 },
+          ],
+          allows_multiple_values: true,
+        },
+      ],
+    };
+
+    it('should return a validated master release versions response', async () => {
+      (service as any).request.mockResolvedValueOnce(mockVersionsResponse);
+
+      const result = await service.getVersions({ master_id: 123 });
+
+      expect(result).toEqual(mockVersionsResponse);
+      expect(service['request']).toHaveBeenCalledWith('/123/versions', {
+        params: {},
+      });
+    });
+
+    it('should pass query parameters to the API', async () => {
+      (service as any).request.mockResolvedValueOnce(mockVersionsResponse);
+
+      const params = {
+        master_id: 123,
+        page: 2,
+        per_page: 25,
+        format: 'LP',
+        country: 'US',
+        sort: 'released',
+        sort_order: 'desc' as const,
+      };
+
+      await service.getVersions(params);
+
+      expect(service['request']).toHaveBeenCalledWith('/123/versions', {
+        params: {
+          page: 2,
+          per_page: 25,
+          format: 'LP',
+          country: 'US',
+          sort: 'released',
+          sort_order: 'desc',
+        },
+      });
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.getVersions({ master_id: 999 })).rejects.toThrow(
+        'DiscogsResourceNotFoundError',
+      );
+    });
+
+    it('should handle validation errors properly', async () => {
+      const invalidResponse = { ...mockVersionsResponse, versions: [{ id: 'not-a-number' }] };
+      (service as any).request.mockResolvedValueOnce(invalidResponse);
+
+      await expect(service.getVersions({ master_id: 123 })).rejects.toThrow();
+    });
+  });
 });

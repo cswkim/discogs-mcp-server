@@ -219,6 +219,30 @@
 
 **Returns**: Master release information as JSON string
 
+#### `get_master_release_versions`
+**Description**: Retrieves a list of all Releases that are versions of this master
+
+**Inputs**:
+- `master_id` (integer, required): The ID of the master release to get versions for
+- `page` (integer, optional, minimum: 1): The page number to retrieve
+- `per_page` (integer, optional, minimum: 1, maximum: 100): The number of items per page
+- `sort` (string, optional): The field to sort by. Possible values:
+  - `released`
+  - `title`
+  - `format`
+  - `label`
+  - `catno`
+  - `country`
+- `sort_order` (string, optional): The sort order. Possible values:
+  - `asc`
+  - `desc`
+- `format` (string, optional): Filter by format
+- `label` (string, optional): Filter by label
+- `released` (string, optional): Filter by release year
+- `country` (string, optional): Filter by country
+
+**Returns**: List of master release versions as JSON string, including pagination, versions, filters, and filter facets
+
 #### `get_artist`
 **Description**: Get an artist
 
