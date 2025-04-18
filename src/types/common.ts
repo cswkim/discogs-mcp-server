@@ -52,6 +52,23 @@ export const FilteredResponseSchema = z.object({
   ),
 });
 
+const PaginationSchema = z.object({
+  pagination: z.object({
+    page: z.number().int().min(0).optional(),
+    per_page: z.number().int().min(0).optional(),
+    pages: z.number().int().min(0),
+    items: z.number().int().min(0),
+    urls: z
+      .object({
+        first: z.string().url().optional(),
+        prev: z.string().url().optional(),
+        next: z.string().url().optional(),
+        last: z.string().url().optional(),
+      })
+      .optional(),
+  }),
+});
+
 /**
  * Schema for a paginated response
  * @param itemSchema The schema for the items in the array
@@ -62,21 +79,22 @@ export const PaginatedResponseSchema = <T extends z.ZodType, K extends string>(
   resultsFieldName: K,
 ) =>
   z.object({
-    pagination: z.object({
-      page: z.number().int().min(0).optional(),
-      per_page: z.number().int().min(0).optional(),
-      pages: z.number().int().min(0),
-      items: z.number().int().min(0),
-      urls: z
-        .object({
-          first: z.string().url().optional(),
-          prev: z.string().url().optional(),
-          next: z.string().url().optional(),
-          last: z.string().url().optional(),
-        })
-        .optional(),
-    }),
+    ...PaginationSchema.shape,
     [resultsFieldName]: z.array(itemSchema),
+  });
+
+/**
+ * Schema for a paginated response with an object instead of an array
+ * @param itemSchema The schema for the item in the object
+ * @param resultsFieldName The name of the field containing the object
+ */
+export const PaginatedResponseWithObjectSchema = <T extends z.ZodType, K extends string>(
+  itemSchema: T,
+  resultsFieldName: K,
+) =>
+  z.object({
+    ...PaginationSchema.shape,
+    [resultsFieldName]: itemSchema,
   });
 
 /**
