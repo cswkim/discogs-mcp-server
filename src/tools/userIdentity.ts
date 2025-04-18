@@ -2,8 +2,10 @@ import type { FastMCP, Tool, ToolParameters } from 'fastmcp';
 import { z } from 'zod';
 import { formatDiscogsError } from '../errors.js';
 import { OAuthService } from '../services/oauth.js';
+import { UserContributionsService, UserSubmissionsService } from '../services/user/contribution.js';
 import { UserService } from '../services/user/index.js';
 import { UsernameInputSchema } from '../types/common.js';
+import { ContributionsParamsSchema } from '../types/user/contribution.js';
 import { UserProfileEditInputSchema } from '../types/user/index.js';
 
 /**
@@ -45,6 +47,44 @@ export const getUserProfileTool: Tool<undefined, typeof UsernameInputSchema> = {
 };
 
 /**
+ * MCP tool for fetching a Discogs user's submissions
+ */
+export const getUserSubmissionsTool: Tool<undefined, typeof UsernameInputSchema> = {
+  name: 'get_user_submissions',
+  description: `Retrieve a user's submissions by username`,
+  parameters: UsernameInputSchema,
+  execute: async (args) => {
+    try {
+      const userSubmissionsService = new UserSubmissionsService();
+      const submissions = await userSubmissionsService.get(args);
+
+      return JSON.stringify(submissions);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for fetching a Discogs user's contributions
+ */
+export const getUserContributionsTool: Tool<undefined, typeof ContributionsParamsSchema> = {
+  name: 'get_user_contributions',
+  description: `Retrieve a user's contributions by username`,
+  parameters: ContributionsParamsSchema,
+  execute: async (args) => {
+    try {
+      const userContributionsService = new UserContributionsService();
+      const contributions = await userContributionsService.get(args);
+
+      return JSON.stringify(contributions);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for editing a Discogs user's profile
  */
 export const editUserProfileTool: Tool<undefined, typeof UserProfileEditInputSchema> = {
@@ -67,4 +107,6 @@ export function registerUserIdentityTools(server: FastMCP): void {
   server.addTool(getUserIdentityTool);
   server.addTool(getUserProfileTool);
   server.addTool(editUserProfileTool);
+  server.addTool(getUserSubmissionsTool);
+  server.addTool(getUserContributionsTool);
 }

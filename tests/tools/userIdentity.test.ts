@@ -3,11 +3,17 @@ import { FastMCP } from 'fastmcp';
 import { describe, expect, it, vi } from 'vitest';
 import { formatDiscogsError } from '../../src/errors';
 import { OAuthService } from '../../src/services/oauth';
+import {
+  UserContributionsService,
+  UserSubmissionsService,
+} from '../../src/services/user/contribution';
 import { UserProfileService } from '../../src/services/user/profile';
 import {
   editUserProfileTool,
+  getUserContributionsTool,
   getUserIdentityTool,
   getUserProfileTool,
+  getUserSubmissionsTool,
 } from '../../src/tools/userIdentity';
 import { runWithTestServer } from '../utils/testServer';
 
@@ -452,6 +458,284 @@ describe('User Identity Tools', () => {
           try {
             await client.callTool({
               name: 'edit_user_profile',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('get_user_submissions', () => {
+    it('adds get_user_submissions tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserSubmissionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_user_submissions',
+                description: `Retrieve a user's submissions by username`,
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                  },
+                  required: ['username'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_user_submissions tool', async () => {
+      const mockSubmissions = {
+        pagination: {
+          page: 1,
+          per_page: 50,
+          pages: 1,
+          items: 1,
+          urls: {},
+        },
+        submissions: {
+          artists: [],
+          labels: [],
+          releases: [],
+        },
+      };
+
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserSubmissionsService.prototype, 'get').mockResolvedValue(mockSubmissions);
+          server.addTool(getUserSubmissionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_submissions',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockSubmissions) }],
+          });
+        },
+      });
+    });
+
+    it('handles get_user_submissions DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserSubmissionsService.prototype, 'get').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserSubmissionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_submissions',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_submissions invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserSubmissionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_submissions',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('get_user_contributions', () => {
+    it('adds get_user_contributions tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserContributionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_user_contributions',
+                description: `Retrieve a user's contributions by username`,
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    page: { type: 'integer', minimum: 1 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
+                    sort: {
+                      type: 'string',
+                      enum: [
+                        'label',
+                        'artist',
+                        'title',
+                        'catno',
+                        'format',
+                        'rating',
+                        'year',
+                        'added',
+                      ],
+                    },
+                    sort_order: { type: 'string', enum: ['asc', 'desc'] },
+                  },
+                  required: ['username'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_user_contributions tool', async () => {
+      const mockContributions = {
+        pagination: {
+          page: 1,
+          per_page: 50,
+          pages: 1,
+          items: 1,
+          urls: {},
+        },
+        contributions: [],
+      };
+
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserContributionsService.prototype, 'get').mockResolvedValue(mockContributions);
+          server.addTool(getUserContributionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_contributions',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockContributions) }],
+          });
+        },
+      });
+    });
+
+    it('handles get_user_contributions DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserContributionsService.prototype, 'get').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserContributionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_contributions',
+              arguments: {
+                username: 'testuser',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_contributions invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserContributionsTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_contributions',
               arguments: {},
             });
           } catch (error) {
