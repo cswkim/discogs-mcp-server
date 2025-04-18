@@ -159,7 +159,7 @@ describe('Marketplace Tools', () => {
                     price: { type: 'number' },
                     status: {
                       type: 'string',
-                      enum: ['For Sale', 'Expired', 'Draft'],
+                      enum: ['For Sale', 'Expired', 'Draft', 'Pending'],
                     },
                     format_quantity: { type: 'number' },
                     comments: { type: 'string' },
@@ -550,7 +550,7 @@ describe('Marketplace Tools', () => {
                     price: { type: 'number' },
                     status: {
                       type: 'string',
-                      enum: ['For Sale', 'Expired', 'Draft'],
+                      enum: ['For Sale', 'Expired', 'Draft', 'Pending'],
                     },
                     format_quantity: { type: 'number' },
                     comments: { type: 'string' },
