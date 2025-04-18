@@ -64,15 +64,15 @@ const ListingReleaseSchema = z.object({
 });
 
 export const PriceSchema = z.object({
-  currency: CurrencyCodeSchema,
-  value: z.number(),
+  currency: CurrencyCodeSchema.optional(),
+  value: z.number().optional(),
 });
 
 export const OriginalPriceSchema = z.object({
-  curr_abbr: CurrencyCodeSchema,
-  curr_id: z.number(),
-  formatted: z.string(),
-  value: z.number(),
+  curr_abbr: CurrencyCodeSchema.optional(),
+  curr_id: z.number().optional(),
+  formatted: z.string().optional(),
+  value: z.number().optional(),
 });
 
 export const OrderMessageSchema = z.object({
@@ -112,7 +112,7 @@ export const OrderMessageSchema = z.object({
   new: z.number().optional(),
 });
 
-export const SaleStatusSchema = z.enum(['For Sale', 'Expired', 'Draft']);
+export const SaleStatusSchema = z.enum(['For Sale', 'Expired', 'Draft', 'Pending']);
 
 /**
  * The listing schema
@@ -138,7 +138,7 @@ export const ListingSchema = z.object({
     id: z.number(),
     username: z.string(),
     resource_url: urlOrEmptySchema().optional(),
-    avatar_url: urlOrEmptySchema(),
+    avatar_url: urlOrEmptySchema().optional(),
     stats: z.object({
       rating: z.string(),
       stars: z.number(),

@@ -319,6 +319,25 @@
 
 ## Marketplace Tools
 
+#### `get_user_inventory`
+**Description**: Returns the list of listings in a user's inventory
+
+**Inputs**:
+- `username` (string, required): The username whose inventory to get
+- `page` (integer, optional): Page number (minimum: 1)
+- `per_page` (integer, optional): Items per page (minimum: 1, maximum: 100)
+- `status` (string, optional): Filter by status (For Sale, Expired, Draft, Pending)
+- `sort` (string, optional): Sort field (listed, price, item, artist, label, catno, audio, status, location)
+- `sort_order` (string, optional): Sort direction (asc, desc)
+
+**Returns**: List of inventory items as JSON string, including:
+- Pagination information (page, pages, items count)
+- List of listings, each containing:
+  - Listing details (ID, status, condition, price)
+  - Release information (ID, description, artist, title)
+  - Seller information (ID, username, stats)
+  - Shipping and payment details
+
 #### `get_marketplace_listing`
 **Description**: Get a listing from the marketplace
 

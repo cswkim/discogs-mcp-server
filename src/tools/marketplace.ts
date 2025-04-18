@@ -1,6 +1,7 @@
 import { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { MarketplaceService } from '../services/marketplace.js';
+import { UserInventoryService } from '../services/user/inventory.js';
 import {
   ListingGetParamsSchema,
   ListingIdParamSchema,
@@ -13,6 +14,7 @@ import {
   OrdersParamsSchema,
 } from '../types/marketplace.js';
 import { ReleaseParamsSchema } from '../types/release.js';
+import { UserInventoryGetParamsSchema } from '../types/user/index.js';
 
 /**
  * MCP tool for creating a marketplace listing
@@ -170,6 +172,25 @@ export const getMarketplaceReleaseStatsTool: Tool<undefined, typeof ReleaseParam
 };
 
 /**
+ * MCP tool for getting a user's inventory
+ */
+export const getUserInventoryTool: Tool<undefined, typeof UserInventoryGetParamsSchema> = {
+  name: 'get_user_inventory',
+  description: `Returns the list of listings in a user's inventory`,
+  parameters: UserInventoryGetParamsSchema,
+  execute: async (args) => {
+    try {
+      const userInventoryService = new UserInventoryService();
+      const inventory = await userInventoryService.get(args);
+
+      return JSON.stringify(inventory);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for editing a marketplace order
  */
 export const editMarketplaceOrderTool: Tool<undefined, typeof OrderEditParamsSchema> = {
@@ -208,6 +229,7 @@ export const updateMarketplaceListingTool: Tool<undefined, typeof ListingUpdateP
 };
 
 export function registerMarketplaceTools(server: FastMCP): void {
+  server.addTool(getUserInventoryTool);
   server.addTool(getMarketplaceListingTool);
   server.addTool(createMarketplaceListingTool);
   server.addTool(updateMarketplaceListingTool);
