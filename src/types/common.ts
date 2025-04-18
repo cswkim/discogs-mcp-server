@@ -53,20 +53,18 @@ export const FilteredResponseSchema = z.object({
 });
 
 const PaginationSchema = z.object({
-  pagination: z.object({
-    page: z.number().int().min(0).optional(),
-    per_page: z.number().int().min(0).optional(),
-    pages: z.number().int().min(0),
-    items: z.number().int().min(0),
-    urls: z
-      .object({
-        first: z.string().url().optional(),
-        prev: z.string().url().optional(),
-        next: z.string().url().optional(),
-        last: z.string().url().optional(),
-      })
-      .optional(),
-  }),
+  page: z.number().int().min(0).optional(),
+  per_page: z.number().int().min(0).optional(),
+  pages: z.number().int().min(0),
+  items: z.number().int().min(0),
+  urls: z
+    .object({
+      first: z.string().url().optional(),
+      prev: z.string().url().optional(),
+      next: z.string().url().optional(),
+      last: z.string().url().optional(),
+    })
+    .optional(),
 });
 
 /**
@@ -79,7 +77,7 @@ export const PaginatedResponseSchema = <T extends z.ZodType, K extends string>(
   resultsFieldName: K,
 ) =>
   z.object({
-    ...PaginationSchema.shape,
+    pagination: PaginationSchema,
     [resultsFieldName]: z.array(itemSchema),
   });
 
@@ -93,7 +91,7 @@ export const PaginatedResponseWithObjectSchema = <T extends z.ZodType, K extends
   resultsFieldName: K,
 ) =>
   z.object({
-    ...PaginationSchema.shape,
+    pagination: PaginationSchema,
     [resultsFieldName]: itemSchema,
   });
 
