@@ -31,6 +31,19 @@
 
 **Returns**: Updated user profile as JSON string
 
+#### `get_user_submissions`
+**Description**: Retrieve a user's submissions by username
+
+**Inputs**:
+- `username` (string, required): The username to get submissions for
+
+**Returns**: User's submissions as JSON string, including:
+- Pagination information (page, pages, items count)
+- Submissions containing:
+  - Artists (array of artist submissions)
+  - Labels (array of label submissions)
+  - Releases (array of release submissions)
+
 ## User Collection Tools
 
 #### `get_user_collection_folders`

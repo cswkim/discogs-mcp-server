@@ -187,7 +187,6 @@ Any changes to local code will require Claude to be restarted to take effect. Al
 - OAuth support
 - Missing tools:
   - Inventory management - uploading/exporting, etc.
-  - Getting user submissions
   - Getting user contributions
   - Editing collection custom fields
 
