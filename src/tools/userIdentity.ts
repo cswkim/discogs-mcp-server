@@ -2,9 +2,10 @@ import type { FastMCP, Tool, ToolParameters } from 'fastmcp';
 import { z } from 'zod';
 import { formatDiscogsError } from '../errors.js';
 import { OAuthService } from '../services/oauth.js';
-import { UserSubmissionsService } from '../services/user/contribution.js';
+import { UserContributionsService, UserSubmissionsService } from '../services/user/contribution.js';
 import { UserService } from '../services/user/index.js';
 import { UsernameInputSchema } from '../types/common.js';
+import { ContributionsParamsSchema } from '../types/user/contribution.js';
 import { UserProfileEditInputSchema } from '../types/user/index.js';
 
 /**
@@ -65,6 +66,25 @@ export const getUserSubmissionsTool: Tool<undefined, typeof UsernameInputSchema>
 };
 
 /**
+ * MCP tool for fetching a Discogs user's contributions
+ */
+export const getUserContributionsTool: Tool<undefined, typeof ContributionsParamsSchema> = {
+  name: 'get_user_contributions',
+  description: `Retrieve a user's contributions by username`,
+  parameters: ContributionsParamsSchema,
+  execute: async (args) => {
+    try {
+      const userContributionsService = new UserContributionsService();
+      const contributions = await userContributionsService.get(args);
+
+      return JSON.stringify(contributions);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for editing a Discogs user's profile
  */
 export const editUserProfileTool: Tool<undefined, typeof UserProfileEditInputSchema> = {
@@ -88,4 +108,5 @@ export function registerUserIdentityTools(server: FastMCP): void {
   server.addTool(getUserProfileTool);
   server.addTool(editUserProfileTool);
   server.addTool(getUserSubmissionsTool);
+  server.addTool(getUserContributionsTool);
 }

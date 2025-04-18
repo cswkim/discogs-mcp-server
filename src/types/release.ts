@@ -102,7 +102,7 @@ export const ReleaseSchema = z.object({
     .optional(),
   images: z.array(ImageSchema).optional(),
   labels: z.array(LabelBasicSchema).optional(),
-  lowest_price: z.number().optional(),
+  lowest_price: z.number().nullable().optional(),
   master_id: z.number().optional(),
   master_url: urlOrEmptySchema().optional(),
   notes: z.string().optional(),

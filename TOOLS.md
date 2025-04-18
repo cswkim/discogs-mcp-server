@@ -44,6 +44,22 @@
   - Labels (array of label submissions)
   - Releases (array of release submissions)
 
+#### `get_user_contributions`
+**Description**: Retrieve a user's contributions by username
+
+**Inputs**:
+- `username` (string, required): The username to get contributions for
+- `page` (integer, optional): Page number (minimum: 1)
+- `per_page` (integer, optional): Items per page (minimum: 1, maximum: 100)
+- `sort` (string, optional): Sort field (label, artist, title, catno, format, rating, year, added)
+- `sort_order` (string, optional): Sort direction (asc, desc)
+
+**Returns**: User's contributions as JSON string, including:
+- Pagination information (page, pages, items count)
+- List of contributions, each containing:
+  - Release information (ID, title, artist, format, etc.)
+  - Contribution details (role, notes, etc.)
+
 ## User Collection Tools
 
 #### `get_user_collection_folders`
