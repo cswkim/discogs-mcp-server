@@ -3,6 +3,7 @@ import { FastMCP } from 'fastmcp';
 import { describe, expect, it, vi } from 'vitest';
 import { formatDiscogsError } from '../../src/errors.js';
 import { MarketplaceService } from '../../src/services/marketplace.js';
+import { UserInventoryService } from '../../src/services/user/inventory.js';
 import {
   createMarketplaceListingTool,
   createMarketplaceOrderMessageTool,
@@ -13,6 +14,7 @@ import {
   getMarketplaceOrdersTool,
   getMarketplaceOrderTool,
   getMarketplaceReleaseStatsTool,
+  getUserInventoryTool,
   updateMarketplaceListingTool,
 } from '../../src/tools/marketplace.js';
 import { CurrencyCodeSchema } from '../../src/types/common.js';
@@ -1674,6 +1676,217 @@ describe('Marketplace Tools', () => {
                 // Missing required release_id parameter
                 curr_abbr: 'USD',
               },
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('get_user_inventory', () => {
+    const mockInventoryResponse = {
+      pagination: {
+        page: 1,
+        per_page: 50,
+        pages: 2,
+        items: 75,
+        urls: {
+          first: 'https://api.discogs.com/users/testuser/inventory?page=1',
+          next: 'https://api.discogs.com/users/testuser/inventory?page=2',
+          last: 'https://api.discogs.com/users/testuser/inventory?page=2',
+        },
+      },
+      listings: [
+        {
+          id: 123,
+          status: 'For Sale' as const,
+          condition: 'Mint (M)',
+          price: {
+            value: 29.99,
+            currency: 'USD' as const,
+          },
+          allow_offers: true,
+          sleeve_condition: 'Near Mint (NM or M-)',
+          comments: 'Test listing',
+          audio: true,
+          resource_url: 'https://api.discogs.com/marketplace/listings/123',
+          uri: 'https://www.discogs.com/sell/item/123',
+          ships_from: 'US',
+          posted: '2024-01-01T00:00:00Z',
+          original_price: {
+            value: 29.99,
+            curr_abbr: 'USD' as const,
+          },
+          seller: {
+            id: 789,
+            username: 'testuser',
+            stats: {
+              rating: '4.5',
+              stars: 4.5,
+              total: 100,
+            },
+            min_order_total: 0,
+            html_url: 'https://www.discogs.com/user/testuser',
+            uid: 789,
+            url: 'https://api.discogs.com/users/testuser',
+            payment: 'PayPal',
+            shipping: 'Worldwide',
+            resource_url: 'https://api.discogs.com/users/testuser',
+            avatar_url: 'https://api.discogs.com/images/u-789-1.jpg',
+          },
+          release: {
+            id: 456,
+            description: 'Test Release',
+            resource_url: 'https://api.discogs.com/releases/456',
+            stats: {
+              community: {
+                in_wantlist: 10,
+                in_collection: 20,
+              },
+            },
+            year: 2020,
+            artist: 'Test Artist',
+            title: 'Test Title',
+            format: 'Vinyl, LP',
+            thumbnail: 'https://api.discogs.com/images/R-456-1.jpg',
+          },
+        },
+      ],
+    };
+
+    it('adds get_user_inventory tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserInventoryTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'get_user_inventory',
+                description: `Returns the list of listings in a user's inventory`,
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    page: { type: 'integer', minimum: 1 },
+                    per_page: { type: 'integer', minimum: 1, maximum: 100 },
+                    status: {
+                      type: 'string',
+                      enum: ['For Sale', 'Expired', 'Draft', 'Pending'],
+                    },
+                    sort: {
+                      type: 'string',
+                      enum: [
+                        'listed',
+                        'price',
+                        'item',
+                        'artist',
+                        'label',
+                        'catno',
+                        'audio',
+                        'status',
+                        'location',
+                      ],
+                    },
+                    sort_order: { type: 'string', enum: ['asc', 'desc'] },
+                  },
+                  required: ['username'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls get_user_inventory tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserInventoryService.prototype, 'get').mockResolvedValue(mockInventoryResponse);
+          server.addTool(getUserInventoryTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_inventory',
+              arguments: {
+                username: 'testuser',
+                page: 1,
+                per_page: 50,
+                status: 'For Sale',
+                sort: 'price',
+                sort_order: 'desc',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: JSON.stringify(mockInventoryResponse) }],
+          });
+        },
+      });
+    });
+
+    it('handles get_user_inventory not found', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({ name: 'Test', version: '1.0.0' });
+
+          vi.spyOn(UserInventoryService.prototype, 'get').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(getUserInventoryTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'get_user_inventory',
+              arguments: {
+                username: 'nonexistent',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles get_user_inventory invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(getUserInventoryTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'get_user_inventory',
+              arguments: {},
             });
           } catch (error) {
             expect(error).toBeInstanceOf(McpError);
