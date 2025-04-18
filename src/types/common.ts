@@ -67,12 +67,14 @@ export const PaginatedResponseSchema = <T extends z.ZodType, K extends string>(
       per_page: z.number().int().min(0).optional(),
       pages: z.number().int().min(0),
       items: z.number().int().min(0),
-      urls: z.object({
-        first: z.string().url().optional(),
-        prev: z.string().url().optional(),
-        next: z.string().url().optional(),
-        last: z.string().url().optional(),
-      }),
+      urls: z
+        .object({
+          first: z.string().url().optional(),
+          prev: z.string().url().optional(),
+          next: z.string().url().optional(),
+          last: z.string().url().optional(),
+        })
+        .optional(),
     }),
     [resultsFieldName]: z.array(itemSchema),
   });
