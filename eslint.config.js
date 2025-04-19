@@ -34,7 +34,7 @@ export default [
     },
   },
   {
-    files: ['**/scripts/**/*.{js,ts}'],
+    files: ['**/scripts/**/*.{js,ts,cjs}'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
       'no-console': 'off',
