@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { formatDiscogsError } from '../../src/errors.js';
 import { InventoryService } from '../../src/services/inventory.js';
 import {
+  downloadInventoryExportTool,
   getInventoryExportTool,
   getInventoryExportsTool,
   inventoryExportTool,
@@ -401,6 +402,151 @@ describe('Inventory Export Tool', () => {
           try {
             await client.callTool({
               name: 'get_inventory_export',
+              arguments: { invalid: 'parameter' },
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+  });
+
+  describe('download_inventory_export', () => {
+    it('adds download_inventory_export tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(downloadInventoryExportTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'download_inventory_export',
+                description: 'Download an inventory export as a CSV',
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    id: { type: 'number' },
+                  },
+                  required: ['id'],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls download_inventory_export tool', async () => {
+      const mockCsv = 'id,title,artist\n1,Album,Artist';
+
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(InventoryService.prototype, 'downloadExport').mockResolvedValue(mockCsv);
+          server.addTool(downloadInventoryExportTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'download_inventory_export',
+              arguments: { id: 123 },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: mockCsv }],
+          });
+        },
+      });
+    });
+
+    it('handles download_inventory_export DiscogsAuthenticationError properly', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(InventoryService.prototype, 'downloadExport').mockRejectedValue(
+            formatDiscogsError('Authentication error'),
+          );
+
+          server.addTool(downloadInventoryExportTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'download_inventory_export',
+              arguments: { id: 123 },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Authentication error' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles download_inventory_export DiscogsResourceNotFoundError properly', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(InventoryService.prototype, 'downloadExport').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(downloadInventoryExportTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'download_inventory_export',
+              arguments: { id: 123 },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles download_inventory_export invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(downloadInventoryExportTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'download_inventory_export',
               arguments: { invalid: 'parameter' },
             });
           } catch (error) {

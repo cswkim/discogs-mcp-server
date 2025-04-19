@@ -5,6 +5,25 @@ import { InventoryService } from '../services/inventory.js';
 import { InventoryIdParamSchema } from '../types/inventory.js';
 
 /**
+ * MCP tool for downloading an inventory export as a CSV
+ */
+export const downloadInventoryExportTool: Tool<undefined, typeof InventoryIdParamSchema> = {
+  name: 'download_inventory_export',
+  description: 'Download an inventory export as a CSV',
+  parameters: InventoryIdParamSchema,
+  execute: async (args) => {
+    try {
+      const inventoryService = new InventoryService();
+      const csv = await inventoryService.downloadExport(args);
+
+      return csv;
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for getting a specific inventory export by ID
  */
 export const getInventoryExportTool: Tool<undefined, typeof InventoryIdParamSchema> = {
@@ -65,4 +84,5 @@ export function registerInventoryExportTool(server: FastMCP): void {
   server.addTool(inventoryExportTool);
   server.addTool(getInventoryExportsTool);
   server.addTool(getInventoryExportTool);
+  server.addTool(downloadInventoryExportTool);
 }

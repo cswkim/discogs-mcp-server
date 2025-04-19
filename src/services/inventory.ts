@@ -14,6 +14,27 @@ export class InventoryService extends DiscogsService {
   }
 
   /**
+   * Download an inventory export as a CSV
+   *
+   * @param {InventoryIdParam} params - The parameters for the request
+   * @returns {string} The inventory export as a CSV
+   * @throws {DiscogsAuthenticationError} If the request is not authenticated
+   * @throws {DiscogsResourceNotFoundError} If the inventory export does not exist
+   * @throws {Error} If there's an unexpected error
+   */
+  async downloadExport({ id }: InventoryIdParam): Promise<string> {
+    try {
+      const response = await this.request<string>(`/export/${id}/download`);
+      return response;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+      throw new Error(`Failed to download inventory export: ${String(error)}`);
+    }
+  }
+
+  /**
    * Request an export of your inventory as a CSV
    *
    * @returns {void}

@@ -629,3 +629,11 @@
 - Download URL
 - Filename
 
+#### `download_inventory_export`
+**Description**: Download an inventory export as a CSV
+
+**Inputs**:
+- `id` (number, required): The ID of the inventory export to download
+
+**Returns**: The inventory export as a CSV string
+

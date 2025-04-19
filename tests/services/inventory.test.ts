@@ -139,4 +139,45 @@ describe('InventoryService', () => {
       await expect(service.getExport({ id: 123 })).rejects.toThrow();
     });
   });
+
+  describe('downloadExport', () => {
+    it('should return the inventory export as a CSV', async () => {
+      const mockCsv = 'id,title,artist\n1,Album,Artist';
+      (service as any).request.mockResolvedValueOnce(mockCsv);
+
+      const result = await service.downloadExport({ id: 123 });
+
+      expect(result).toBe(mockCsv);
+      expect(service['request']).toHaveBeenCalledWith('/export/123/download');
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.downloadExport({ id: 123 })).rejects.toThrow(
+        'DiscogsAuthenticationError',
+      );
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.downloadExport({ id: 123 })).rejects.toThrow(
+        'DiscogsResourceNotFoundError',
+      );
+    });
+
+    it('should handle unexpected errors properly', async () => {
+      const error = new Error('Unexpected error');
+      (service as any).request.mockRejectedValueOnce(error);
+
+      await expect(service.downloadExport({ id: 123 })).rejects.toThrow(
+        'Failed to download inventory export',
+      );
+    });
+  });
 });
