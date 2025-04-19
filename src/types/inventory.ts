@@ -2,6 +2,10 @@ import { z } from 'zod';
 import { urlOrEmptySchema } from '../utils.js';
 import { PaginatedResponseSchema } from './common.js';
 
+export const InventoryIdParamSchema = z.object({
+  id: z.number(),
+});
+
 export const InventoryExportItemSchema = z.object({
   status: z.string(),
   created_ts: z.string().nullable(),
@@ -17,5 +21,6 @@ export const InventoryExportsResponseSchema = PaginatedResponseSchema(
   'items',
 );
 
+export type InventoryIdParam = z.infer<typeof InventoryIdParamSchema>;
 export type InventoryExportItem = z.infer<typeof InventoryExportItemSchema>;
 export type InventoryExportsResponse = z.infer<typeof InventoryExportsResponseSchema>;

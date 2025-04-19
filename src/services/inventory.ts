@@ -1,5 +1,11 @@
 import { isDiscogsError } from '../errors.js';
-import { InventoryExportsResponse, InventoryExportsResponseSchema } from '../types/inventory.js';
+import {
+  type InventoryExportItem,
+  InventoryExportItemSchema,
+  type InventoryExportsResponse,
+  InventoryExportsResponseSchema,
+  type InventoryIdParam,
+} from '../types/inventory.js';
 import { DiscogsService } from './index.js';
 
 export class InventoryService extends DiscogsService {
@@ -24,6 +30,29 @@ export class InventoryService extends DiscogsService {
         throw error;
       }
       throw new Error(`Failed to export inventory: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Get details about an inventory export
+   *
+   * @param {InventoryIdParam} params - The parameters for the request
+   * @returns {InventoryExportItem} The inventory export item
+   * @throws {DiscogsAuthenticationError} If the request is not authenticated
+   * @throws {DiscogsResourceNotFoundError} If the inventory export does not exist
+   * @throws {Error} If there's an unexpected error
+   */
+  async getExport({ id }: InventoryIdParam): Promise<InventoryExportItem> {
+    try {
+      const response = await this.request<InventoryExportItem>(`/export/${id}`);
+      const validatedResponse = InventoryExportItemSchema.parse(response);
+
+      return validatedResponse;
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+      throw new Error(`Failed to get inventory export: ${String(error)}`);
     }
   }
 

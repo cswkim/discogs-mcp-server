@@ -2,6 +2,26 @@ import type { FastMCP, Tool, ToolParameters } from 'fastmcp';
 import { z } from 'zod';
 import { formatDiscogsError } from '../errors.js';
 import { InventoryService } from '../services/inventory.js';
+import { InventoryIdParamSchema } from '../types/inventory.js';
+
+/**
+ * MCP tool for getting a specific inventory export by ID
+ */
+export const getInventoryExportTool: Tool<undefined, typeof InventoryIdParamSchema> = {
+  name: 'get_inventory_export',
+  description: 'Get details about an inventory export',
+  parameters: InventoryIdParamSchema,
+  execute: async (args) => {
+    try {
+      const inventoryService = new InventoryService();
+      const exportItem = await inventoryService.getExport(args);
+
+      return JSON.stringify(exportItem);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
 
 /**
  * MCP tool for getting a list of inventory exports
@@ -44,4 +64,5 @@ export const inventoryExportTool: Tool<undefined, ToolParameters> = {
 export function registerInventoryExportTool(server: FastMCP): void {
   server.addTool(inventoryExportTool);
   server.addTool(getInventoryExportsTool);
+  server.addTool(getInventoryExportTool);
 }

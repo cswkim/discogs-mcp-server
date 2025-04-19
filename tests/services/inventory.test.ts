@@ -91,4 +91,52 @@ describe('InventoryService', () => {
       await expect(service.getExports()).rejects.toThrow();
     });
   });
+
+  describe('getExport', () => {
+    it('should return a validated inventory export item', async () => {
+      const mockExportItem = {
+        id: 123,
+        status: 'Finished',
+        created_ts: '2024-01-01T00:00:00Z',
+        url: 'https://api.discogs.com/inventory/export/123',
+        finished_ts: '2024-01-01T00:01:00Z',
+        download_url: 'https://api.discogs.com/inventory/export/123/download',
+        filename: 'inventory_20240101.csv',
+      };
+
+      (service as any).request.mockResolvedValueOnce(mockExportItem);
+
+      const result = await service.getExport({ id: 123 });
+
+      expect(result).toEqual(mockExportItem);
+      expect(service['request']).toHaveBeenCalledWith('/export/123');
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.getExport({ id: 123 })).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(service.getExport({ id: 123 })).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+
+    it('should handle validation errors properly', async () => {
+      const invalidResponse = {
+        id: 123,
+        status: 'Finished',
+        // Missing required fields
+      };
+      (service as any).request.mockResolvedValueOnce(invalidResponse);
+
+      await expect(service.getExport({ id: 123 })).rejects.toThrow();
+    });
+  });
 });

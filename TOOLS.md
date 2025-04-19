@@ -614,3 +614,18 @@
   - Download URL
   - Filename
 
+#### `get_inventory_export`
+**Description**: Get details about an inventory export
+
+**Inputs**:
+- `id` (number, required): The ID of the inventory export
+
+**Returns**: Inventory export details as JSON string, including:
+- ID
+- Status
+- Creation timestamp
+- URL
+- Finished timestamp
+- Download URL
+- Filename
+
