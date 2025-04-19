@@ -588,3 +588,52 @@
 - `url` (string, required): The URL of the image to fetch
 
 **Returns**: Image content
+
+## Inventory Export Tools
+
+#### `inventory_export`
+**Description**: Request an export of your inventory as a CSV
+
+**Inputs**: None
+
+**Returns**: Success message as string
+
+#### `get_inventory_exports`
+**Description**: Get a list of all recent exports of your inventory
+
+**Inputs**: None
+
+**Returns**: List of inventory exports as JSON string, including:
+- Pagination information (page, pages, items count)
+- List of exports, each containing:
+  - ID
+  - Status
+  - Creation timestamp
+  - URL
+  - Finished timestamp
+  - Download URL
+  - Filename
+
+#### `get_inventory_export`
+**Description**: Get details about an inventory export
+
+**Inputs**:
+- `id` (number, required): The ID of the inventory export
+
+**Returns**: Inventory export details as JSON string, including:
+- ID
+- Status
+- Creation timestamp
+- URL
+- Finished timestamp
+- Download URL
+- Filename
+
+#### `download_inventory_export`
+**Description**: Download an inventory export as a CSV
+
+**Inputs**:
+- `id` (number, required): The ID of the inventory export to download
+
+**Returns**: The inventory export as a CSV string
+
