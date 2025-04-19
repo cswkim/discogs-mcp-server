@@ -598,3 +598,19 @@
 
 **Returns**: Success message as string
 
+#### `get_inventory_exports`
+**Description**: Get a list of all recent exports of your inventory
+
+**Inputs**: None
+
+**Returns**: List of inventory exports as JSON string, including:
+- Pagination information (page, pages, items count)
+- List of exports, each containing:
+  - ID
+  - Status
+  - Creation timestamp
+  - URL
+  - Finished timestamp
+  - Download URL
+  - Filename
+

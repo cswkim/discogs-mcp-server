@@ -4,6 +4,25 @@ import { formatDiscogsError } from '../errors.js';
 import { InventoryService } from '../services/inventory.js';
 
 /**
+ * MCP tool for getting a list of inventory exports
+ */
+export const getInventoryExportsTool: Tool<undefined, ToolParameters> = {
+  name: 'get_inventory_exports',
+  description: 'Get a list of all recent exports of your inventory',
+  parameters: z.object({}),
+  execute: async () => {
+    try {
+      const inventoryService = new InventoryService();
+      const exports = await inventoryService.getExports();
+
+      return JSON.stringify(exports);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
  * MCP tool for exporting your inventory as a CSV
  */
 export const inventoryExportTool: Tool<undefined, ToolParameters> = {
@@ -24,4 +43,5 @@ export const inventoryExportTool: Tool<undefined, ToolParameters> = {
 
 export function registerInventoryExportTool(server: FastMCP): void {
   server.addTool(inventoryExportTool);
+  server.addTool(getInventoryExportsTool);
 }
