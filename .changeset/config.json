@@ -6,7 +6,7 @@
       "repo": "cswkim/discogs-mcp-server"
     }
   ],
-  "commit": false,
+  "commit": ["../scripts/changeset-commit-message.ts"],
   "fixed": [],
   "linked": [],
   "access": "public",
