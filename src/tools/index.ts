@@ -1,5 +1,6 @@
 import { FastMCP } from 'fastmcp';
 import { registerDatabaseTools } from './database.js';
+import { registerInventoryExportTool } from './inventoryExport.js';
 import { registerMarketplaceTools } from './marketplace.js';
 import { registerMediaTools } from './media.js';
 import { registerUserCollectionTools } from './userCollection.js';
@@ -14,6 +15,7 @@ import { registerUserWantlistTools } from './userWantlist.js';
 export function registerTools(server: FastMCP): void {
   registerDatabaseTools(server);
   registerMarketplaceTools(server);
+  registerInventoryExportTool(server);
   registerUserIdentityTools(server);
   registerUserCollectionTools(server);
   registerUserWantlistTools(server);

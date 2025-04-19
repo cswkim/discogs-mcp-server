@@ -588,3 +588,13 @@
 - `url` (string, required): The URL of the image to fetch
 
 **Returns**: Image content
+
+## Inventory Export Tools
+
+#### `inventory_export`
+**Description**: Request an export of your inventory as a CSV
+
+**Inputs**: None
+
+**Returns**: Success message as string
+
