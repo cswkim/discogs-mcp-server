@@ -6,9 +6,7 @@ async function getVersionMessage(releasePlan) {
   return `chore(release): version bump to v${releasePlan.releases[0].newVersion}`;
 }
 
-const defaultCommitFunctions = {
+module.exports = {
   getAddMessage,
   getVersionMessage,
 };
-
-export default defaultCommitFunctions;
