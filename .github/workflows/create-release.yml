@@ -17,11 +17,12 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
+
       - name: Extract release notes
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v2
 
-      - uses: actions/checkout@v4
       - uses: ncipollo/release-action@v1
         with:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
