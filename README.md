@@ -1,3 +1,9 @@
+![GitHub License](https://img.shields.io/github/license/cswkim/discogs-mcp-server)
+![GitHub Release](https://img.shields.io/github/v/release/cswkim/discogs-mcp-server)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/cswkim/discogs-mcp-server/.github%2Fworkflows%2Fcheck-pr.yml)
+![NPM Downloads](https://img.shields.io/npm/d18m/discogs-mcp-server)
+[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4)](https://github.com/sponsors/cswkim)
+
 # Discogs MCP Server
 
 MCP Server for the Discogs API, enabling music catalog operations, search functionality, and more.
