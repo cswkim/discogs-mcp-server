@@ -16,7 +16,7 @@ importers:
         version: 16.4.7
       fastmcp:
         specifier: ^1.21.0
-        version: 1.21.0
+        version: 1.22.2
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -1078,8 +1078,8 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fastmcp@1.21.0:
-    resolution: {integrity: sha512-q4edIA6Mxo8/63JCvdZqnD2IfWVGXfLteZRDwewnr4BVmdv9TylaV+KBBPngf73KdAWc47UtXzDqUQUPL9vxOA==}
+  fastmcp@1.22.2:
+    resolution: {integrity: sha512-jxkRe+YZCVv2Co8b9+NMJtU0Yb/LzU3RHfBh/BUl663O6KXvThdWTHQpKMMXapyuPPxG29zZ2raimYTRzXGGew==}
     hasBin: true
 
   fastq@1.19.1:
@@ -1428,8 +1428,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-proxy@2.12.0:
-    resolution: {integrity: sha512-hL2Y6EtK7vkgAOZxOQe9M4Z9g5xEnvR4ZYBKqFi/5tjhz/1jyNEz5NL87Uzv46k8iZQPVNEof/T6arEooBU5bQ==}
+  mcp-proxy@2.12.2:
+    resolution: {integrity: sha512-SkQoKjnprsBUwXcP7cflJnDYEHBK0VnmeMkur5epct3KCtjxGC3rJDI/m41VfW9rk6bbHvt/bPTa1udz2eegpQ==}
     hasBin: true
 
   media-typer@1.1.0:
@@ -2065,8 +2065,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@7.7.0:
-    resolution: {integrity: sha512-tZ6+5NBq4KH35rr46XJ2JPFKxfcBlYNaqLF/wyWIO9RMHqqU/gx/CLB1Y2qMcgB8lWw/bKHa7qzspqCN7mUHvA==}
+  undici@7.8.0:
+    resolution: {integrity: sha512-vFv1GA99b7eKO1HG/4RPu2Is3FBTWBrmzqzO0mz+rLxN3yXkE4mqRcb8g8fHxzX4blEysrNZLqg5RbJLqX5buA==}
     engines: {node: '>=20.18.1'}
 
   unicorn-magic@0.3.0:
@@ -2205,12 +2205,12 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  xsschema@0.2.0-beta.2:
-    resolution: {integrity: sha512-yaU1SLQVQNboZHHK7iXpCoHzF+sbWvkygAKG6qMKvnpbNdm0SMWAIIj1uasDpCQ21HspPTdEYGg0c0qZYXVQFg==}
+  xsschema@0.2.0-beta.3:
+    resolution: {integrity: sha512-ViOZ1a1kAPHvFjDJp4ITeutdlbnEs56lx/NotlvcitwN04eHnU3DhR+P5GvXT7A+69qKrXAx0YrccvmfwGnUGw==}
     peerDependencies:
       '@valibot/to-json-schema': ^1.0.0
-      arktype: ^2.1.13
-      effect: ^3.14.2
+      arktype: ^2.1.16
+      effect: ^3.14.5
       zod-to-json-schema: ^3.24.5
     peerDependenciesMeta:
       '@valibot/to-json-schema':
@@ -2249,6 +2249,9 @@ packages:
 
   zod@3.24.2:
     resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
+  zod@3.24.3:
+    resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
 
 snapshots:
 
@@ -3360,21 +3363,21 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fastmcp@1.21.0:
+  fastmcp@1.22.2:
     dependencies:
       '@modelcontextprotocol/sdk': 1.10.1
       '@standard-schema/spec': 1.0.0
       execa: 9.5.2
       file-type: 20.4.1
       fuse.js: 7.1.0
-      mcp-proxy: 2.12.0
+      mcp-proxy: 2.12.2
       strict-event-emitter-types: 2.0.0
-      undici: 7.7.0
+      undici: 7.8.0
       uri-templates: 0.2.0
-      xsschema: 0.2.0-beta.2(zod-to-json-schema@3.24.5(zod@3.24.2))
+      xsschema: 0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.24.3))
       yargs: 17.7.2
-      zod: 3.24.2
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
     transitivePeerDependencies:
       - '@valibot/to-json-schema'
       - arktype
@@ -3713,7 +3716,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-proxy@2.12.0:
+  mcp-proxy@2.12.2:
     dependencies:
       '@modelcontextprotocol/sdk': 1.10.1
       eventsource: 3.0.6
@@ -4302,7 +4305,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@7.7.0: {}
+  undici@7.8.0: {}
 
   unicorn-magic@0.3.0: {}
 
@@ -4431,9 +4434,9 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  xsschema@0.2.0-beta.2(zod-to-json-schema@3.24.5(zod@3.24.2)):
+  xsschema@0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.24.3)):
     optionalDependencies:
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
 
   y18n@5.0.8: {}
 
@@ -4457,4 +4460,10 @@ snapshots:
     dependencies:
       zod: 3.24.2
 
+  zod-to-json-schema@3.24.5(zod@3.24.3):
+    dependencies:
+      zod: 3.24.3
+
   zod@3.24.2: {}
+
+  zod@3.24.3: {}
