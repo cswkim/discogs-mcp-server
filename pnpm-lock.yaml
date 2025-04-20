@@ -26,7 +26,7 @@ importers:
         version: 2.28.1
       '@eslint/js':
         specifier: ^9.24.0
-        version: 9.24.0
+        version: 9.25.0
       '@svitejs/changesets-changelog-github-compact':
         specifier: ^1.2.0
         version: 1.2.0
@@ -356,6 +356,10 @@ packages:
 
   '@eslint/js@9.24.0':
     resolution: {integrity: sha512-uIY/y3z0uvOGX8cp1C2fiC4+ZmBhp6yZWkojtHL1YEMnRt1Y63HB9TM17proGEmeG7HeUY+UP36F0aknKYTpYA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@eslint/js@9.25.0':
+    resolution: {integrity: sha512-iWhsUS8Wgxz9AXNfvfOPFSW4VfMXdVhp1hjkZVhXCrpgh/aLcc45rX6MPu+tIVUWDw0HfNwth7O28M1xDxNf9w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/object-schema@2.1.6':
@@ -2577,6 +2581,8 @@ snapshots:
 
   '@eslint/js@9.24.0': {}
 
+  '@eslint/js@9.25.0': {}
+
   '@eslint/object-schema@2.1.6': {}
 
   '@eslint/plugin-kit@0.2.8':
@@ -3429,7 +3435,7 @@ snapshots:
       strict-event-emitter-types: 2.0.0
       undici: 7.8.0
       uri-templates: 0.2.0
-      xsschema: 0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.24.3))
+      xsschema: 0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.24.2))
       yargs: 17.7.2
       zod: 3.24.3
       zod-to-json-schema: 3.24.5(zod@3.24.3)
@@ -4489,7 +4495,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  xsschema@0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.24.3)):
+  xsschema@0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.24.2)):
     optionalDependencies:
       zod-to-json-schema: 3.24.5(zod@3.24.3)
 
