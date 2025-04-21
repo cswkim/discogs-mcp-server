@@ -185,6 +185,19 @@
 
 **Returns**: List of custom fields as JSON string
 
+#### `edit_user_collection_custom_field_value`
+**Description**: Edit a custom field value for a release in a user's collection
+
+**Inputs**:
+- `username` (string, required): The username whose collection to access
+- `folder_id` (integer, required): The ID of the folder containing the release
+- `release_id` (number, required): The ID of the release to edit
+- `instance_id` (number, required): The instance ID of the release in the collection
+- `field_id` (integer, required): The ID of the custom field to edit
+- `value` (string, required): The new value for the custom field
+
+**Returns**: Success status as JSON string
+
 #### `get_user_collection_value`
 **Description**: Returns the minimum, median, and maximum value of a user's collection
 

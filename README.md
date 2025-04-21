@@ -193,7 +193,6 @@ Any changes to local code will require Claude to be restarted to take effect. Al
 - OAuth support
 - Missing tools:
   - Inventory uploading
-  - Editing collection custom fields
 
 ## License
 
