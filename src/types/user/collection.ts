@@ -32,6 +32,18 @@ export const UserCollectionCustomFieldsSchema = z.object({
 });
 
 /**
+ * Schema for a Discogs user collection custom field edit parameters
+ */
+export const UserCollectionCustomFieldEditParamsSchema = UsernameInputSchema.merge(
+  FolderIdParamSchema().extend({
+    value: z.string(),
+    release_id: z.union([z.number(), z.string()]),
+    instance_id: z.union([z.number(), z.string()]),
+    field_id: z.number(),
+  }),
+);
+
+/**
  * Schema for a Discogs user collection folder
  */
 export const UserCollectionFolderSchema = z.object({
@@ -168,6 +180,13 @@ export const UserCollectionValueSchema = z.object({
  * TypeScript type for custom fields in a user's collection
  */
 export type UserCollectionCustomFields = z.infer<typeof UserCollectionCustomFieldsSchema>;
+
+/**
+ * TypeScript type for a Discogs user collection custom field edit parameters
+ */
+export type UserCollectionCustomFieldEditParams = z.infer<
+  typeof UserCollectionCustomFieldEditParamsSchema
+>;
 
 /**
  * TypeScript type for a Discogs user collection folder

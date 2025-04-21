@@ -8,6 +8,7 @@ import {
   createUserCollectionFolderTool,
   deleteReleaseFromUserCollectionFolderTool,
   deleteUserCollectionFolderTool,
+  editUserCollectionCustomFieldValueTool,
   editUserCollectionFolderTool,
   findReleaseInUserCollectionTool,
   getUserCollectionCustomFieldsTool,
@@ -1798,6 +1799,220 @@ describe('User Collection Tools', () => {
             expect(error).toBeInstanceOf(McpError);
             expect(error.code).toBe(ErrorCode.InvalidParams);
           }
+        },
+      });
+    });
+  });
+
+  describe('edit_user_collection_custom_field_value', () => {
+    it('adds edit_user_collection_custom_field_value tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(editUserCollectionCustomFieldValueTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(await client.listTools()).toEqual({
+            tools: [
+              {
+                name: 'edit_user_collection_custom_field_value',
+                description: "Edit a custom field value for a release in a user's collection",
+                inputSchema: {
+                  additionalProperties: false,
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  type: 'object',
+                  properties: {
+                    username: { type: 'string', minLength: 1 },
+                    folder_id: { type: 'integer', minimum: 0 },
+                    release_id: { type: ['number', 'string'] },
+                    instance_id: { type: ['number', 'string'] },
+                    field_id: { type: 'number' },
+                    value: { type: 'string' },
+                  },
+                  required: [
+                    'username',
+                    'folder_id',
+                    'value',
+                    'release_id',
+                    'instance_id',
+                    'field_id',
+                  ],
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+
+    it('calls edit_user_collection_custom_field_value tool', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'editCustomFieldValue').mockResolvedValue(
+            undefined,
+          );
+          server.addTool(editUserCollectionCustomFieldValueTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_user_collection_custom_field_value',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+                instance_id: 456,
+                field_id: 1,
+                value: 'Mint',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Custom field value edited successfully' }],
+          });
+        },
+      });
+    });
+
+    it('handles edit_user_collection_custom_field_value DiscogsResourceNotFoundError', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'editCustomFieldValue').mockRejectedValue(
+            formatDiscogsError('Resource not found'),
+          );
+
+          server.addTool(editUserCollectionCustomFieldValueTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_user_collection_custom_field_value',
+              arguments: {
+                username: 'testuser',
+                folder_id: 1,
+                release_id: 123,
+                instance_id: 456,
+                field_id: 1,
+                value: 'Mint',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Resource not found' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles edit_user_collection_custom_field_value invalid parameters', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          server.addTool(editUserCollectionCustomFieldValueTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          try {
+            await client.callTool({
+              name: 'edit_user_collection_custom_field_value',
+              arguments: {},
+            });
+          } catch (error) {
+            expect(error).toBeInstanceOf(McpError);
+            expect(error.code).toBe(ErrorCode.InvalidParams);
+          }
+        },
+      });
+    });
+
+    it('handles edit_user_collection_custom_field_value validation errors', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'editCustomFieldValue').mockRejectedValue(
+            formatDiscogsError('Validation failed'),
+          );
+
+          server.addTool(editUserCollectionCustomFieldValueTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_user_collection_custom_field_value',
+              arguments: {
+                username: 'testuser',
+                folder_id: 0,
+                release_id: 123,
+                instance_id: 456,
+                field_id: 1,
+                value: 'Mint',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Validation failed' }],
+            isError: true,
+          });
+        },
+      });
+    });
+
+    it('handles edit_user_collection_custom_field_value permission errors', async () => {
+      await runWithTestServer({
+        server: async () => {
+          const server = new FastMCP({
+            name: 'Test',
+            version: '1.0.0',
+          });
+
+          vi.spyOn(UserCollectionService.prototype, 'editCustomFieldValue').mockRejectedValue(
+            formatDiscogsError('Permission denied'),
+          );
+
+          server.addTool(editUserCollectionCustomFieldValueTool);
+          return server;
+        },
+        run: async ({ client }) => {
+          expect(
+            await client.callTool({
+              name: 'edit_user_collection_custom_field_value',
+              arguments: {
+                username: 'otheruser',
+                folder_id: 1,
+                release_id: 123,
+                instance_id: 456,
+                field_id: 1,
+                value: 'Mint',
+              },
+            }),
+          ).toEqual({
+            content: [{ type: 'text', text: 'Permission denied' }],
+            isError: true,
+          });
         },
       });
     });
