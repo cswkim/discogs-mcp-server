@@ -1,6 +1,7 @@
 import { isDiscogsError } from '../../errors.js';
 import { UsernameInput } from '../../types/common.js';
 import {
+  type UserCollectionCustomFieldEditParams,
   type UserCollectionCustomFields,
   UserCollectionCustomFieldsSchema,
   type UserCollectionFolder,
@@ -150,6 +151,41 @@ export class UserCollectionService extends BaseUserService {
       }
 
       throw new Error(`Failed to delete release from folder: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Edit a custom field value for a release in a user's collection
+   *
+   * @param params The parameters for the custom field value edit
+   * @throws {DiscogsAuthenticationError} If authentication fails
+   * @throws {DiscogsPermissionError} If trying to edit a custom field value of another user
+   * @throws {DiscogsResourceNotFoundError} If the username, folder_id, release_id, or instance_id cannot be found
+   * @throws {DiscogsValidationFailedError} If the field is a dropdown and the value is not in the list of options
+   * @throws {Error} If there's an unexpected error
+   */
+  async editCustomFieldValue({
+    username,
+    folder_id,
+    release_id,
+    instance_id,
+    field_id,
+    value,
+  }: UserCollectionCustomFieldEditParams): Promise<void> {
+    try {
+      await this.request<void>(
+        `/${username}/collection/folders/${folder_id}/releases/${release_id}/instances/${instance_id}/fields/${field_id}`,
+        {
+          method: 'POST',
+          body: { value },
+        },
+      );
+    } catch (error) {
+      if (isDiscogsError(error)) {
+        throw error;
+      }
+
+      throw new Error(`Failed to edit custom field value: ${String(error)}`);
     }
   }
 

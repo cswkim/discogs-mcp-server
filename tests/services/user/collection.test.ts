@@ -1450,4 +1450,95 @@ describe('UserCollectionService', () => {
       ).rejects.toThrow('DiscogsValidationFailedError');
     });
   });
+
+  describe('editCustomFieldValue', () => {
+    it('should edit a custom field value successfully', async () => {
+      (service as any).request.mockResolvedValueOnce(undefined);
+
+      await service.editCustomFieldValue({
+        username: 'testuser',
+        folder_id: 1,
+        release_id: 123,
+        instance_id: 456,
+        field_id: 1,
+        value: 'Mint',
+      });
+
+      expect(service['request']).toHaveBeenCalledWith(
+        '/testuser/collection/folders/1/releases/123/instances/456/fields/1',
+        {
+          method: 'POST',
+          body: { value: 'Mint' },
+        },
+      );
+    });
+
+    it('should handle Discogs authentication errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsAuthenticationError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editCustomFieldValue({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          field_id: 1,
+          value: 'Mint',
+        }),
+      ).rejects.toThrow('DiscogsAuthenticationError');
+    });
+
+    it('should handle Discogs permission errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsPermissionError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editCustomFieldValue({
+          username: 'otheruser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          field_id: 1,
+          value: 'Mint',
+        }),
+      ).rejects.toThrow('DiscogsPermissionError');
+    });
+
+    it('should handle Discogs resource not found errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsResourceNotFoundError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editCustomFieldValue({
+          username: 'nonexistent',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          field_id: 1,
+          value: 'Mint',
+        }),
+      ).rejects.toThrow('DiscogsResourceNotFoundError');
+    });
+
+    it('should handle validation errors properly', async () => {
+      const discogsError = new Error('Discogs API Error');
+      discogsError.name = 'DiscogsValidationFailedError';
+      (service as any).request.mockRejectedValueOnce(discogsError);
+
+      await expect(
+        service.editCustomFieldValue({
+          username: 'testuser',
+          folder_id: 1,
+          release_id: 123,
+          instance_id: 456,
+          field_id: 1,
+          value: 'Yada Yada',
+        }),
+      ).rejects.toThrow('DiscogsValidationFailedError');
+    });
+  });
 });

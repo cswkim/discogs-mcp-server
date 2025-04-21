@@ -3,6 +3,7 @@ import { formatDiscogsError } from '../errors.js';
 import { UserService } from '../services/user/index.js';
 import { UsernameInputSchema } from '../types/common.js';
 import {
+  UserCollectionCustomFieldEditParamsSchema,
   UserCollectionFolderCreateParamsSchema,
   UserCollectionFolderEditParamsSchema,
   UserCollectionFolderParamsSchema,
@@ -96,6 +97,28 @@ export const deleteUserCollectionFolderTool: Tool<
       await userService.collection.deleteFolder(args);
 
       return 'Folder deleted successfully';
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
+
+/**
+ * MCP tool for editing a custom field value for a release in a Discogs user's collection
+ */
+export const editUserCollectionCustomFieldValueTool: Tool<
+  undefined,
+  typeof UserCollectionCustomFieldEditParamsSchema
+> = {
+  name: 'edit_user_collection_custom_field_value',
+  description: `Edit a custom field value for a release in a user's collection`,
+  parameters: UserCollectionCustomFieldEditParamsSchema,
+  execute: async (args) => {
+    try {
+      const userService = new UserService();
+      await userService.collection.editCustomFieldValue(args);
+
+      return 'Custom field value edited successfully';
     } catch (error) {
       throw formatDiscogsError(error);
     }
@@ -299,5 +322,6 @@ export function registerUserCollectionTools(server: FastMCP): void {
   server.addTool(moveReleaseInUserCollectionTool);
   server.addTool(deleteReleaseFromUserCollectionFolderTool);
   server.addTool(getUserCollectionCustomFieldsTool);
+  server.addTool(editUserCollectionCustomFieldValueTool);
   server.addTool(getUserCollectionValueTool);
 }
