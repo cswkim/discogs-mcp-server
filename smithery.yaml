@@ -1,0 +1,44 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - personalAccessToken
+    properties:
+      personalAccessToken:
+        type: string
+        description: Your Discogs personal access token
+      apiUrl:
+        type: string
+        default: https://api.discogs.com
+        description: Discogs API URL
+      mediaType:
+        type: string
+        default: application/vnd.discogs.v2.discogs+json
+        description: Discogs media type header
+      userAgent:
+        type: string
+        default: DiscogsMCPServer/0.2.0
+        description: User-Agent header for Discogs API
+      serverName:
+        type: string
+        default: Discogs MCP Server
+        description: Name of the MCP server
+      port:
+        type: number
+        default: 3001
+        description: Port for SSE transport if used
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'npx', args: ['-y', 'discogs-mcp-server', 'stdio'], env: { DISCOGS_PERSONAL_ACCESS_TOKEN: config.personalAccessToken, DISCOGS_API_URL: config.apiUrl, DISCOGS_MEDIA_TYPE: config.mediaType, DISCOGS_USER_AGENT: config.userAgent, SERVER_NAME: config.serverName, PORT: config.port?.toString(), }, })
+  exampleConfig:
+    personalAccessToken: abcd1234efgh5678
+    apiUrl: https://api.discogs.com
+    mediaType: application/vnd.discogs.v2.discogs+json
+    userAgent: DiscogsMCPServer/0.2.0
+    serverName: Discogs MCP Server
+    port: 3001
