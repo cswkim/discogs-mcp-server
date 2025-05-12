@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@modelcontextprotocol/sdk':
         specifier: ^1.9.0
-        version: 1.11.0
+        version: 1.11.2
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       fastmcp:
         specifier: ^1.21.0
-        version: 1.25.0
+        version: 1.27.6
       zod:
         specifier: ^3.24.2
         version: 3.24.4
@@ -558,8 +558,8 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
-  '@modelcontextprotocol/sdk@1.11.0':
-    resolution: {integrity: sha512-k/1pb70eD638anoi0e8wUGAlbMJXyvdV4p62Ko+EZ7eBe1xMx8Uhak1R5DgfoofsK5IBBnRwsYGTaLZl+6/+RQ==}
+  '@modelcontextprotocol/sdk@1.11.2':
+    resolution: {integrity: sha512-H9vwztj5OAqHg9GockCQC06k1natgcxWQSRpQcPJf6i5+MWBzfKkRtxGbjQf0X2ihii0ffLZCRGbYV2f2bjNCQ==}
     engines: {node: '>=18'}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -1255,16 +1255,16 @@ packages:
     resolution: {integrity: sha512-VARTJ9CYeuQYb0pZEPbzi740OWFgpHe7AYJ2WFZVnUDUQp5Dk2yJUgF36YsZ81cOyxT0QxmXD2EQpapAouzWVA==}
     engines: {node: '>=18.0.0'}
 
-  eventsource@3.0.6:
-    resolution: {integrity: sha512-l19WpE2m9hSuyP06+FbuUUf1G+R0SFLrtQfbRb9PRr+oimOfxQhgGCbVaXg5IvZyyTThJsxh6L/srkMiCeBPDA==}
+  eventsource@3.0.7:
+    resolution: {integrity: sha512-CRT1WTyuQoD771GW56XEZFQ/ZoSfWid1alKGDYMmkt2yl8UXrVR4pspqWNEcqKvVIzg6PAltWjxcSSPrboA4iA==}
     engines: {node: '>=18.0.0'}
 
   execa@1.0.0:
     resolution: {integrity: sha512-adbxcyWV46qiHyvSp50TKt05tB4tK3HcmF7/nxfAdhnox83seTDbwnaqKO4sXRy7roHAIFqJP/Rw/AuEbX61LA==}
     engines: {node: '>=6'}
 
-  execa@9.5.2:
-    resolution: {integrity: sha512-EHlpxMCpHWSAh1dgS6bVeoLAXGnJNdR93aabr4QCGbzOM73o5XmRfM/e5FUqsw3aagP8S8XEWUWFAxnRBnAF0Q==}
+  execa@9.5.3:
+    resolution: {integrity: sha512-QFNnTvU3UjgWFy8Ef9iDHvIdcgZ344ebkwYx4/KLbR+CKQA4xBaHzv+iRpp86QfMHP8faFQLh8iOc57215y4Rg==}
     engines: {node: ^18.19.0 || >=20.5.0}
 
   expect-type@1.2.1:
@@ -1304,8 +1304,8 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fastmcp@1.25.0:
-    resolution: {integrity: sha512-+Qibsh5kkbzTP1Kkd/0T22pQuPa0azJiXLHdG2J90Pji5X1TH/2KS1cY8FAxFQ5b4w81AeVBo1fcQxZUiwus8A==}
+  fastmcp@1.27.6:
+    resolution: {integrity: sha512-LLwp6SvHUKj6MLW+CjJjKU1+ioYA1vIrfBSoY5tu/qLG8dt1KzjkmU+EnxQYRdF1eeqtSsgp+35ZoVIxA7ysjQ==}
     hasBin: true
 
   fastq@1.19.1:
@@ -1662,8 +1662,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-proxy@2.13.1:
-    resolution: {integrity: sha512-8e7aknoD9Q3+3OJ+2cpnBZ9T78VUSiwKjCRUio98y+kCsXFpbyAHQx95ZCffk+/Bhk5nTP0JuWX3edbj4zoHAQ==}
+  mcp-proxy@2.14.2:
+    resolution: {integrity: sha512-uLG3fVGF/yf2895Bj0Lf1FOmz8RW6NzNOIWIBUJbIR5C3IkX3Q/md+Dm8WnDkMWo2T4BOlqzZmtfGF6muR0oyw==}
     hasBin: true
 
   media-typer@1.1.0:
@@ -2305,8 +2305,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@7.8.0:
-    resolution: {integrity: sha512-vFv1GA99b7eKO1HG/4RPu2Is3FBTWBrmzqzO0mz+rLxN3yXkE4mqRcb8g8fHxzX4blEysrNZLqg5RbJLqX5buA==}
+  undici@7.9.0:
+    resolution: {integrity: sha512-e696y354tf5cFZPXsF26Yg+5M63+5H3oE6Vtkh2oqbvsE2Oe7s2nIbcQh5lmG7Lp/eS29vJtTpw9+p6PX0qNSg==}
     engines: {node: '>=20.18.1'}
 
   unicorn-magic@0.3.0:
@@ -2914,12 +2914,12 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@modelcontextprotocol/sdk@1.11.0':
+  '@modelcontextprotocol/sdk@1.11.2':
     dependencies:
       content-type: 1.0.5
       cors: 2.8.5
       cross-spawn: 7.0.6
-      eventsource: 3.0.6
+      eventsource: 3.0.7
       express: 5.1.0
       express-rate-limit: 7.5.0(express@5.1.0)
       pkce-challenge: 5.0.0
@@ -3556,7 +3556,7 @@ snapshots:
       '@humanfs/node': 0.16.6
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.2
-      '@modelcontextprotocol/sdk': 1.11.0
+      '@modelcontextprotocol/sdk': 1.11.2
       '@types/estree': 1.0.7
       '@types/json-schema': 7.0.15
       ajv: 6.12.6
@@ -3613,7 +3613,7 @@ snapshots:
 
   eventsource-parser@3.0.1: {}
 
-  eventsource@3.0.6:
+  eventsource@3.0.7:
     dependencies:
       eventsource-parser: 3.0.1
 
@@ -3627,7 +3627,7 @@ snapshots:
       signal-exit: 3.0.7
       strip-eof: 1.0.0
 
-  execa@9.5.2:
+  execa@9.5.3:
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
       cross-spawn: 7.0.6
@@ -3704,16 +3704,16 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fastmcp@1.25.0:
+  fastmcp@1.27.6:
     dependencies:
-      '@modelcontextprotocol/sdk': 1.11.0
+      '@modelcontextprotocol/sdk': 1.11.2
       '@standard-schema/spec': 1.0.0
-      execa: 9.5.2
+      execa: 9.5.3
       file-type: 20.5.0
       fuse.js: 7.1.0
-      mcp-proxy: 2.13.1
+      mcp-proxy: 2.14.2
       strict-event-emitter-types: 2.0.0
-      undici: 7.8.0
+      undici: 7.9.0
       uri-templates: 0.2.0
       xsschema: 0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.24.4))
       yargs: 17.7.2
@@ -4061,10 +4061,10 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-proxy@2.13.1:
+  mcp-proxy@2.14.2:
     dependencies:
-      '@modelcontextprotocol/sdk': 1.11.0
-      eventsource: 3.0.6
+      '@modelcontextprotocol/sdk': 1.11.2
+      eventsource: 3.0.7
       yargs: 17.7.2
     transitivePeerDependencies:
       - supports-color
@@ -4679,7 +4679,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@7.8.0: {}
+  undici@7.9.0: {}
 
   unicorn-magic@0.3.0: {}
 
