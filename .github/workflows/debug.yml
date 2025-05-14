@@ -1,0 +1,21 @@
+name: Debug Release Notes
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  debug-release-notes:
+      runs-on: ubuntu-latest
+      permissions:
+        contents: write
+      steps:
+        - uses: actions/checkout@v4
+  
+        - name: Extract release notes
+          id: extract-release-notes
+          uses: ffurrer2/extract-release-notes@v2
+
+        - name: Debug release notes
+          run: echo "${{ steps.extract-release-notes.outputs.release_notes }}"
