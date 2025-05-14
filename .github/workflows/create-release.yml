@@ -21,7 +21,7 @@ jobs:
 
       - name: Extract release notes
         id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v2
+        uses: cswkim/extract-release-notes@main
 
       - uses: ncipollo/release-action@v1
         with:
