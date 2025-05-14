@@ -21,7 +21,7 @@ jobs:
   
         - name: Extract release notes
           id: extract-release-notes
-          uses: cswkim/extract-release-notes@v2
+          uses: cswkim/extract-release-notes@main
 
         - name: Debug release notes
           run: echo "${{ steps.extract-release-notes.outputs.release_notes }}"
