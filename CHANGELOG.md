@@ -1,5 +1,11 @@
 # discogs-mcp-server
 
+## 0.3.0
+
+### Minor Changes
+
+- feat: add edit_user_collection_custom_field_value tool ([#16](https://github.com/cswkim/discogs-mcp-server/pull/16))
+
 ## 0.2.0
 
 ### Minor Changes
