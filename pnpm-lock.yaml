@@ -10,16 +10,16 @@ importers:
     dependencies:
       '@modelcontextprotocol/sdk':
         specifier: ^1.9.0
-        version: 1.11.2
+        version: 1.11.4
       dotenv:
         specifier: ^16.4.7
         version: 16.5.0
       fastmcp:
-        specifier: ^1.21.0
-        version: 1.27.6
+        specifier: ^2.0.0
+        version: 2.0.0
       zod:
         specifier: ^3.24.2
-        version: 3.24.4
+        version: 3.25.17
     devDependencies:
       '@changesets/cli':
         specifier: ^2.28.1
@@ -558,8 +558,8 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
-  '@modelcontextprotocol/sdk@1.11.2':
-    resolution: {integrity: sha512-H9vwztj5OAqHg9GockCQC06k1natgcxWQSRpQcPJf6i5+MWBzfKkRtxGbjQf0X2ihii0ffLZCRGbYV2f2bjNCQ==}
+  '@modelcontextprotocol/sdk@1.11.4':
+    resolution: {integrity: sha512-OTbhe5slIjiOtLxXhKalkKGhIQrwvhgCDs/C2r8kcBTy5HR/g43aDQU0l7r8O0VGbJPTNJvDc7ZdQMdQDJXmbw==}
     engines: {node: '>=18'}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -816,6 +816,9 @@ packages:
 
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
+
+  ajv@8.17.1:
+    resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
 
   ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
@@ -1163,13 +1166,17 @@ packages:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
 
-  eventsource-parser@3.0.1:
-    resolution: {integrity: sha512-VARTJ9CYeuQYb0pZEPbzi740OWFgpHe7AYJ2WFZVnUDUQp5Dk2yJUgF36YsZ81cOyxT0QxmXD2EQpapAouzWVA==}
+  eventsource-parser@3.0.2:
+    resolution: {integrity: sha512-6RxOBZ/cYgd8usLwsEl+EC09Au/9BcmCKYF2/xbml6DNczf7nv0MQb+7BA2F+li6//I+28VNlQR37XfQtcAJuA==}
     engines: {node: '>=18.0.0'}
 
   eventsource@3.0.7:
     resolution: {integrity: sha512-CRT1WTyuQoD771GW56XEZFQ/ZoSfWid1alKGDYMmkt2yl8UXrVR4pspqWNEcqKvVIzg6PAltWjxcSSPrboA4iA==}
     engines: {node: '>=18.0.0'}
+
+  eventsource@4.0.0:
+    resolution: {integrity: sha512-fvIkb9qZzdMxgZrEQDyll+9oJsyaVvY92I2Re+qK0qEJ+w5s0X3dtz+M0VAPOjP1gtU3iqWyjQ0G3nvd5CLZ2g==}
+    engines: {node: '>=20.0.0'}
 
   execa@1.0.0:
     resolution: {integrity: sha512-adbxcyWV46qiHyvSp50TKt05tB4tK3HcmF7/nxfAdhnox83seTDbwnaqKO4sXRy7roHAIFqJP/Rw/AuEbX61LA==}
@@ -1216,8 +1223,11 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fastmcp@1.27.6:
-    resolution: {integrity: sha512-LLwp6SvHUKj6MLW+CjJjKU1+ioYA1vIrfBSoY5tu/qLG8dt1KzjkmU+EnxQYRdF1eeqtSsgp+35ZoVIxA7ysjQ==}
+  fast-uri@3.0.6:
+    resolution: {integrity: sha512-Atfo14OibSv5wAp4VWNsFYE1AchQRTv9cBGWET4pZWHzYshFSS9NQI6I57rdKn9croWVMbYFbLhJ+yJvmZIIHw==}
+
+  fastmcp@2.0.0:
+    resolution: {integrity: sha512-Vyoa409FB6z+TI9q1yWJtzjvjtsy5k6xkVFPeNPARQPuXdphK/2hWfLzOHisYdhryf77GfaC2I0jKY2op1mnkg==}
     hasBin: true
 
   fastq@1.19.1:
@@ -1512,6 +1522,9 @@ packages:
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
 
+  json-schema-traverse@1.0.0:
+    resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
+
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
@@ -1573,8 +1586,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-proxy@2.14.2:
-    resolution: {integrity: sha512-uLG3fVGF/yf2895Bj0Lf1FOmz8RW6NzNOIWIBUJbIR5C3IkX3Q/md+Dm8WnDkMWo2T4BOlqzZmtfGF6muR0oyw==}
+  mcp-proxy@3.0.3:
+    resolution: {integrity: sha512-awolv2Jkq9fl6QkLFHApTdy6veSuhzN0KA8AF2Ea6H58yBRAJyLf2Eavm08XU1bTn0ydfmTSGfyL2VMzxAHPFQ==}
     hasBin: true
 
   media-typer@1.1.0:
@@ -1891,6 +1904,10 @@ packages:
 
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
+    engines: {node: '>=0.10.0'}
+
+  require-from-string@2.0.2:
+    resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
 
   resolve-from@4.0.0:
@@ -2221,8 +2238,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@7.9.0:
-    resolution: {integrity: sha512-e696y354tf5cFZPXsF26Yg+5M63+5H3oE6Vtkh2oqbvsE2Oe7s2nIbcQh5lmG7Lp/eS29vJtTpw9+p6PX0qNSg==}
+  undici@7.10.0:
+    resolution: {integrity: sha512-u5otvFBOBZvmdjWLVW+5DAc9Nkq8f24g0O9oY7qw2JVIF1VocIFoyz9JFkuVOS2j41AufeO0xnlweJ2RLT8nGw==}
     engines: {node: '>=20.18.1'}
 
   unicorn-magic@0.3.0:
@@ -2403,8 +2420,8 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.24.4:
-    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+  zod@3.25.17:
+    resolution: {integrity: sha512-8hQzQ/kMOIFbwOgPrm9Sf9rtFHpFUMy4HvN0yEB0spw14aYi0uT5xG5CE2DB9cd51GWNsz+DNO7se1kztHMKnw==}
 
 snapshots:
 
@@ -2830,8 +2847,9 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@modelcontextprotocol/sdk@1.11.2':
+  '@modelcontextprotocol/sdk@1.11.4':
     dependencies:
+      ajv: 8.17.1
       content-type: 1.0.5
       cors: 2.8.5
       cross-spawn: 7.0.6
@@ -2840,8 +2858,8 @@ snapshots:
       express-rate-limit: 7.5.0(express@5.1.0)
       pkce-challenge: 5.0.0
       raw-body: 3.0.0
-      zod: 3.24.4
-      zod-to-json-schema: 3.24.5(zod@3.24.4)
+      zod: 3.25.17
+      zod-to-json-schema: 3.24.5(zod@3.25.17)
     transitivePeerDependencies:
       - supports-color
 
@@ -3107,6 +3125,13 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
+
+  ajv@8.17.1:
+    dependencies:
+      fast-deep-equal: 3.1.3
+      fast-uri: 3.0.6
+      json-schema-traverse: 1.0.0
+      require-from-string: 2.0.2
 
   ansi-colors@4.1.3: {}
 
@@ -3471,11 +3496,15 @@ snapshots:
 
   etag@1.8.1: {}
 
-  eventsource-parser@3.0.1: {}
+  eventsource-parser@3.0.2: {}
 
   eventsource@3.0.7:
     dependencies:
-      eventsource-parser: 3.0.1
+      eventsource-parser: 3.0.2
+
+  eventsource@4.0.0:
+    dependencies:
+      eventsource-parser: 3.0.2
 
   execa@1.0.0:
     dependencies:
@@ -3564,21 +3593,23 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fastmcp@1.27.6:
+  fast-uri@3.0.6: {}
+
+  fastmcp@2.0.0:
     dependencies:
-      '@modelcontextprotocol/sdk': 1.11.2
+      '@modelcontextprotocol/sdk': 1.11.4
       '@standard-schema/spec': 1.0.0
       execa: 9.5.3
       file-type: 20.5.0
       fuse.js: 7.1.0
-      mcp-proxy: 2.14.2
+      mcp-proxy: 3.0.3
       strict-event-emitter-types: 2.0.0
-      undici: 7.9.0
+      undici: 7.10.0
       uri-templates: 0.2.0
-      xsschema: 0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.24.4))
+      xsschema: 0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.25.17))
       yargs: 17.7.2
-      zod: 3.24.4
-      zod-to-json-schema: 3.24.5(zod@3.24.4)
+      zod: 3.25.17
+      zod-to-json-schema: 3.24.5(zod@3.25.17)
     transitivePeerDependencies:
       - '@valibot/to-json-schema'
       - arktype
@@ -3870,6 +3901,8 @@ snapshots:
 
   json-schema-traverse@0.4.1: {}
 
+  json-schema-traverse@1.0.0: {}
+
   json-stable-stringify-without-jsonify@1.0.1: {}
 
   jsonfile@4.0.0:
@@ -3925,10 +3958,10 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-proxy@2.14.2:
+  mcp-proxy@3.0.3:
     dependencies:
-      '@modelcontextprotocol/sdk': 1.11.2
-      eventsource: 3.0.7
+      '@modelcontextprotocol/sdk': 1.11.4
+      eventsource: 4.0.0
       yargs: 17.7.2
     transitivePeerDependencies:
       - supports-color
@@ -4178,6 +4211,8 @@ snapshots:
       resolve: 1.22.10
 
   require-directory@2.1.1: {}
+
+  require-from-string@2.0.2: {}
 
   resolve-from@4.0.0: {}
 
@@ -4530,7 +4565,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@7.9.0: {}
+  undici@7.10.0: {}
 
   unicorn-magic@0.3.0: {}
 
@@ -4663,9 +4698,9 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  xsschema@0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.24.4)):
+  xsschema@0.2.0-beta.3(zod-to-json-schema@3.24.5(zod@3.25.17)):
     optionalDependencies:
-      zod-to-json-schema: 3.24.5(zod@3.24.4)
+      zod-to-json-schema: 3.24.5(zod@3.25.17)
 
   y18n@5.0.8: {}
 
@@ -4685,8 +4720,8 @@ snapshots:
 
   yoctocolors@2.1.1: {}
 
-  zod-to-json-schema@3.24.5(zod@3.24.4):
+  zod-to-json-schema@3.24.5(zod@3.25.17):
     dependencies:
-      zod: 3.24.4
+      zod: 3.25.17
 
-  zod@3.24.4: {}
+  zod@3.25.17: {}
