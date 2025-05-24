@@ -74,7 +74,7 @@ The other environment variables in `.env.example` are optional and have sensible
 
 2. Available commands:
    - `pnpm run dev`: Start the development server with hot reloading
-   - `pnpm run dev:sse`: Start the development server with hot reloading in SSE mode
+   - `pnpm run dev:stream`: Start the development server with hot reloading in HTTP streaming mode
    - `pnpm run build`: Build the production version
    - `pnpm run start`: Run the production build
    - `pnpm run inspect`: Run the MCP Inspector (see [Inspection](#inspection) section)
@@ -96,10 +96,10 @@ The other environment variables in `.env.example` are optional and have sensible
    docker run --env-file .env discogs-mcp-server:latest
    ```
 
-   For SSE transport mode:
+   For HTTP Streaming transport mode:
    ```bash
    # The port should match what is in your .env file
-   docker run --env-file .env -p 3001:3001 discogs-mcp-server:latest sse
+   docker run --env-file .env -p 3001:3001 discogs-mcp-server:latest stream
    ```
 
 ## Inspection

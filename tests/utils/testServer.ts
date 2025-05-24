@@ -1,5 +1,5 @@
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js';
+import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import { FastMCP } from 'fastmcp';
 import { getRandomPort } from 'get-port-please';
 
@@ -8,15 +8,7 @@ export const runWithTestServer = async ({
   server: createServer,
 }: {
   server?: () => Promise<FastMCP>;
-  run: ({
-    client,
-    server,
-    session,
-  }: {
-    client: Client;
-    server: FastMCP;
-    session: any;
-  }) => Promise<void>;
+  run: ({ client, server }: { client: Client; server: FastMCP }) => Promise<void>;
 }) => {
   const port = await getRandomPort();
 
@@ -28,9 +20,8 @@ export const runWithTestServer = async ({
       });
 
   await server.start({
-    transportType: 'sse',
-    sse: {
-      endpoint: '/sse',
+    transportType: 'httpStream',
+    httpStream: {
       port,
     },
   });
@@ -46,17 +37,18 @@ export const runWithTestServer = async ({
       },
     );
 
-    const transport = new SSEClientTransport(new URL(`http://localhost:${port}/sse`));
+    const transport = new StreamableHTTPClientTransport(new URL(`http://localhost:${port}/stream`));
 
-    const session = await new Promise<any>((resolve) => {
-      server.on('connect', (event) => {
-        resolve(event.session);
-      });
+    await client.connect(transport);
 
-      client.connect(transport);
-    });
+    // Wait a bit to ensure connection is established
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    await run({ client, server, session });
+    await run({ client, server });
+
+    // Clean up connection
+    await transport.terminateSession();
+    await client.close();
   } finally {
     await server.stop();
   }

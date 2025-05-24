@@ -30,7 +30,7 @@
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "dev:stdio": "pnpm run dev stdio",
-    "dev:sse": "pnpm run dev sse",
+    "dev:stream": "pnpm run dev stream",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
@@ -46,9 +46,9 @@
     "changeset:tag": "changeset tag"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.9.0",
+    "@modelcontextprotocol/sdk": "^1.12.0",
     "dotenv": "^16.4.7",
-    "fastmcp": "^1.21.0",
+    "fastmcp": "^2.1.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
