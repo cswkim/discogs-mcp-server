@@ -5,10 +5,10 @@ import { registerTools } from './tools/index.js';
 import { log } from './utils.js';
 import { VERSION } from './version.js';
 
-type ServerTransportType = 'stdio' | 'sse';
+type ServerTransportType = 'stdio' | 'stream';
 
 function assertTransportType(transportType: string): transportType is ServerTransportType {
-  return transportType === 'stdio' || transportType === 'sse';
+  return transportType === 'stdio' || transportType === 'stream';
 }
 
 try {
@@ -19,7 +19,9 @@ try {
 
   // Make sure the transport type is allowed
   if (!assertTransportType(transportType)) {
-    throw Error(`Invalid transport type: "${transportType}". Allowed: 'stdio' (default) or 'sse'.`);
+    throw Error(
+      `Invalid transport type: "${transportType}". Allowed: 'stdio' (default) or 'stream'.`,
+    );
   }
 
   const server = new FastMCP({
@@ -31,11 +33,10 @@ try {
 
   if (transportType === 'stdio') {
     server.start({ transportType });
-  } else if (transportType === 'sse') {
+  } else if (transportType === 'stream') {
     server.start({
-      transportType,
-      sse: {
-        endpoint: '/sse',
+      transportType: 'httpStream',
+      httpStream: {
         port: config.server.port,
       },
     });
