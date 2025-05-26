@@ -16,10 +16,10 @@ importers:
         version: 16.5.0
       fastmcp:
         specifier: ^2.1.2
-        version: 2.1.2
+        version: 2.1.3
       zod:
         specifier: ^3.24.2
-        version: 3.24.4
+        version: 3.25.28
     devDependencies:
       '@changesets/cli':
         specifier: ^2.28.1
@@ -1167,6 +1167,10 @@ packages:
     resolution: {integrity: sha512-VARTJ9CYeuQYb0pZEPbzi740OWFgpHe7AYJ2WFZVnUDUQp5Dk2yJUgF36YsZ81cOyxT0QxmXD2EQpapAouzWVA==}
     engines: {node: '>=18.0.0'}
 
+  eventsource-parser@3.0.2:
+    resolution: {integrity: sha512-6RxOBZ/cYgd8usLwsEl+EC09Au/9BcmCKYF2/xbml6DNczf7nv0MQb+7BA2F+li6//I+28VNlQR37XfQtcAJuA==}
+    engines: {node: '>=18.0.0'}
+
   eventsource@3.0.7:
     resolution: {integrity: sha512-CRT1WTyuQoD771GW56XEZFQ/ZoSfWid1alKGDYMmkt2yl8UXrVR4pspqWNEcqKvVIzg6PAltWjxcSSPrboA4iA==}
     engines: {node: '>=18.0.0'}
@@ -1220,8 +1224,8 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fastmcp@2.1.2:
-    resolution: {integrity: sha512-BSf2hERCAvGKWa1SSUMA/rvAq/Hk2BjEydi7qn9kvkRiH7fRjWNx0rwAD/nE84Pnk1jNXrUytk7aIVHKHQ/nlA==}
+  fastmcp@2.1.3:
+    resolution: {integrity: sha512-T3KJAsgSVQC1bhMBLA6m0XcVbgZFcy5Ydw+tiAGwppAwbzYJ7UsIcwuRNS11xsZSB91rnWTucVX4p9wR909Eqg==}
     hasBin: true
 
   fastq@1.19.1:
@@ -1577,8 +1581,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-proxy@3.0.4:
-    resolution: {integrity: sha512-dT4j3xB/5o2JSxJ0ZbpodMpQRETnSK1cexAJRs359vlpsDrRrlW4fW2ftA+cY4Fi3jDZOQER4Rs4fMAUyyVeGw==}
+  mcp-proxy@3.2.0:
+    resolution: {integrity: sha512-cUOzceCnfKxAxdDWZdbYk50Yh2d0aBGDEJzmPOsh1tBAIqbGBkX+sfQgB+yfh0ODbIz8jzw7+QKQ7x5C7cdJpg==}
     hasBin: true
 
   media-typer@1.1.0:
@@ -2225,8 +2229,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@7.9.0:
-    resolution: {integrity: sha512-e696y354tf5cFZPXsF26Yg+5M63+5H3oE6Vtkh2oqbvsE2Oe7s2nIbcQh5lmG7Lp/eS29vJtTpw9+p6PX0qNSg==}
+  undici@7.10.0:
+    resolution: {integrity: sha512-u5otvFBOBZvmdjWLVW+5DAc9Nkq8f24g0O9oY7qw2JVIF1VocIFoyz9JFkuVOS2j41AufeO0xnlweJ2RLT8nGw==}
     engines: {node: '>=20.18.1'}
 
   unicorn-magic@0.3.0:
@@ -2413,11 +2417,8 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.24.4:
-    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
-
-  zod@3.25.24:
-    resolution: {integrity: sha512-E77RpEqxeBGBVbcK/5QKQsLM+3u6aN7pVgiGJENbwYfdsExPS/xyyUMfmeM3eY32LBCIjuzv6XU505sHn2t+Kw==}
+  zod@3.25.28:
+    resolution: {integrity: sha512-/nt/67WYKnr5by3YS7LroZJbtcCBurDKKPBPWWzaxvVCGuG/NOsiKkrjoOhI8mJ+SQUXEbUzeB3S+6XDUEEj7Q==}
 
 snapshots:
 
@@ -2854,8 +2855,8 @@ snapshots:
       express-rate-limit: 7.5.0(express@5.1.0)
       pkce-challenge: 5.0.0
       raw-body: 3.0.0
-      zod: 3.25.24
-      zod-to-json-schema: 3.24.5(zod@3.25.24)
+      zod: 3.25.28
+      zod-to-json-schema: 3.24.5(zod@3.25.28)
     transitivePeerDependencies:
       - supports-color
 
@@ -3487,13 +3488,15 @@ snapshots:
 
   eventsource-parser@3.0.1: {}
 
+  eventsource-parser@3.0.2: {}
+
   eventsource@3.0.7:
     dependencies:
       eventsource-parser: 3.0.1
 
   eventsource@4.0.0:
     dependencies:
-      eventsource-parser: 3.0.1
+      eventsource-parser: 3.0.2
 
   execa@1.0.0:
     dependencies:
@@ -3582,21 +3585,21 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fastmcp@2.1.2:
+  fastmcp@2.1.3:
     dependencies:
       '@modelcontextprotocol/sdk': 1.12.0
       '@standard-schema/spec': 1.0.0
       execa: 9.5.3
       file-type: 20.5.0
       fuse.js: 7.1.0
-      mcp-proxy: 3.0.4
+      mcp-proxy: 3.2.0
       strict-event-emitter-types: 2.0.0
-      undici: 7.9.0
+      undici: 7.10.0
       uri-templates: 0.2.0
-      xsschema: 0.3.0-beta.1(zod-to-json-schema@3.24.5(zod@3.25.24))(zod@3.25.24)
+      xsschema: 0.3.0-beta.1(zod-to-json-schema@3.24.5(zod@3.25.28))(zod@3.25.28)
       yargs: 17.7.2
-      zod: 3.25.24
-      zod-to-json-schema: 3.24.5(zod@3.25.24)
+      zod: 3.25.28
+      zod-to-json-schema: 3.24.5(zod@3.25.28)
     transitivePeerDependencies:
       - '@valibot/to-json-schema'
       - arktype
@@ -3944,7 +3947,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-proxy@3.0.4:
+  mcp-proxy@3.2.0:
     dependencies:
       '@modelcontextprotocol/sdk': 1.12.0
       eventsource: 4.0.0
@@ -4549,7 +4552,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@7.9.0: {}
+  undici@7.10.0: {}
 
   unicorn-magic@0.3.0: {}
 
@@ -4682,10 +4685,10 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  xsschema@0.3.0-beta.1(zod-to-json-schema@3.24.5(zod@3.25.24))(zod@3.25.24):
+  xsschema@0.3.0-beta.1(zod-to-json-schema@3.24.5(zod@3.25.28))(zod@3.25.28):
     optionalDependencies:
-      zod: 3.25.24
-      zod-to-json-schema: 3.24.5(zod@3.25.24)
+      zod: 3.25.28
+      zod-to-json-schema: 3.24.5(zod@3.25.28)
 
   y18n@5.0.8: {}
 
@@ -4705,10 +4708,8 @@ snapshots:
 
   yoctocolors@2.1.1: {}
 
-  zod-to-json-schema@3.24.5(zod@3.25.24):
+  zod-to-json-schema@3.24.5(zod@3.25.28):
     dependencies:
-      zod: 3.25.24
+      zod: 3.25.28
 
-  zod@3.24.4: {}
-
-  zod@3.25.24: {}
+  zod@3.25.28: {}
