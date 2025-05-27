@@ -1,5 +1,11 @@
 # discogs-mcp-server
 
+## 0.4.0
+
+### Minor Changes
+
+- feat: swap out sse transport type for streamable http ([#35](https://github.com/cswkim/discogs-mcp-server/pull/35))
+
 ## 0.3.0
 
 ### Minor Changes
