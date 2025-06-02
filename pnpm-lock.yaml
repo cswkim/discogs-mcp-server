@@ -16,7 +16,7 @@ importers:
         version: 16.5.0
       fastmcp:
         specifier: ^2.1.2
-        version: 2.2.0
+        version: 2.2.1
       zod:
         specifier: ^3.24.2
         version: 3.25.48
@@ -1289,8 +1289,8 @@ packages:
     resolution: {integrity: sha512-adbxcyWV46qiHyvSp50TKt05tB4tK3HcmF7/nxfAdhnox83seTDbwnaqKO4sXRy7roHAIFqJP/Rw/AuEbX61LA==}
     engines: {node: '>=6'}
 
-  execa@9.5.3:
-    resolution: {integrity: sha512-QFNnTvU3UjgWFy8Ef9iDHvIdcgZ344ebkwYx4/KLbR+CKQA4xBaHzv+iRpp86QfMHP8faFQLh8iOc57215y4Rg==}
+  execa@9.6.0:
+    resolution: {integrity: sha512-jpWzZ1ZhwUmeWRhS7Qv3mhpOhLfwI+uAX4e5fOcXqwMR7EcJ0pj2kV1CVzHVMX/LphnKWD3LObjZCoJ71lKpHw==}
     engines: {node: ^18.19.0 || >=20.5.0}
 
   expect-type@1.2.1:
@@ -1330,8 +1330,8 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fastmcp@2.2.0:
-    resolution: {integrity: sha512-uw5kZBPoc5iy4AXF8sjBzHMca9gx0oqjPsclM+SdiikgaJcjojaHl5qTqB90SJkHoY63BrJ2FgZyqhzBI9nACQ==}
+  fastmcp@2.2.1:
+    resolution: {integrity: sha512-J89Z2VqNEkojQ2ID3+wBgp/X9iG0gSFlN4wpDaRTJthml5kRnhnbO60P5khvw9B6Wxs5A2zedrosVfa5uhuq3g==}
     hasBin: true
 
   fastq@1.19.1:
@@ -1690,8 +1690,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-proxy@3.2.0:
-    resolution: {integrity: sha512-cUOzceCnfKxAxdDWZdbYk50Yh2d0aBGDEJzmPOsh1tBAIqbGBkX+sfQgB+yfh0ODbIz8jzw7+QKQ7x5C7cdJpg==}
+  mcp-proxy@3.3.0:
+    resolution: {integrity: sha512-xyFKQEZ64HC7lxScBHjb5fxiPoyJjjkPhwH5hWUT0oL/ttCpMGZDJrYZRGFKVJiLLkrZPAkHnMGkI+WMlyD/cg==}
     hasBin: true
 
   media-typer@1.1.0:
@@ -3706,7 +3706,7 @@ snapshots:
       signal-exit: 3.0.7
       strip-eof: 1.0.0
 
-  execa@9.5.3:
+  execa@9.6.0:
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
       cross-spawn: 7.0.6
@@ -3783,14 +3783,14 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fastmcp@2.2.0:
+  fastmcp@2.2.1:
     dependencies:
       '@modelcontextprotocol/sdk': 1.12.1
       '@standard-schema/spec': 1.0.0
-      execa: 9.5.3
+      execa: 9.6.0
       file-type: 20.5.0
       fuse.js: 7.1.0
-      mcp-proxy: 3.2.0
+      mcp-proxy: 3.3.0
       strict-event-emitter-types: 2.0.0
       undici: 7.10.0
       uri-templates: 0.2.0
@@ -4147,7 +4147,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-proxy@3.2.0:
+  mcp-proxy@3.3.0:
     dependencies:
       '@modelcontextprotocol/sdk': 1.12.1
       eventsource: 4.0.0
