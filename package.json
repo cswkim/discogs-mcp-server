@@ -48,7 +48,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
     "dotenv": "^16.4.7",
-    "fastmcp": "^2.1.2",
+    "fastmcp": "^3.0.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
