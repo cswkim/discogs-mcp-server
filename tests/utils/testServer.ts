@@ -37,7 +37,7 @@ export const runWithTestServer = async ({
       },
     );
 
-    const transport = new StreamableHTTPClientTransport(new URL(`http://localhost:${port}/stream`));
+    const transport = new StreamableHTTPClientTransport(new URL(`http://localhost:${port}/mcp`));
 
     await client.connect(transport);
 
