@@ -1,5 +1,11 @@
 # discogs-mcp-server
 
+## 0.4.1
+
+### Patch Changes
+
+- test: update streamable http endpoint due to major version bump for fastmcp ([#43](https://github.com/cswkim/discogs-mcp-server/pull/43))
+
 ## 0.4.0
 
 ### Minor Changes
