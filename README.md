@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/cswkim-discogs-mcp-server-badge.png)](https://mseep.ai/app/cswkim-discogs-mcp-server)
+
 [![License](https://img.shields.io/github/license/cswkim/discogs-mcp-server)](LICENSE)
 [![GitHub Release](https://img.shields.io/github/v/release/cswkim/discogs-mcp-server)](https://github.com/cswkim/discogs-mcp-server/releases)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/cswkim/discogs-mcp-server/.github%2Fworkflows%2Fcheck-pr.yml)](https://github.com/cswkim/discogs-mcp-server/actions/workflows/check-pr.yml)
