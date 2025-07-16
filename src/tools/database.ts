@@ -1,4 +1,4 @@
-import type { FastMCP, Tool } from 'fastmcp';
+import { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { ArtistService } from '../services/artist.js';
 import { DatabaseService } from '../services/database.js';
@@ -16,10 +16,12 @@ import {
   ReleaseRatingParamsSchema,
 } from '../types/release.js';
 
+type FastMCPSessionAuth = Record<string, unknown> | undefined;
+
 /**
  * MCP tool for deleting a release rating
  */
-export const deleteReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = {
+export const deleteReleaseRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseRatingParamsSchema> = {
   name: 'delete_release_rating',
   description: `Deletes the release's rating for a given user`,
   parameters: ReleaseRatingParamsSchema,
@@ -38,26 +40,27 @@ export const deleteReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParams
 /**
  * MCP tool for editing a release rating
  */
-export const editReleaseRatingTool: Tool<undefined, typeof ReleaseRatingEditParamsSchema> = {
-  name: 'edit_release_rating',
-  description: `Updates the release's rating for a given user`,
-  parameters: ReleaseRatingEditParamsSchema,
-  execute: async (args) => {
-    try {
-      const releaseService = new ReleaseService();
-      const releaseRating = await releaseService.editRatingByUser(args);
+export const editReleaseRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseRatingEditParamsSchema> =
+  {
+    name: 'edit_release_rating',
+    description: `Updates the release's rating for a given user`,
+    parameters: ReleaseRatingEditParamsSchema,
+    execute: async (args) => {
+      try {
+        const releaseService = new ReleaseService();
+        const releaseRating = await releaseService.editRatingByUser(args);
 
-      return JSON.stringify(releaseRating);
-    } catch (error) {
-      throw formatDiscogsError(error);
-    }
-  },
-};
+        return JSON.stringify(releaseRating);
+      } catch (error) {
+        throw formatDiscogsError(error);
+      }
+    },
+  };
 
 /**
  * MCP tool for fetching a Discogs artist
  */
-export const getArtistTool: Tool<undefined, typeof ArtistIdParamSchema> = {
+export const getArtistTool: Tool<FastMCPSessionAuth, typeof ArtistIdParamSchema> = {
   name: 'get_artist',
   description: 'Get an artist',
   parameters: ArtistIdParamSchema,
@@ -76,7 +79,7 @@ export const getArtistTool: Tool<undefined, typeof ArtistIdParamSchema> = {
 /**
  * MCP tool for fetching a Discogs artist releases
  */
-export const getArtistReleasesTool: Tool<undefined, typeof ArtistReleasesParamsSchema> = {
+export const getArtistReleasesTool: Tool<FastMCPSessionAuth, typeof ArtistReleasesParamsSchema> = {
   name: 'get_artist_releases',
   description: `Get an artist's releases`,
   parameters: ArtistReleasesParamsSchema,
@@ -95,7 +98,7 @@ export const getArtistReleasesTool: Tool<undefined, typeof ArtistReleasesParamsS
 /**
  * MCP tool for fetching a Discogs label
  */
-export const getLabelTool: Tool<undefined, typeof LabelIdParamSchema> = {
+export const getLabelTool: Tool<FastMCPSessionAuth, typeof LabelIdParamSchema> = {
   name: 'get_label',
   description: 'Get a label',
   parameters: LabelIdParamSchema,
@@ -114,7 +117,7 @@ export const getLabelTool: Tool<undefined, typeof LabelIdParamSchema> = {
 /**
  * MCP tool for fetching a Discogs label releases
  */
-export const getLabelReleasesTool: Tool<undefined, typeof LabelReleasesParamsSchema> = {
+export const getLabelReleasesTool: Tool<FastMCPSessionAuth, typeof LabelReleasesParamsSchema> = {
   name: 'get_label_releases',
   description: 'Returns a list of Releases associated with the label',
   parameters: LabelReleasesParamsSchema,
@@ -133,7 +136,7 @@ export const getLabelReleasesTool: Tool<undefined, typeof LabelReleasesParamsSch
 /**
  * MCP tool for fetching a Discogs master release
  */
-export const getMasterReleaseTool: Tool<undefined, typeof MasterReleaseIdParamSchema> = {
+export const getMasterReleaseTool: Tool<FastMCPSessionAuth, typeof MasterReleaseIdParamSchema> = {
   name: 'get_master_release',
   description: 'Get a master release',
   parameters: MasterReleaseIdParamSchema,
@@ -153,7 +156,7 @@ export const getMasterReleaseTool: Tool<undefined, typeof MasterReleaseIdParamSc
  * MCP tool for fetching Discogs master release versions
  */
 export const getMasterReleaseVersionsTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof MasterReleaseVersionsParamSchema
 > = {
   name: 'get_master_release_versions',
@@ -174,7 +177,7 @@ export const getMasterReleaseVersionsTool: Tool<
 /**
  * MCP tool for fetching a Discogs release
  */
-export const getReleaseTool: Tool<undefined, typeof ReleaseParamsSchema> = {
+export const getReleaseTool: Tool<FastMCPSessionAuth, typeof ReleaseParamsSchema> = {
   name: 'get_release',
   description: 'Get a release',
   parameters: ReleaseParamsSchema,
@@ -193,26 +196,27 @@ export const getReleaseTool: Tool<undefined, typeof ReleaseParamsSchema> = {
 /**
  * MCP tool for fetching a Discogs release community rating
  */
-export const getReleaseCommunityRatingTool: Tool<undefined, typeof ReleaseIdParamSchema> = {
-  name: 'get_release_community_rating',
-  description: 'Retrieves the release community rating average and count',
-  parameters: ReleaseIdParamSchema,
-  execute: async (args) => {
-    try {
-      const releaseService = new ReleaseService();
-      const releaseRating = await releaseService.getCommunityRating(args);
+export const getReleaseCommunityRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseIdParamSchema> =
+  {
+    name: 'get_release_community_rating',
+    description: 'Retrieves the release community rating average and count',
+    parameters: ReleaseIdParamSchema,
+    execute: async (args) => {
+      try {
+        const releaseService = new ReleaseService();
+        const releaseRating = await releaseService.getCommunityRating(args);
 
-      return JSON.stringify(releaseRating);
-    } catch (error) {
-      throw formatDiscogsError(error);
-    }
-  },
-};
+        return JSON.stringify(releaseRating);
+      } catch (error) {
+        throw formatDiscogsError(error);
+      }
+    },
+  };
 
 /**
  * MCP tool for fetching a Discogs release rating by user
  */
-export const getReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSchema> = {
+export const getReleaseRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseRatingParamsSchema> = {
   name: 'get_release_rating_by_user',
   description: `Retrieves the release's rating for a given user`,
   parameters: ReleaseRatingParamsSchema,
@@ -231,7 +235,7 @@ export const getReleaseRatingTool: Tool<undefined, typeof ReleaseRatingParamsSch
 /**
  * MCP tool for searching the Discogs database
  */
-export const searchTool: Tool<undefined, typeof SearchParamsSchema> = {
+export const searchTool: Tool<FastMCPSessionAuth, typeof SearchParamsSchema> = {
   name: 'search',
   description: 'Issue a search query to the Discogs database',
   parameters: SearchParamsSchema,

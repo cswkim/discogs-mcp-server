@@ -16,30 +16,33 @@ import {
 import { ReleaseParamsSchema } from '../types/release.js';
 import { UserInventoryGetParamsSchema } from '../types/user/index.js';
 
+type FastMCPSessionAuth = Record<string, unknown> | undefined;
+
 /**
  * MCP tool for creating a marketplace listing
  */
-export const createMarketplaceListingTool: Tool<undefined, typeof ListingNewParamsSchema> = {
-  name: 'create_marketplace_listing',
-  description: 'Create a new marketplace listing',
-  parameters: ListingNewParamsSchema,
-  execute: async (args) => {
-    try {
-      const marketplaceService = new MarketplaceService();
-      const listing = await marketplaceService.createListing(args);
+export const createMarketplaceListingTool: Tool<FastMCPSessionAuth, typeof ListingNewParamsSchema> =
+  {
+    name: 'create_marketplace_listing',
+    description: 'Create a new marketplace listing',
+    parameters: ListingNewParamsSchema,
+    execute: async (args) => {
+      try {
+        const marketplaceService = new MarketplaceService();
+        const listing = await marketplaceService.createListing(args);
 
-      return JSON.stringify(listing);
-    } catch (error) {
-      throw formatDiscogsError(error);
-    }
-  },
-};
+        return JSON.stringify(listing);
+      } catch (error) {
+        throw formatDiscogsError(error);
+      }
+    },
+  };
 
 /**
  * MCP tool for creating a marketplace order message
  */
 export const createMarketplaceOrderMessageTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof OrderCreateMessageParamsSchema
 > = {
   name: 'create_marketplace_order_message',
@@ -60,7 +63,7 @@ export const createMarketplaceOrderMessageTool: Tool<
 /**
  * MCP tool for deleting a marketplace listing
  */
-export const deleteMarketplaceListingTool: Tool<undefined, typeof ListingIdParamSchema> = {
+export const deleteMarketplaceListingTool: Tool<FastMCPSessionAuth, typeof ListingIdParamSchema> = {
   name: 'delete_marketplace_listing',
   description: 'Delete a marketplace listing',
   parameters: ListingIdParamSchema,
@@ -79,7 +82,7 @@ export const deleteMarketplaceListingTool: Tool<undefined, typeof ListingIdParam
 /**
  * MCP tool for getting a marketplace listing
  */
-export const getMarketplaceListingTool: Tool<undefined, typeof ListingGetParamsSchema> = {
+export const getMarketplaceListingTool: Tool<FastMCPSessionAuth, typeof ListingGetParamsSchema> = {
   name: 'get_marketplace_listing',
   description: 'Get a listing from the marketplace',
   parameters: ListingGetParamsSchema,
@@ -98,7 +101,7 @@ export const getMarketplaceListingTool: Tool<undefined, typeof ListingGetParamsS
 /**
  * MCP tool for getting a marketplace order
  */
-export const getMarketplaceOrderTool: Tool<undefined, typeof OrderIdParamSchema> = {
+export const getMarketplaceOrderTool: Tool<FastMCPSessionAuth, typeof OrderIdParamSchema> = {
   name: 'get_marketplace_order',
   description: 'Get a marketplace order',
   parameters: OrderIdParamSchema,
@@ -117,7 +120,7 @@ export const getMarketplaceOrderTool: Tool<undefined, typeof OrderIdParamSchema>
 /**
  * MCP tool for getting a list of marketplace orders
  */
-export const getMarketplaceOrdersTool: Tool<undefined, typeof OrdersParamsSchema> = {
+export const getMarketplaceOrdersTool: Tool<FastMCPSessionAuth, typeof OrdersParamsSchema> = {
   name: 'get_marketplace_orders',
   description: 'Get a list of marketplace orders',
   parameters: OrdersParamsSchema,
@@ -136,7 +139,10 @@ export const getMarketplaceOrdersTool: Tool<undefined, typeof OrdersParamsSchema
 /**
  * MCP tool for getting a list of order messages
  */
-export const getMarketplaceOrderMessagesTool: Tool<undefined, typeof OrderMessagesParamsSchema> = {
+export const getMarketplaceOrderMessagesTool: Tool<
+  FastMCPSessionAuth,
+  typeof OrderMessagesParamsSchema
+> = {
   name: 'get_marketplace_order_messages',
   description: `Get a list of an order's messages`,
   parameters: OrderMessagesParamsSchema,
@@ -155,26 +161,27 @@ export const getMarketplaceOrderMessagesTool: Tool<undefined, typeof OrderMessag
 /**
  * MCP tool for getting a release stats
  */
-export const getMarketplaceReleaseStatsTool: Tool<undefined, typeof ReleaseParamsSchema> = {
-  name: 'get_marketplace_release_stats',
-  description: 'Retrieve marketplace statistics for the provided Release ID',
-  parameters: ReleaseParamsSchema,
-  execute: async (args) => {
-    try {
-      const marketplaceService = new MarketplaceService();
-      const stats = await marketplaceService.getReleaseStats(args);
+export const getMarketplaceReleaseStatsTool: Tool<FastMCPSessionAuth, typeof ReleaseParamsSchema> =
+  {
+    name: 'get_marketplace_release_stats',
+    description: 'Retrieve marketplace statistics for the provided Release ID',
+    parameters: ReleaseParamsSchema,
+    execute: async (args) => {
+      try {
+        const marketplaceService = new MarketplaceService();
+        const stats = await marketplaceService.getReleaseStats(args);
 
-      return JSON.stringify(stats);
-    } catch (error) {
-      throw formatDiscogsError(error);
-    }
-  },
-};
+        return JSON.stringify(stats);
+      } catch (error) {
+        throw formatDiscogsError(error);
+      }
+    },
+  };
 
 /**
  * MCP tool for getting a user's inventory
  */
-export const getUserInventoryTool: Tool<undefined, typeof UserInventoryGetParamsSchema> = {
+export const getUserInventoryTool: Tool<FastMCPSessionAuth, typeof UserInventoryGetParamsSchema> = {
   name: 'get_user_inventory',
   description: `Returns the list of listings in a user's inventory`,
   parameters: UserInventoryGetParamsSchema,
@@ -193,7 +200,7 @@ export const getUserInventoryTool: Tool<undefined, typeof UserInventoryGetParams
 /**
  * MCP tool for editing a marketplace order
  */
-export const editMarketplaceOrderTool: Tool<undefined, typeof OrderEditParamsSchema> = {
+export const editMarketplaceOrderTool: Tool<FastMCPSessionAuth, typeof OrderEditParamsSchema> = {
   name: 'edit_marketplace_order',
   description: 'Edit a marketplace order',
   parameters: OrderEditParamsSchema,
@@ -212,7 +219,10 @@ export const editMarketplaceOrderTool: Tool<undefined, typeof OrderEditParamsSch
 /**
  * MCP tool for updating a marketplace listing
  */
-export const updateMarketplaceListingTool: Tool<undefined, typeof ListingUpdateParamsSchema> = {
+export const updateMarketplaceListingTool: Tool<
+  FastMCPSessionAuth,
+  typeof ListingUpdateParamsSchema
+> = {
   name: 'update_marketplace_listing',
   description: 'Update a marketplace listing',
   parameters: ListingUpdateParamsSchema,

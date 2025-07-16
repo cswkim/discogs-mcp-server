@@ -4,29 +4,32 @@ import { formatDiscogsError } from '../errors.js';
 import { InventoryService } from '../services/inventory.js';
 import { InventoryIdParamSchema } from '../types/inventory.js';
 
+type FastMCPSessionAuth = Record<string, unknown> | undefined;
+
 /**
  * MCP tool for downloading an inventory export as a CSV
  */
-export const downloadInventoryExportTool: Tool<undefined, typeof InventoryIdParamSchema> = {
-  name: 'download_inventory_export',
-  description: 'Download an inventory export as a CSV',
-  parameters: InventoryIdParamSchema,
-  execute: async (args) => {
-    try {
-      const inventoryService = new InventoryService();
-      const csv = await inventoryService.downloadExport(args);
+export const downloadInventoryExportTool: Tool<FastMCPSessionAuth, typeof InventoryIdParamSchema> =
+  {
+    name: 'download_inventory_export',
+    description: 'Download an inventory export as a CSV',
+    parameters: InventoryIdParamSchema,
+    execute: async (args) => {
+      try {
+        const inventoryService = new InventoryService();
+        const csv = await inventoryService.downloadExport(args);
 
-      return csv;
-    } catch (error) {
-      throw formatDiscogsError(error);
-    }
-  },
-};
+        return csv;
+      } catch (error) {
+        throw formatDiscogsError(error);
+      }
+    },
+  };
 
 /**
  * MCP tool for getting a specific inventory export by ID
  */
-export const getInventoryExportTool: Tool<undefined, typeof InventoryIdParamSchema> = {
+export const getInventoryExportTool: Tool<FastMCPSessionAuth, typeof InventoryIdParamSchema> = {
   name: 'get_inventory_export',
   description: 'Get details about an inventory export',
   parameters: InventoryIdParamSchema,
@@ -45,7 +48,7 @@ export const getInventoryExportTool: Tool<undefined, typeof InventoryIdParamSche
 /**
  * MCP tool for getting a list of inventory exports
  */
-export const getInventoryExportsTool: Tool<undefined, ToolParameters> = {
+export const getInventoryExportsTool: Tool<FastMCPSessionAuth, ToolParameters> = {
   name: 'get_inventory_exports',
   description: 'Get a list of all recent exports of your inventory',
   parameters: z.object({}),
@@ -64,7 +67,7 @@ export const getInventoryExportsTool: Tool<undefined, ToolParameters> = {
 /**
  * MCP tool for exporting your inventory as a CSV
  */
-export const inventoryExportTool: Tool<undefined, ToolParameters> = {
+export const inventoryExportTool: Tool<FastMCPSessionAuth, ToolParameters> = {
   name: 'inventory_export',
   description: 'Request an export of your inventory as a CSV',
   parameters: z.object({}),

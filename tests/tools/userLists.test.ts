@@ -28,11 +28,11 @@ describe('User Lists Tools', () => {
                 description: "Get a user's lists",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    page: { type: 'integer', minimum: 1 },
+                    page: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: { type: 'string', enum: [] },
                     sort_order: { type: 'string', enum: ['asc', 'desc'] },
@@ -176,10 +176,12 @@ describe('User Lists Tools', () => {
                 description: 'Get a list by ID',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    list_id: { type: 'number' },
+                    list_id: {
+                      type: 'number',
+                    },
                   },
                   required: ['list_id'],
                 },

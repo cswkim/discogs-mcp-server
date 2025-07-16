@@ -8,10 +8,12 @@ import { UsernameInputSchema } from '../types/common.js';
 import { ContributionsParamsSchema } from '../types/user/contribution.js';
 import { UserProfileEditInputSchema } from '../types/user/index.js';
 
+type FastMCPSessionAuth = Record<string, unknown> | undefined;
+
 /**
  * MCP tool for fetching the identity of the authenticated Discogs user
  */
-export const getUserIdentityTool: Tool<undefined, ToolParameters> = {
+export const getUserIdentityTool: Tool<FastMCPSessionAuth, ToolParameters> = {
   name: 'get_user_identity',
   description: 'Retrieve basic information about the authenticated user',
   parameters: z.object({}),
@@ -30,7 +32,7 @@ export const getUserIdentityTool: Tool<undefined, ToolParameters> = {
 /**
  * MCP tool for fetching a Discogs user's profile
  */
-export const getUserProfileTool: Tool<undefined, typeof UsernameInputSchema> = {
+export const getUserProfileTool: Tool<FastMCPSessionAuth, typeof UsernameInputSchema> = {
   name: 'get_user_profile',
   description: 'Retrieve a user by username',
   parameters: UsernameInputSchema,
@@ -49,7 +51,7 @@ export const getUserProfileTool: Tool<undefined, typeof UsernameInputSchema> = {
 /**
  * MCP tool for fetching a Discogs user's submissions
  */
-export const getUserSubmissionsTool: Tool<undefined, typeof UsernameInputSchema> = {
+export const getUserSubmissionsTool: Tool<FastMCPSessionAuth, typeof UsernameInputSchema> = {
   name: 'get_user_submissions',
   description: `Retrieve a user's submissions by username`,
   parameters: UsernameInputSchema,
@@ -68,26 +70,27 @@ export const getUserSubmissionsTool: Tool<undefined, typeof UsernameInputSchema>
 /**
  * MCP tool for fetching a Discogs user's contributions
  */
-export const getUserContributionsTool: Tool<undefined, typeof ContributionsParamsSchema> = {
-  name: 'get_user_contributions',
-  description: `Retrieve a user's contributions by username`,
-  parameters: ContributionsParamsSchema,
-  execute: async (args) => {
-    try {
-      const userContributionsService = new UserContributionsService();
-      const contributions = await userContributionsService.get(args);
+export const getUserContributionsTool: Tool<FastMCPSessionAuth, typeof ContributionsParamsSchema> =
+  {
+    name: 'get_user_contributions',
+    description: `Retrieve a user's contributions by username`,
+    parameters: ContributionsParamsSchema,
+    execute: async (args) => {
+      try {
+        const userContributionsService = new UserContributionsService();
+        const contributions = await userContributionsService.get(args);
 
-      return JSON.stringify(contributions);
-    } catch (error) {
-      throw formatDiscogsError(error);
-    }
-  },
-};
+        return JSON.stringify(contributions);
+      } catch (error) {
+        throw formatDiscogsError(error);
+      }
+    },
+  };
 
 /**
  * MCP tool for editing a Discogs user's profile
  */
-export const editUserProfileTool: Tool<undefined, typeof UserProfileEditInputSchema> = {
+export const editUserProfileTool: Tool<FastMCPSessionAuth, typeof UserProfileEditInputSchema> = {
   name: 'edit_user_profile',
   description: `Edit a user's profile data`,
   parameters: UserProfileEditInputSchema,
