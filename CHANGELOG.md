@@ -1,5 +1,17 @@
 # discogs-mcp-server
 
+## 0.4.2
+
+### Patch Changes
+
+- chore: dependency updates ([`a47b7a5`](https://github.com/cswkim/discogs-mcp-server/commit/a47b7a583001972af4a124e5a8f713e66d66c09d))
+
+- test: fix failing tests due to tool parameter schema mis-alignment ([`332ac6c`](https://github.com/cswkim/discogs-mcp-server/commit/332ac6c30aac08af9fbbda4611d53805f472721e))
+
+- fix: zod record method arguments ([`dcc93c5`](https://github.com/cswkim/discogs-mcp-server/commit/dcc93c56cada47b4597c6a77104d2c820fd2d2f1))
+
+- fix: FastMCP tool type definition update ([`f4baeb5`](https://github.com/cswkim/discogs-mcp-server/commit/f4baeb5a7407f7f55fa1ac59d851deac802ec95f))
+
 ## 0.4.1
 
 ### Patch Changes
