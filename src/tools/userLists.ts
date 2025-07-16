@@ -2,10 +2,9 @@ import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { ListService } from '../services/list.js';
 import { UserService } from '../services/user/index.js';
+import { FastMCPSessionAuth } from '../types/common.js';
 import { ListIdParamSchema } from '../types/list.js';
 import { UserListsParamsSchema } from '../types/user/index.js';
-
-type FastMCPSessionAuth = Record<string, unknown> | undefined;
 
 /**
  * MCP tool for fetching a Discogs user's lists

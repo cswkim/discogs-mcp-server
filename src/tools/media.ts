@@ -1,12 +1,11 @@
 import { type FastMCP, type Tool, imageContent } from 'fastmcp';
 import { z } from 'zod';
 import { formatDiscogsError } from '../errors.js';
+import { FastMCPSessionAuth } from '../types/common.js';
 
 const MediaParamsSchema = z.object({
   url: z.string().url(),
 });
-
-type FastMCPSessionAuth = Record<string, unknown> | undefined;
 
 /**
  * MCP tool for fetching an image

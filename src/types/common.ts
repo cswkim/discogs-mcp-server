@@ -130,6 +130,11 @@ export const UsernameInputSchema = z.object({
 export type CurrencyCode = z.infer<typeof CurrencyCodeSchema>;
 
 /**
+ * Common type for FastMCP session authentication
+ */
+export type FastMCPSessionAuth = Record<string, unknown> | undefined;
+
+/**
  * TypeScript type for a paginated response
  */
 export type PaginatedResponse<T, K extends string> = z.infer<

@@ -4,11 +4,9 @@ import { formatDiscogsError } from '../errors.js';
 import { OAuthService } from '../services/oauth.js';
 import { UserContributionsService, UserSubmissionsService } from '../services/user/contribution.js';
 import { UserService } from '../services/user/index.js';
-import { UsernameInputSchema } from '../types/common.js';
+import { FastMCPSessionAuth, UsernameInputSchema } from '../types/common.js';
 import { ContributionsParamsSchema } from '../types/user/contribution.js';
 import { UserProfileEditInputSchema } from '../types/user/index.js';
-
-type FastMCPSessionAuth = Record<string, unknown> | undefined;
 
 /**
  * MCP tool for fetching the identity of the authenticated Discogs user

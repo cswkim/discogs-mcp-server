@@ -6,6 +6,7 @@ import { LabelService } from '../services/label.js';
 import { MasterReleaseService } from '../services/master.js';
 import { ReleaseService } from '../services/release.js';
 import { ArtistIdParamSchema, ArtistReleasesParamsSchema } from '../types/artist.js';
+import { FastMCPSessionAuth } from '../types/common.js';
 import { SearchParamsSchema } from '../types/database.js';
 import { LabelIdParamSchema, LabelReleasesParamsSchema } from '../types/label.js';
 import { MasterReleaseIdParamSchema, MasterReleaseVersionsParamSchema } from '../types/master.js';
@@ -15,8 +16,6 @@ import {
   ReleaseRatingEditParamsSchema,
   ReleaseRatingParamsSchema,
 } from '../types/release.js';
-
-type FastMCPSessionAuth = Record<string, unknown> | undefined;
 
 /**
  * MCP tool for deleting a release rating

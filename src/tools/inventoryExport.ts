@@ -2,9 +2,8 @@ import type { FastMCP, Tool, ToolParameters } from 'fastmcp';
 import { z } from 'zod';
 import { formatDiscogsError } from '../errors.js';
 import { InventoryService } from '../services/inventory.js';
+import { FastMCPSessionAuth } from '../types/common.js';
 import { InventoryIdParamSchema } from '../types/inventory.js';
-
-type FastMCPSessionAuth = Record<string, unknown> | undefined;
 
 /**
  * MCP tool for downloading an inventory export as a CSV

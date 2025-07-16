@@ -2,6 +2,7 @@ import { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { MarketplaceService } from '../services/marketplace.js';
 import { UserInventoryService } from '../services/user/inventory.js';
+import { FastMCPSessionAuth } from '../types/common.js';
 import {
   ListingGetParamsSchema,
   ListingIdParamSchema,
@@ -15,8 +16,6 @@ import {
 } from '../types/marketplace.js';
 import { ReleaseParamsSchema } from '../types/release.js';
 import { UserInventoryGetParamsSchema } from '../types/user/index.js';
-
-type FastMCPSessionAuth = Record<string, unknown> | undefined;
 
 /**
  * MCP tool for creating a marketplace listing

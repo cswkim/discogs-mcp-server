@@ -1,7 +1,7 @@
 import type { FastMCP, Tool } from 'fastmcp';
 import { formatDiscogsError } from '../errors.js';
 import { UserService } from '../services/user/index.js';
-import { UsernameInputSchema } from '../types/common.js';
+import { FastMCPSessionAuth, UsernameInputSchema } from '../types/common.js';
 import {
   UserCollectionCustomFieldEditParamsSchema,
   UserCollectionFolderCreateParamsSchema,
@@ -14,8 +14,6 @@ import {
   UserCollectionReleaseParamsSchema,
   UserCollectionReleaseRatingParamsSchema,
 } from '../types/user/index.js';
-
-type FastMCPSessionAuth = Record<string, unknown> | undefined;
 
 /**
  * MCP tool for adding a release to a folder in a Discogs user's collection
