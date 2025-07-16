@@ -3,10 +3,12 @@ import { formatDiscogsError } from '../errors.js';
 import { UserService } from '../services/user/index.js';
 import { UserWantlistItemParamsSchema, UserWantlistParamsSchema } from '../types/user/index.js';
 
+type FastMCPSessionAuth = Record<string, unknown> | undefined;
+
 /**
  * MCP tool for fetching a Discogs user's wantlist
  */
-export const getUserWantlistTool: Tool<undefined, typeof UserWantlistParamsSchema> = {
+export const getUserWantlistTool: Tool<FastMCPSessionAuth, typeof UserWantlistParamsSchema> = {
   name: 'get_user_wantlist',
   description: `Returns the list of releases in a user's wantlist`,
   parameters: UserWantlistParamsSchema,
@@ -25,7 +27,7 @@ export const getUserWantlistTool: Tool<undefined, typeof UserWantlistParamsSchem
 /**
  * MCP tool for adding a release to a user's wantlist
  */
-export const addToWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
+export const addToWantlistTool: Tool<FastMCPSessionAuth, typeof UserWantlistItemParamsSchema> = {
   name: 'add_to_wantlist',
   description: `Add a release to a user's wantlist`,
   parameters: UserWantlistItemParamsSchema,
@@ -44,26 +46,30 @@ export const addToWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSch
 /**
  * MCP tool for editing a release in a user's wantlist
  */
-export const editItemInWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
-  name: 'edit_item_in_wantlist',
-  description: `Edit a release in a user's wantlist`,
-  parameters: UserWantlistItemParamsSchema,
-  execute: async (args) => {
-    try {
-      const userService = new UserService();
-      const wantlistItem = await userService.wants.editItem(args);
+export const editItemInWantlistTool: Tool<FastMCPSessionAuth, typeof UserWantlistItemParamsSchema> =
+  {
+    name: 'edit_item_in_wantlist',
+    description: `Edit a release in a user's wantlist`,
+    parameters: UserWantlistItemParamsSchema,
+    execute: async (args) => {
+      try {
+        const userService = new UserService();
+        const wantlistItem = await userService.wants.editItem(args);
 
-      return JSON.stringify(wantlistItem);
-    } catch (error) {
-      throw formatDiscogsError(error);
-    }
-  },
-};
+        return JSON.stringify(wantlistItem);
+      } catch (error) {
+        throw formatDiscogsError(error);
+      }
+    },
+  };
 
 /**
  * MCP tool for deleting a release from a user's wantlist
  */
-export const deleteItemInWantlistTool: Tool<undefined, typeof UserWantlistItemParamsSchema> = {
+export const deleteItemInWantlistTool: Tool<
+  FastMCPSessionAuth,
+  typeof UserWantlistItemParamsSchema
+> = {
   name: 'delete_item_in_wantlist',
   description: `Delete a release from a user's wantlist`,
   parameters: UserWantlistItemParamsSchema,

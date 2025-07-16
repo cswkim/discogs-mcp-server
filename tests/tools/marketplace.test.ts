@@ -125,10 +125,14 @@ describe('Marketplace Tools', () => {
                 description: 'Create a new marketplace listing',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    release_id: { type: 'integer' },
+                    release_id: {
+                      type: 'integer',
+                      minimum: -9007199254740991,
+                      maximum: 9007199254740991,
+                    },
                     condition: {
                       type: 'string',
                       enum: [
@@ -289,10 +293,14 @@ describe('Marketplace Tools', () => {
                 description: 'Get a listing from the marketplace',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    listing_id: { type: 'integer' },
+                    listing_id: {
+                      type: 'integer',
+                      minimum: -9007199254740991,
+                      maximum: 9007199254740991,
+                    },
                     curr_abbr: {
                       type: 'string',
                       enum: CurrencyCodeSchema.options,
@@ -404,10 +412,14 @@ describe('Marketplace Tools', () => {
                 description: 'Delete a marketplace listing',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    listing_id: { type: 'integer' },
+                    listing_id: {
+                      type: 'integer',
+                      minimum: -9007199254740991,
+                      maximum: 9007199254740991,
+                    },
                   },
                   required: ['listing_id'],
                 },
@@ -515,11 +527,19 @@ describe('Marketplace Tools', () => {
                 description: 'Update a marketplace listing',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    listing_id: { type: 'integer' },
-                    release_id: { type: 'integer' },
+                    listing_id: {
+                      type: 'integer',
+                      minimum: -9007199254740991,
+                      maximum: 9007199254740991,
+                    },
+                    release_id: {
+                      type: 'integer',
+                      minimum: -9007199254740991,
+                      maximum: 9007199254740991,
+                    },
                     condition: {
                       type: 'string',
                       enum: [
@@ -732,10 +752,12 @@ describe('Marketplace Tools', () => {
                 description: 'Get a marketplace order',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    order_id: { type: 'number' },
+                    order_id: {
+                      type: 'number',
+                    },
                   },
                   required: ['order_id'],
                 },
@@ -895,10 +917,12 @@ describe('Marketplace Tools', () => {
                 description: 'Edit a marketplace order',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    order_id: { type: 'number' },
+                    order_id: {
+                      type: 'number',
+                    },
                     status: {
                       type: 'string',
                       enum: [
@@ -1088,7 +1112,7 @@ describe('Marketplace Tools', () => {
                 description: 'Get a list of marketplace orders',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     status: {
@@ -1109,7 +1133,7 @@ describe('Marketplace Tools', () => {
                     created_after: { type: 'string' },
                     created_before: { type: 'string' },
                     archived: { type: 'boolean' },
-                    page: { type: 'integer', minimum: 1 },
+                    page: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: {
                       type: 'string',
@@ -1271,11 +1295,13 @@ describe('Marketplace Tools', () => {
                 description: `Get a list of an order's messages`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    order_id: { type: 'number' },
-                    page: { type: 'integer', minimum: 1 },
+                    order_id: {
+                      type: 'number',
+                    },
+                    page: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: { type: 'string', enum: [] },
                     sort_order: { type: 'string', enum: ['asc', 'desc'] },
@@ -1420,10 +1446,12 @@ describe('Marketplace Tools', () => {
                 description: `Adds a new message to the order's message log`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    order_id: { type: 'number' },
+                    order_id: {
+                      type: 'number',
+                    },
                     message: { type: 'string' },
                     status: {
                       type: 'string',
@@ -1568,10 +1596,13 @@ describe('Marketplace Tools', () => {
                 description: 'Retrieve marketplace statistics for the provided Release ID',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
-                    release_id: { type: 'number', minimum: 1 },
+                    release_id: {
+                      type: 'number',
+                      minimum: 1,
+                    },
                     curr_abbr: {
                       type: 'string',
                       enum: [
@@ -1776,11 +1807,11 @@ describe('Marketplace Tools', () => {
                 description: `Returns the list of listings in a user's inventory`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    page: { type: 'integer', minimum: 1 },
+                    page: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     status: {
                       type: 'string',

@@ -160,10 +160,7 @@ describe('MasterReleaseService', () => {
       ],
       filters: {
         applied: {},
-        available: {
-          format: { LP: 50, CD: 25 },
-          country: { US: 40, UK: 35 },
-        },
+        available: {},
       },
       filter_facets: [
         {

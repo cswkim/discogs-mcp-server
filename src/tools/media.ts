@@ -6,10 +6,12 @@ const MediaParamsSchema = z.object({
   url: z.string().url(),
 });
 
+type FastMCPSessionAuth = Record<string, unknown> | undefined;
+
 /**
  * MCP tool for fetching an image
  */
-export const fetchImageTool: Tool<undefined, typeof MediaParamsSchema> = {
+export const fetchImageTool: Tool<FastMCPSessionAuth, typeof MediaParamsSchema> = {
   name: 'fetch_image',
   description: 'Fetch an image by URL',
   parameters: MediaParamsSchema,

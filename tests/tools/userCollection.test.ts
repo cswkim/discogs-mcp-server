@@ -42,7 +42,7 @@ describe('User Collection Tools', () => {
                 description: "Retrieve a list of folders in a user's collection",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -177,11 +177,11 @@ describe('User Collection Tools', () => {
                 description: "Retrieve metadata about a folder in a user's collection",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    folder_id: { type: 'integer', minimum: 0 },
+                    folder_id: { type: 'integer', minimum: 0, maximum: 9007199254740991 },
                   },
                   required: ['username', 'folder_id'],
                 },
@@ -305,7 +305,7 @@ describe('User Collection Tools', () => {
                 description: "Create a new folder in a user's collection",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     name: { type: 'string' },
@@ -433,11 +433,11 @@ describe('User Collection Tools', () => {
                 description: "Edit a folder's metadata. Folders 0 and 1 cannot be renamed.",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    folder_id: { type: 'integer', minimum: 0 },
+                    folder_id: { type: 'integer', minimum: 0, maximum: 9007199254740991 },
                     name: { type: 'string' },
                   },
                   required: ['username', 'folder_id'],
@@ -565,11 +565,11 @@ describe('User Collection Tools', () => {
                   "Delete a folder from a user's collection. A folder must be empty before it can be deleted.",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    folder_id: { type: 'integer', minimum: 0 },
+                    folder_id: { type: 'integer', minimum: 0, maximum: 9007199254740991 },
                   },
                   required: ['username', 'folder_id'],
                 },
@@ -686,12 +686,12 @@ describe('User Collection Tools', () => {
                 description: "Retrieve a list of items in a user's collection",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    folder_id: { type: 'integer', minimum: 0 },
-                    page: { type: 'integer', minimum: 1 },
+                    folder_id: { type: 'integer', minimum: 0, maximum: 9007199254740991 },
+                    page: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: {
                       type: 'string',
@@ -846,11 +846,11 @@ describe('User Collection Tools', () => {
                   "Add a release to a folder in a user's collection. The folder_id must be non-zero.",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    folder_id: { type: 'integer', minimum: 1 },
+                    folder_id: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     release_id: { type: 'number', minimum: 1 },
                   },
                   required: ['username', 'folder_id', 'release_id'],
@@ -979,13 +979,17 @@ describe('User Collection Tools', () => {
                   "Remove an instance of a release from a user's collection folder. The folder_id must be non-zero.",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    folder_id: { type: 'integer', minimum: 1 },
+                    folder_id: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     release_id: { type: 'number', minimum: 1 },
-                    instance_id: { type: 'integer' },
+                    instance_id: {
+                      type: 'integer',
+                      minimum: -9007199254740991,
+                      maximum: 9007199254740991,
+                    },
                   },
                   required: ['username', 'folder_id', 'release_id', 'instance_id'],
                 },
@@ -1108,12 +1112,12 @@ describe('User Collection Tools', () => {
                 description: "Find a release in a user's collection",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
                     release_id: { type: 'number', minimum: 1 },
-                    page: { type: 'integer', minimum: 1 },
+                    page: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: { type: 'string', enum: [] },
                     sort_order: { type: 'string', enum: ['asc', 'desc'] },
@@ -1281,7 +1285,7 @@ describe('User Collection Tools', () => {
                   'Retrieve a list of user-defined collection notes fields. These fields are available on every release in the collection.',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -1433,13 +1437,17 @@ describe('User Collection Tools', () => {
                   "Rate a release in a user's collection. The folder_id must be non-zero.",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    folder_id: { type: 'integer', minimum: 1 },
+                    folder_id: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     release_id: { type: 'number', minimum: 1 },
-                    instance_id: { type: 'integer' },
+                    instance_id: {
+                      type: 'integer',
+                      minimum: -9007199254740991,
+                      maximum: 9007199254740991,
+                    },
                     rating: { type: 'integer', minimum: 1, maximum: 5 },
                   },
                   required: ['username', 'folder_id', 'release_id', 'instance_id'],
@@ -1563,14 +1571,20 @@ describe('User Collection Tools', () => {
                 description: "Move a release in a user's collection to another folder",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    folder_id: { type: 'integer', minimum: 1 },
+                    folder_id: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     release_id: { type: 'number', minimum: 1 },
-                    instance_id: { type: 'integer' },
-                    destination_folder_id: { type: 'number' },
+                    instance_id: {
+                      type: 'integer',
+                      minimum: -9007199254740991,
+                      maximum: 9007199254740991,
+                    },
+                    destination_folder_id: {
+                      type: 'number',
+                    },
                   },
                   required: [
                     'username',
@@ -1700,7 +1714,7 @@ describe('User Collection Tools', () => {
                   "Returns the minimum, median, and maximum value of a user's collection",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -1824,13 +1838,13 @@ describe('User Collection Tools', () => {
                 description: "Edit a custom field value for a release in a user's collection",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    folder_id: { type: 'integer', minimum: 0 },
-                    release_id: { type: ['number', 'string'] },
-                    instance_id: { type: ['number', 'string'] },
+                    folder_id: { type: 'integer', minimum: 0, maximum: 9007199254740991 },
+                    release_id: { anyOf: [{ type: 'number' }, { type: 'string' }] },
+                    instance_id: { anyOf: [{ type: 'number' }, { type: 'string' }] },
                     field_id: { type: 'number' },
                     value: { type: 'string' },
                   },

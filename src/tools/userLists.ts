@@ -5,10 +5,12 @@ import { UserService } from '../services/user/index.js';
 import { ListIdParamSchema } from '../types/list.js';
 import { UserListsParamsSchema } from '../types/user/index.js';
 
+type FastMCPSessionAuth = Record<string, unknown> | undefined;
+
 /**
  * MCP tool for fetching a Discogs user's lists
  */
-export const getUserListsTool: Tool<undefined, typeof UserListsParamsSchema> = {
+export const getUserListsTool: Tool<FastMCPSessionAuth, typeof UserListsParamsSchema> = {
   name: 'get_user_lists',
   description: `Get a user's lists`,
   parameters: UserListsParamsSchema,
@@ -27,7 +29,7 @@ export const getUserListsTool: Tool<undefined, typeof UserListsParamsSchema> = {
 /**
  * MCP tool for fetching a Discogs list by ID
  */
-export const getListTool: Tool<undefined, typeof ListIdParamSchema> = {
+export const getListTool: Tool<FastMCPSessionAuth, typeof ListIdParamSchema> = {
   name: 'get_list',
   description: `Get a list by ID`,
   parameters: ListIdParamSchema,

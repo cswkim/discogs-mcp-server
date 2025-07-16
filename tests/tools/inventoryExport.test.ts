@@ -32,7 +32,7 @@ describe('Inventory Export Tool', () => {
                 description: 'Request an export of your inventory as a CSV',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {},
                 },
@@ -143,7 +143,7 @@ describe('Inventory Export Tool', () => {
                 description: 'Get a list of all recent exports of your inventory',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {},
                 },
@@ -280,7 +280,7 @@ describe('Inventory Export Tool', () => {
                 description: 'Get details about an inventory export',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     id: { type: 'number' },
@@ -433,7 +433,7 @@ describe('Inventory Export Tool', () => {
                 description: 'Download an inventory export as a CSV',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     id: { type: 'number' },

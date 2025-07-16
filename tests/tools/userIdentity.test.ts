@@ -38,7 +38,7 @@ describe('User Identity Tools', () => {
                 description: 'Retrieve basic information about the authenticated user',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {},
                 },
@@ -156,7 +156,7 @@ describe('User Identity Tools', () => {
                 description: 'Retrieve a user by username',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -309,7 +309,7 @@ describe('User Identity Tools', () => {
                 description: "Edit a user's profile data",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -489,7 +489,7 @@ describe('User Identity Tools', () => {
                 description: `Retrieve a user's submissions by username`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -622,11 +622,11 @@ describe('User Identity Tools', () => {
                 description: `Retrieve a user's contributions by username`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  $schema: 'https://json-schema.org/draft/2020-12/schema',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
-                    page: { type: 'integer', minimum: 1 },
+                    page: { type: 'integer', minimum: 1, maximum: 9007199254740991 },
                     per_page: { type: 'integer', minimum: 1, maximum: 100 },
                     sort: {
                       type: 'string',

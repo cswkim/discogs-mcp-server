@@ -15,11 +15,13 @@ import {
   UserCollectionReleaseRatingParamsSchema,
 } from '../types/user/index.js';
 
+type FastMCPSessionAuth = Record<string, unknown> | undefined;
+
 /**
  * MCP tool for adding a release to a folder in a Discogs user's collection
  */
 export const addReleaseToUserCollectionFolderTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof UserCollectionFolderReleaseParamsSchema
 > = {
   name: 'add_release_to_user_collection_folder',
@@ -41,7 +43,7 @@ export const addReleaseToUserCollectionFolderTool: Tool<
  * MCP tool for creating a folder in a Discogs user's collection
  */
 export const createUserCollectionFolderTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof UserCollectionFolderCreateParamsSchema
 > = {
   name: 'create_user_collection_folder',
@@ -63,7 +65,7 @@ export const createUserCollectionFolderTool: Tool<
  * MCP tool for deleting a release from a folder in a Discogs user's collection
  */
 export const deleteReleaseFromUserCollectionFolderTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof UserCollectionReleaseDeletedParamsSchema
 > = {
   name: 'delete_release_from_user_collection_folder',
@@ -85,7 +87,7 @@ export const deleteReleaseFromUserCollectionFolderTool: Tool<
  * MCP tool for deleting a folder in a Discogs user's collection
  */
 export const deleteUserCollectionFolderTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof UserCollectionFolderParamsSchema
 > = {
   name: 'delete_user_collection_folder',
@@ -107,7 +109,7 @@ export const deleteUserCollectionFolderTool: Tool<
  * MCP tool for editing a custom field value for a release in a Discogs user's collection
  */
 export const editUserCollectionCustomFieldValueTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof UserCollectionCustomFieldEditParamsSchema
 > = {
   name: 'edit_user_collection_custom_field_value',
@@ -129,7 +131,7 @@ export const editUserCollectionCustomFieldValueTool: Tool<
  * MCP tool for editing a folder in a Discogs user's collection
  */
 export const editUserCollectionFolderTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof UserCollectionFolderEditParamsSchema
 > = {
   name: 'edit_user_collection_folder',
@@ -151,7 +153,7 @@ export const editUserCollectionFolderTool: Tool<
  * MCP tool for finding a release in a Discogs user's collection
  */
 export const findReleaseInUserCollectionTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof UserCollectionReleaseParamsSchema
 > = {
   name: 'find_release_in_user_collection',
@@ -172,7 +174,10 @@ export const findReleaseInUserCollectionTool: Tool<
 /**
  * MCP tool for fetching a Discogs user's collection custom fields
  */
-export const getUserCollectionCustomFieldsTool: Tool<undefined, typeof UsernameInputSchema> = {
+export const getUserCollectionCustomFieldsTool: Tool<
+  FastMCPSessionAuth,
+  typeof UsernameInputSchema
+> = {
   name: 'get_user_collection_custom_fields',
   description: `Retrieve a list of user-defined collection notes fields. These fields are available on every release in the collection.`,
   parameters: UsernameInputSchema,
@@ -191,27 +196,29 @@ export const getUserCollectionCustomFieldsTool: Tool<undefined, typeof UsernameI
 /**
  * MCP tool for fetching a Discogs user's collection folder
  */
-export const getUserCollectionFolderTool: Tool<undefined, typeof UserCollectionFolderParamsSchema> =
-  {
-    name: 'get_user_collection_folder',
-    description: `Retrieve metadata about a folder in a user's collection`,
-    parameters: UserCollectionFolderParamsSchema,
-    execute: async (args) => {
-      try {
-        const userService = new UserService();
-        const folder = await userService.collection.getFolder(args);
+export const getUserCollectionFolderTool: Tool<
+  FastMCPSessionAuth,
+  typeof UserCollectionFolderParamsSchema
+> = {
+  name: 'get_user_collection_folder',
+  description: `Retrieve metadata about a folder in a user's collection`,
+  parameters: UserCollectionFolderParamsSchema,
+  execute: async (args) => {
+    try {
+      const userService = new UserService();
+      const folder = await userService.collection.getFolder(args);
 
-        return JSON.stringify(folder);
-      } catch (error) {
-        throw formatDiscogsError(error);
-      }
-    },
-  };
+      return JSON.stringify(folder);
+    } catch (error) {
+      throw formatDiscogsError(error);
+    }
+  },
+};
 
 /**
  * MCP tool for fetching a Discogs user's collection folders
  */
-export const getUserCollectionFoldersTool: Tool<undefined, typeof UsernameInputSchema> = {
+export const getUserCollectionFoldersTool: Tool<FastMCPSessionAuth, typeof UsernameInputSchema> = {
   name: 'get_user_collection_folders',
   description: `Retrieve a list of folders in a user's collection`,
   parameters: UsernameInputSchema,
@@ -230,7 +237,10 @@ export const getUserCollectionFoldersTool: Tool<undefined, typeof UsernameInputS
 /**
  * MCP tool for fetching a Discogs user's collection items
  */
-export const getUserCollectionItemsTool: Tool<undefined, typeof UserCollectionItemsParamsSchema> = {
+export const getUserCollectionItemsTool: Tool<
+  FastMCPSessionAuth,
+  typeof UserCollectionItemsParamsSchema
+> = {
   name: 'get_user_collection_items',
   description: `Retrieve a list of items in a user's collection`,
   parameters: UserCollectionItemsParamsSchema,
@@ -249,7 +259,7 @@ export const getUserCollectionItemsTool: Tool<undefined, typeof UserCollectionIt
 /**
  * MCP tool for fetching a Discogs user's collection value
  */
-export const getUserCollectionValueTool: Tool<undefined, typeof UsernameInputSchema> = {
+export const getUserCollectionValueTool: Tool<FastMCPSessionAuth, typeof UsernameInputSchema> = {
   name: 'get_user_collection_value',
   description: `Returns the minimum, median, and maximum value of a user's collection`,
   parameters: UsernameInputSchema,
@@ -269,7 +279,7 @@ export const getUserCollectionValueTool: Tool<undefined, typeof UsernameInputSch
  * MCP tool for moving a release in a Discogs user's collection to another folder
  */
 export const moveReleaseInUserCollectionTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof UserCollectionMoveReleaseParamsSchema
 > = {
   name: 'move_release_in_user_collection',
@@ -291,7 +301,7 @@ export const moveReleaseInUserCollectionTool: Tool<
  * MCP tool for rating a release in a Discogs user's collection
  */
 export const rateReleaseInUserCollectionTool: Tool<
-  undefined,
+  FastMCPSessionAuth,
   typeof UserCollectionReleaseRatingParamsSchema
 > = {
   name: 'rate_release_in_user_collection',
