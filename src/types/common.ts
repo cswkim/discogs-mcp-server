@@ -33,8 +33,8 @@ export const ImageSchema = z.object({
  */
 export const FilteredResponseSchema = z.object({
   filters: z.object({
-    applied: z.record(z.array(z.any())).default({}),
-    available: z.record(z.record(z.number().int())).default({}),
+    applied: z.record(z.string(), z.array(z.any())).default({}),
+    available: z.record(z.string(), z.record(z.string(), z.number().int())).default({}),
   }),
   filter_facets: z.array(
     z.object({
