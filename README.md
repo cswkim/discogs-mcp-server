@@ -193,16 +193,15 @@ Any changes to local code will require Claude to be restarted to take effect. Al
 
 ### LibreChat
 
-In the `librechat.yaml` configuration file, add this to the `mcpServers` section:
+In the `librechat.yaml` configuration file, add this under the `mcpServers` section:
 
-```json
-mcpServers:
-  discogs:
-    type: stdio
-    command: npx
-    args: ["-y", "discogs-mcp-server"]
-    env:
-      DISCOGS_PERSONAL_ACCESS_TOKEN: YOUR_TOKEN_GOES_HERE
+```yaml
+discogs:
+  type: stdio
+  command: npx
+  args: ["-y", "discogs-mcp-server"]
+  env:
+    DISCOGS_PERSONAL_ACCESS_TOKEN: YOUR_TOKEN_GOES_HERE
 ```
 
 ### LM Studio
