@@ -29,6 +29,7 @@ If you just want to get started immediately using this MCP Server with the [Clau
     - [Local Node](#local-node)
     - [Docker](#docker)
   - [LibreChat](#librechat)
+  - [LM Studio](#lm-studio)
 - [TODO](#todo)
 - [License](#license)
 
@@ -203,6 +204,25 @@ mcpServers:
     env:
       DISCOGS_PERSONAL_ACCESS_TOKEN: YOUR_TOKEN_GOES_HERE
 ```
+
+### LM Studio
+
+Get to the Chat `Settings`. In the `Program` tab there will be a dropdown with a default of `Install`. Select `Edit mcp.json`. Add this under the `mcpServers` section:
+
+```json
+"discogs": {
+  "command": "npx",
+  "args": [
+    "-y",
+    "discogs-mcp-server"
+  ],
+  "env": {
+    "DISCOGS_PERSONAL_ACCESS_TOKEN": "YOUR_TOKEN_GOES_HERE"
+  }
+}
+```
+
+After you Save, in the `Program` tab there should now be an `mcp/discogs` toggle to enable the server. Within every chat box there is an `Integrations` menu where you can also enable mcp servers.
 
 ## TODO
 
