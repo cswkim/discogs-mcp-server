@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@modelcontextprotocol/sdk':
         specifier: ^1.12.0
-        version: 1.15.1
+        version: 1.16.0
       dotenv:
         specifier: ^17.0.0
         version: 17.2.0
       fastmcp:
         specifier: ^3.0.0
-        version: 3.8.5
+        version: 3.10.0
       zod:
         specifier: ^4.0.5
         version: 4.0.5
@@ -408,8 +408,8 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
-  '@modelcontextprotocol/sdk@1.15.1':
-    resolution: {integrity: sha512-W/XlN9c528yYn+9MQkVjxiTPgPxoxt+oczfjHBDsJx0+59+O7B75Zhsp0B16Xbwbz8ANISDajh6+V7nIcPMc5w==}
+  '@modelcontextprotocol/sdk@1.16.0':
+    resolution: {integrity: sha512-8ofX7gkZcLj9H9rSd50mCgm3SSF8C7XoclxJuLoV0Cz3rEQ1tv9MZRYYvJtm9n1BiEQQMzSmE/w2AEkNacLYfg==}
     engines: {node: '>=18'}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -1187,8 +1187,8 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fastmcp@3.8.5:
-    resolution: {integrity: sha512-4adFcRiE/hnCcBAP3vpiBBnIN0p84Zubi6ddTSITXgtDdBhFivOT6ZkhSy22R9uzSEgcVS9gmE+X3m6a3bztWA==}
+  fastmcp@3.10.0:
+    resolution: {integrity: sha512-oFHQKrzrIzbZcIlDMmzaYH6w0qlQiZ7Ly5ogMII3y+ujhmkksmrcc3cObVMVEtBiupwLXOpF8oVE+wZYbYQ3sw==}
     hasBin: true
 
   fastq@1.19.1:
@@ -1551,8 +1551,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-proxy@5.3.0:
-    resolution: {integrity: sha512-dknV3cAOdxJXampGqeG56G1UWFWf+2Msmh+r7WbTBqrZXaOFiZh6TSmd3Eig2+QQ5eCkLjrdpVKyjnisUSkizA==}
+  mcp-proxy@5.4.0:
+    resolution: {integrity: sha512-9B3BKPsm8uRWKRqBDB0w0pZ9O2/02Q6McdZDeThaNnkctT/HDulIER+qLThsp4kgVz5+iSYhnFN9eHEB6sYegQ==}
     hasBin: true
 
   media-typer@1.1.0:
@@ -2052,8 +2052,8 @@ packages:
   strip-literal@3.0.0:
     resolution: {integrity: sha512-TcccoMhJOM3OebGhSBEmp3UZ2SfDMZUEBdRA/9ynfLi8yYajyWX3JiXArcJt4Umh4vISpspkQIY8ZZoCqjbviA==}
 
-  strtok3@10.3.1:
-    resolution: {integrity: sha512-3JWEZM6mfix/GCJBBUrkA8p2Id2pBkyTkVCJKto55w080QBKZ+8R171fGrbiSp+yMO/u6F8/yUh7K4V9K+YCnw==}
+  strtok3@10.3.2:
+    resolution: {integrity: sha512-or9w505RhhY66+uoe5YOC5QO/bRuATaoim3XTh+pGKx5VMWi/HDhMKuCjDLsLJouU2zg9Hf1nLPcNW7IHv80kQ==}
     engines: {node: '>=18'}
 
   sucrase@3.35.0:
@@ -2199,8 +2199,8 @@ packages:
   undici-types@7.8.0:
     resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
 
-  undici@7.11.0:
-    resolution: {integrity: sha512-heTSIac3iLhsmZhUCjyS3JQEkZELateufzZuBaVM5RHXdSBMb1LPMQf5x+FH7qjsZYDP0ttAc3nnVpUB+wYbOg==}
+  undici@7.12.0:
+    resolution: {integrity: sha512-GrKEsc3ughskmGA9jevVlIOPMiiAHJ4OFUtaAH+NhfTUSiZ1wMPIQqQvAJUrJspFXJt3EBWgpAeoHEDVT1IBug==}
     engines: {node: '>=20.18.1'}
 
   unicorn-magic@0.3.0:
@@ -2746,7 +2746,7 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@modelcontextprotocol/sdk@1.15.1':
+  '@modelcontextprotocol/sdk@1.16.0':
     dependencies:
       ajv: 6.12.6
       content-type: 1.0.5
@@ -3551,16 +3551,16 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fastmcp@3.8.5:
+  fastmcp@3.10.0:
     dependencies:
-      '@modelcontextprotocol/sdk': 1.15.1
+      '@modelcontextprotocol/sdk': 1.16.0
       '@standard-schema/spec': 1.0.0
       execa: 9.6.0
       file-type: 21.0.0
       fuse.js: 7.1.0
-      mcp-proxy: 5.3.0
+      mcp-proxy: 5.4.0
       strict-event-emitter-types: 2.0.0
-      undici: 7.11.0
+      undici: 7.12.0
       uri-templates: 0.2.0
       xsschema: 0.3.0-beta.8(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76)
       yargs: 18.0.0
@@ -3594,7 +3594,7 @@ snapshots:
   file-type@21.0.0:
     dependencies:
       '@tokenizer/inflate': 0.2.7
-      strtok3: 10.3.1
+      strtok3: 10.3.2
       token-types: 6.0.3
       uint8array-extras: 1.4.0
     transitivePeerDependencies:
@@ -3917,9 +3917,9 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-proxy@5.3.0:
+  mcp-proxy@5.4.0:
     dependencies:
-      '@modelcontextprotocol/sdk': 1.15.1
+      '@modelcontextprotocol/sdk': 1.16.0
       eventsource: 4.0.0
       yargs: 18.0.0
     transitivePeerDependencies:
@@ -4403,7 +4403,7 @@ snapshots:
     dependencies:
       js-tokens: 9.0.1
 
-  strtok3@10.3.1:
+  strtok3@10.3.2:
     dependencies:
       '@tokenizer/token': 0.3.0
 
@@ -4551,7 +4551,7 @@ snapshots:
 
   undici-types@7.8.0: {}
 
-  undici@7.11.0: {}
+  undici@7.12.0: {}
 
   unicorn-magic@0.3.0: {}
 
