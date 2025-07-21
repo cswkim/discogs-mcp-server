@@ -28,6 +28,7 @@ If you just want to get started immediately using this MCP Server with the [Clau
     - [NPX](#npx)
     - [Local Node](#local-node)
     - [Docker](#docker)
+  - [LibreChat](#librechat)
 - [TODO](#todo)
 - [License](#license)
 
@@ -116,7 +117,8 @@ For more information about the MCP Inspector, visit [the official documentation]
 
 ## MCP Clients
 
-Currently, this MCP server has only been tested with Claude Desktop. More client examples will be added in the future.
+More client examples will be added in the future. If you'd like configuration for a specific client, either
+request it by opening a new issue or creating the pull request to edit this section of the README yourself.
 
 ### Claude Desktop Configuration
 
@@ -187,6 +189,20 @@ The docker image should have been built before using this method.
 ```
 
 Any changes to local code will require Claude to be restarted to take effect. Also, Claude requires human-in-the-loop interaction to allow an MCP tool to be run, so everytime a new tool is accessed Claude will ask for permission. You usually only have to do this once per tool per chat. _If using the free version, long chats may result in more frequent errors trying to run tools as Claude limits the amount of context within a single chat._
+
+### LibreChat
+
+In the `librechat.yaml` configuration file, add this to the `mcpServers` section:
+
+```json
+mcpServers:
+  discogs:
+    type: stdio
+    command: npx
+    args: ["-y", "discogs-mcp-server"]
+    env:
+      DISCOGS_PERSONAL_ACCESS_TOKEN: YOUR_TOKEN_GOES_HERE
+```
 
 ## TODO
 
