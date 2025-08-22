@@ -4,6 +4,8 @@
 [![NPM Downloads](https://img.shields.io/npm/d18m/discogs-mcp-server)](https://www.npmjs.com/package/discogs-mcp-server)
 [![Sponsor](https://img.shields.io/static/v1?label=sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4)](https://github.com/sponsors/cswkim)
 
+[![Trust Score](https://archestra.ai/mcp-catalog/api/badge/quality/cswkim/discogs-mcp-server)](https://archestra.ai/mcp-catalog/cswkim__discogs-mcp-server)
+
 # Discogs MCP Server
 
 MCP Server for the Discogs API, enabling music catalog operations, search functionality, and more.
