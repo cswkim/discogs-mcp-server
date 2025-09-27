@@ -1,5 +1,13 @@
 # discogs-mcp-server
 
+## 0.4.3
+
+### Patch Changes
+
+- feat: replace dotenv with a forked version that does not use console logging ([`0c4e463`](https://github.com/cswkim/discogs-mcp-server/commit/0c4e4632133820c0fda06d06a12a342bb7a63d16))
+
+- chore: dependency updates ([`eaa8b76`](https://github.com/cswkim/discogs-mcp-server/commit/eaa8b762a8e19b8d4d0414cb3be974c276159c58))
+
 ## 0.4.2
 
 ### Patch Changes
