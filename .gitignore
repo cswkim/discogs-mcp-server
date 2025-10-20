@@ -29,3 +29,5 @@ Thumbs.db
 
 # Cursor specific
 .cursor/
+
+RELEASE.md
