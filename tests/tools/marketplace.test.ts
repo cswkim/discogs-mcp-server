@@ -125,7 +125,7 @@ describe('Marketplace Tools', () => {
                 description: 'Create a new marketplace listing',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     release_id: {
@@ -293,7 +293,7 @@ describe('Marketplace Tools', () => {
                 description: 'Get a listing from the marketplace',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     listing_id: {
@@ -412,7 +412,7 @@ describe('Marketplace Tools', () => {
                 description: 'Delete a marketplace listing',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     listing_id: {
@@ -527,7 +527,7 @@ describe('Marketplace Tools', () => {
                 description: 'Update a marketplace listing',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     listing_id: {
@@ -752,7 +752,7 @@ describe('Marketplace Tools', () => {
                 description: 'Get a marketplace order',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     order_id: {
@@ -917,7 +917,7 @@ describe('Marketplace Tools', () => {
                 description: 'Edit a marketplace order',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     order_id: {
@@ -1112,7 +1112,7 @@ describe('Marketplace Tools', () => {
                 description: 'Get a list of marketplace orders',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     status: {
@@ -1295,7 +1295,7 @@ describe('Marketplace Tools', () => {
                 description: `Get a list of an order's messages`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     order_id: {
@@ -1446,7 +1446,7 @@ describe('Marketplace Tools', () => {
                 description: `Adds a new message to the order's message log`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     order_id: {
@@ -1596,7 +1596,7 @@ describe('Marketplace Tools', () => {
                 description: 'Retrieve marketplace statistics for the provided Release ID',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     release_id: {
@@ -1807,7 +1807,7 @@ describe('Marketplace Tools', () => {
                 description: `Returns the list of listings in a user's inventory`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },

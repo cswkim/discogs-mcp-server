@@ -45,7 +45,7 @@ describe('Database Tools', () => {
                 description: 'Get a release',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -195,7 +195,7 @@ describe('Database Tools', () => {
                 description: `Retrieves the release's rating for a given user`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -322,7 +322,7 @@ describe('Database Tools', () => {
                 description: `Updates the release's rating for a given user`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -466,7 +466,7 @@ describe('Database Tools', () => {
                 description: `Deletes the release's rating for a given user`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -587,7 +587,7 @@ describe('Database Tools', () => {
                 description: 'Retrieves the release community rating average and count',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -713,7 +713,7 @@ describe('Database Tools', () => {
                 description: 'Get a master release',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     master_id: {
@@ -860,7 +860,7 @@ describe('Database Tools', () => {
                 description: 'Get an artist',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     artist_id: { type: 'number' },
@@ -986,7 +986,7 @@ describe('Database Tools', () => {
                 description: `Get an artist's releases`,
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     artist_id: { type: 'number' },
@@ -1145,7 +1145,7 @@ describe('Database Tools', () => {
                 description: 'Get a label',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     label_id: { type: 'number' },
@@ -1271,7 +1271,7 @@ describe('Database Tools', () => {
                 description: 'Returns a list of Releases associated with the label',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     label_id: { type: 'number' },
@@ -1430,7 +1430,7 @@ describe('Database Tools', () => {
                 description: 'Issue a search query to the Discogs database',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     q: { type: 'string' },
@@ -1551,7 +1551,7 @@ describe('Database Tools', () => {
                 description: 'Retrieves a list of all Releases that are versions of this master',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     master_id: {
