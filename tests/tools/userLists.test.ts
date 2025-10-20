@@ -28,7 +28,7 @@ describe('User Lists Tools', () => {
                 description: "Get a user's lists",
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -176,7 +176,7 @@ describe('User Lists Tools', () => {
                 description: 'Get a list by ID',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     list_id: {

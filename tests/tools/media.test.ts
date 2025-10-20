@@ -26,7 +26,7 @@ describe('Media Tools', () => {
                 description: 'Fetch an image by URL',
                 inputSchema: {
                   additionalProperties: false,
-                  $schema: 'https://json-schema.org/draft/2020-12/schema',
+                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     url: { type: 'string', format: 'uri' },
