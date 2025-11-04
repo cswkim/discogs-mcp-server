@@ -65,6 +65,8 @@ To get your Discogs personal access token, go to your [Discogs Settings > Develo
 
 The other environment variables in `.env.example` are optional and have sensible defaults, so you don't need to set them unless you have specific requirements.
 
+- `SERVER_HOST`: The host address to bind the server to (default: `0.0.0.0`). Set to `0.0.0.0` to allow connections from outside the container/machine, or `127.0.0.1` to restrict to localhost only.
+
 ## Running the Server Locally
 
 ### Option 1: Local Development
@@ -101,6 +103,7 @@ The other environment variables in `.env.example` are optional and have sensible
    For HTTP Streaming transport mode:
    ```bash
    # The port should match what is in your .env file
+   # By default, the server listens on 0.0.0.0, allowing connections from outside the container
    docker run --env-file .env -p 3001:3001 discogs-mcp-server:latest stream
    ```
 
