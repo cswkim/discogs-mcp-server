@@ -38,6 +38,7 @@ try {
       transportType: 'httpStream',
       httpStream: {
         port: config.server.port,
+        host: config.server.host,
       },
     });
   }
