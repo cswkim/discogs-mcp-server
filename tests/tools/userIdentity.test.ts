@@ -37,8 +37,6 @@ describe('User Identity Tools', () => {
                 name: 'get_user_identity',
                 description: 'Retrieve basic information about the authenticated user',
                 inputSchema: {
-                  additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {},
                 },
@@ -155,8 +153,6 @@ describe('User Identity Tools', () => {
                 name: 'get_user_profile',
                 description: 'Retrieve a user by username',
                 inputSchema: {
-                  additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -308,8 +304,6 @@ describe('User Identity Tools', () => {
                 name: 'edit_user_profile',
                 description: "Edit a user's profile data",
                 inputSchema: {
-                  additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -488,8 +482,6 @@ describe('User Identity Tools', () => {
                 name: 'get_user_submissions',
                 description: `Retrieve a user's submissions by username`,
                 inputSchema: {
-                  additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -621,8 +613,6 @@ describe('User Identity Tools', () => {
                 name: 'get_user_contributions',
                 description: `Retrieve a user's contributions by username`,
                 inputSchema: {
-                  additionalProperties: false,
-                  $schema: 'http://json-schema.org/draft-07/schema#',
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
