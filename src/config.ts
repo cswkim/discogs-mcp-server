@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import type { LoggingLevel } from 'fastmcp';
 import { VERSION } from './version.js';
 
 // Load environment variables from .env file
@@ -19,6 +20,13 @@ export const config = {
     name: process.env.SERVER_NAME || 'Discogs MCP Server',
     port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3001,
     host: process.env.SERVER_HOST || '0.0.0.0',
+    ping: {
+      // Enable ping for HTTP stream transport to prevent SSE timeouts
+      // Default interval is 30 seconds (well under typical 60s timeout)
+      enabled: process.env.PING_ENABLED !== 'false',
+      intervalMs: process.env.PING_INTERVAL_MS ? parseInt(process.env.PING_INTERVAL_MS, 10) : 30000,
+      logLevel: (process.env.PING_LOG_LEVEL as LoggingLevel | undefined) || 'debug',
+    },
   },
 };
 
