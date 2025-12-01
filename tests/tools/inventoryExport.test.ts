@@ -31,6 +31,8 @@ describe('Inventory Export Tool', () => {
                 name: 'inventory_export',
                 description: 'Request an export of your inventory as a CSV',
                 inputSchema: {
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {},
                 },
@@ -140,6 +142,8 @@ describe('Inventory Export Tool', () => {
                 name: 'get_inventory_exports',
                 description: 'Get a list of all recent exports of your inventory',
                 inputSchema: {
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {},
                 },
@@ -275,6 +279,8 @@ describe('Inventory Export Tool', () => {
                 name: 'get_inventory_export',
                 description: 'Get details about an inventory export',
                 inputSchema: {
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     id: { type: 'number' },
@@ -426,6 +432,8 @@ describe('Inventory Export Tool', () => {
                 name: 'download_inventory_export',
                 description: 'Download an inventory export as a CSV',
                 inputSchema: {
+                  $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     id: { type: 'number' },
