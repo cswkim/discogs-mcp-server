@@ -7,6 +7,9 @@ COPY tsconfig.json ./
 COPY tsup.config.ts ./
 COPY src ./src
 
+# Install git for GitHub dependencies
+RUN apk add --no-cache git
+
 RUN --mount=type=cache,target=/root/.npm npm install
 RUN npm run build
 
