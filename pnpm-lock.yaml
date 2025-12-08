@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@modelcontextprotocol/sdk':
         specifier: ^1.12.0
-        version: 1.24.0(zod@4.1.13)
+        version: 1.24.3(zod@4.1.13)
       dotenv:
         specifier: github:cswkim/dotenv
         version: https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523
       fastmcp:
         specifier: ^3.0.0
-        version: 3.24.0
+        version: 3.25.3
       zod:
         specifier: ^4.0.5
         version: 4.1.13
@@ -568,8 +568,8 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
-  '@modelcontextprotocol/sdk@1.24.0':
-    resolution: {integrity: sha512-D8h5KXY2vHFW8zTuxn2vuZGN0HGrQ5No6LkHwlEA9trVgNdPL3TF1dSqKA7Dny6BbBYKSW/rOBDXdC8KJAjUCg==}
+  '@modelcontextprotocol/sdk@1.24.3':
+    resolution: {integrity: sha512-YgSHW29fuzKKAHTGe9zjNoo+yF8KaQPzDC2W9Pv41E7/57IfY+AMGJ/aDFlgTLcVVELoggKE4syABCE75u3NCw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@cfworker/json-schema': ^4.1.1
@@ -1374,8 +1374,8 @@ packages:
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
 
-  fastmcp@3.24.0:
-    resolution: {integrity: sha512-HBdDOwnboVDR1wDZZM9HNiukw3qNMN/jK29JzH5IrO1yfZUgbESO1Ovse4xrQV0ia3+Vcu2aOzlYrIxlPEaS9g==}
+  fastmcp@3.25.3:
+    resolution: {integrity: sha512-+uOPRMemvRbKFHbliJj6u7bnzRRvisT7jQFvwS84K3CrAZTjpJcMZhaxcOT3I0Gav0VHxApMAEJITbZwvdg+Ig==}
     hasBin: true
     peerDependencies:
       jose: ^5.0.0
@@ -1741,8 +1741,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-proxy@5.12.0:
-    resolution: {integrity: sha512-HiuAl+SP3ZclvB4RKEm9MUEAjzBWp6uGeiGVu6SEI+qHbgWJ2WIbm9SRvqEkEi4copCyJrG/qHXILj7xkLcuWA==}
+  mcp-proxy@5.12.5:
+    resolution: {integrity: sha512-Vawdc8vi36fXxKCaDpluRvbGcmrUXJdvXcDhkh30HYsws8XqX2rWPBflZpavzeS+6SwijRFV7g+9ypQRJZlrEQ==}
     hasBin: true
 
   media-typer@1.1.0:
@@ -2549,9 +2549,6 @@ packages:
     peerDependencies:
       zod: ^3.25 || ^4
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
-
   zod@4.1.13:
     resolution: {integrity: sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig==}
 
@@ -2988,26 +2985,7 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@modelcontextprotocol/sdk@1.24.0(zod@3.25.76)':
-    dependencies:
-      ajv: 8.17.1
-      ajv-formats: 3.0.1(ajv@8.17.1)
-      content-type: 1.0.5
-      cors: 2.8.5
-      cross-spawn: 7.0.6
-      eventsource: 3.0.7
-      eventsource-parser: 3.0.6
-      express: 5.2.1
-      express-rate-limit: 7.5.1(express@5.2.1)
-      jose: 6.1.3
-      pkce-challenge: 5.0.1
-      raw-body: 3.0.2
-      zod: 3.25.76
-      zod-to-json-schema: 3.25.0(zod@3.25.76)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@modelcontextprotocol/sdk@1.24.0(zod@4.1.13)':
+  '@modelcontextprotocol/sdk@1.24.3(zod@4.1.13)':
     dependencies:
       ajv: 8.17.1
       ajv-formats: 3.0.1(ajv@8.17.1)
@@ -3840,21 +3818,21 @@ snapshots:
 
   fast-uri@3.1.0: {}
 
-  fastmcp@3.24.0:
+  fastmcp@3.25.3:
     dependencies:
-      '@modelcontextprotocol/sdk': 1.24.0(zod@3.25.76)
+      '@modelcontextprotocol/sdk': 1.24.3(zod@4.1.13)
       '@standard-schema/spec': 1.0.0
       execa: 9.6.1
       file-type: 21.1.1
       fuse.js: 7.1.0
-      mcp-proxy: 5.12.0
+      mcp-proxy: 5.12.5
       strict-event-emitter-types: 2.0.0
       undici: 7.16.0
       uri-templates: 0.2.0
-      xsschema: 0.4.0-beta.5(zod-to-json-schema@3.25.0(zod@3.25.76))(zod@3.25.76)
+      xsschema: 0.4.0-beta.5(zod-to-json-schema@3.25.0(zod@4.1.13))(zod@4.1.13)
       yargs: 18.0.0
-      zod: 3.25.76
-      zod-to-json-schema: 3.25.0(zod@3.25.76)
+      zod: 4.1.13
+      zod-to-json-schema: 3.25.0(zod@4.1.13)
     transitivePeerDependencies:
       - '@cfworker/json-schema'
       - '@valibot/to-json-schema'
@@ -4205,7 +4183,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-proxy@5.12.0: {}
+  mcp-proxy@5.12.5: {}
 
   media-typer@1.1.0: {}
 
@@ -4920,10 +4898,10 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  xsschema@0.4.0-beta.5(zod-to-json-schema@3.25.0(zod@3.25.76))(zod@3.25.76):
+  xsschema@0.4.0-beta.5(zod-to-json-schema@3.25.0(zod@4.1.13))(zod@4.1.13):
     optionalDependencies:
-      zod: 3.25.76
-      zod-to-json-schema: 3.25.0(zod@3.25.76)
+      zod: 4.1.13
+      zod-to-json-schema: 3.25.0(zod@4.1.13)
 
   y18n@5.0.8: {}
 
@@ -4942,14 +4920,8 @@ snapshots:
 
   yoctocolors@2.1.2: {}
 
-  zod-to-json-schema@3.25.0(zod@3.25.76):
-    dependencies:
-      zod: 3.25.76
-
   zod-to-json-schema@3.25.0(zod@4.1.13):
     dependencies:
       zod: 4.1.13
-
-  zod@3.25.76: {}
 
   zod@4.1.13: {}
