@@ -42,7 +42,7 @@
     "test:watch": "vitest watch",
     "version:check": "node .github/scripts/check-version.js",
     "version:sync": "node scripts/sync-version.js",
-    "changeset:version": "changeset version && pnpm version:sync && git add --all",
+    "changeset:version": "changeset version && pnpm version:sync && git add src/version.ts && git commit --amend --no-edit",
     "changeset:tag": "changeset tag"
   },
   "dependencies": {
