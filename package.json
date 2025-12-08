@@ -71,5 +71,10 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.0",
     "vitest": "^4.0.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "glob": ">=10.5.0"
+    }
   }
 }
