@@ -1,5 +1,21 @@
 # discogs-mcp-server
 
+## 0.5.0
+
+### Minor Changes
+
+- feat: add configurable server host binding for external connections ([#92](https://github.com/cswkim/discogs-mcp-server/pull/92))
+
+### Patch Changes
+
+- chore: dependency updates ([`0b5f5b7`](https://github.com/cswkim/discogs-mcp-server/commit/0b5f5b70c96f2a12cf3f69e638d4c7b17b6c5b2e))
+
+- fix(security): override js-yaml to >=4.1.1 to patch prototype pollution vulnerability ([#110](https://github.com/cswkim/discogs-mcp-server/pull/110))
+
+- fix: install git in builder stage for GitHub dependencies ([#105](https://github.com/cswkim/discogs-mcp-server/pull/105))
+
+- fix(security): override glob to >=10.5.0 to patch command injection vulnerability ([#109](https://github.com/cswkim/discogs-mcp-server/pull/109))
+
 ## 0.4.3
 
 ### Patch Changes
