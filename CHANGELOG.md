@@ -1,5 +1,11 @@
 # discogs-mcp-server
 
+## 0.5.1
+
+### Patch Changes
+
+- fix(security): update qs to >=6.14.1 to patch CVE-2025-15284 ([#117](https://github.com/cswkim/discogs-mcp-server/pull/117))
+
 ## 0.5.0
 
 ### Minor Changes
