@@ -1,5 +1,11 @@
 # discogs-mcp-server
 
+## 0.5.2
+
+### Patch Changes
+
+- fix(security): update hono to >=4.11.4 to patch JWT algorithm confusion vulnerabilities (CVE-2026-22817, CVE-2026-22818) ([#123](https://github.com/cswkim/discogs-mcp-server/pull/123))
+
 ## 0.5.1
 
 ### Patch Changes
