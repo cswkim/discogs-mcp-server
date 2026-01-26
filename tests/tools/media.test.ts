@@ -1,9 +1,20 @@
 import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { FastMCP } from 'fastmcp';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fetchImageTool } from '../../src/tools/media.js';
 import { mockImageContent, mockImageUrl } from '../utils/testImageData.js';
 import { runWithTestServer } from '../utils/testServer.js';
+
+vi.mock('fastmcp', async () => {
+  const actual = await vi.importActual<typeof import('fastmcp')>('fastmcp');
+  const { mockImageContent } = await import('../utils/testImageData.js');
+  return {
+    ...actual,
+    imageContent: vi.fn().mockResolvedValue({
+      content: [mockImageContent],
+    }),
+  };
+});
 
 describe('Media Tools', () => {
   describe('fetch_image', () => {
