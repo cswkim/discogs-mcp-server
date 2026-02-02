@@ -1,5 +1,11 @@
 # discogs-mcp-server
 
+## 0.5.3
+
+### Patch Changes
+
+- chore: update hono to address CVE-2026-24398, CVE-2026-24472, CVE-2026-24473 ([#128](https://github.com/cswkim/discogs-mcp-server/pull/128))
+
 ## 0.5.2
 
 ### Patch Changes
