@@ -22,7 +22,7 @@ importers:
         version: https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523
       fastmcp:
         specifier: ^3.0.0
-        version: 3.30.1(hono@4.11.7)
+        version: 3.31.0
       zod:
         specifier: ^4.0.5
         version: 4.3.6
@@ -1149,8 +1149,8 @@ packages:
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
 
-  fastmcp@3.30.1:
-    resolution: {integrity: sha512-5NP3hE9RF2dah+gQ19KFfB/rEbveAd1kByK48yrfoT+cZJmHXeoPHPGkonxSOvziTy9/LdRZJnMhFxSh6TLx5Q==}
+  fastmcp@3.31.0:
+    resolution: {integrity: sha512-e2LlF8EmPnwjyAg+JMyXnsMq2ametV3PuSWuhVONP2yZitDXkmDo40TiPQ0qUvU9j7TvdPm5YrjCMsxkkU1XXw==}
     hasBin: true
     peerDependencies:
       jose: ^5.0.0
@@ -2171,8 +2171,8 @@ packages:
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
-  undici@7.19.2:
-    resolution: {integrity: sha512-4VQSpGEGsWzk0VYxyB/wVX/Q7qf9t5znLRgs0dzszr9w9Fej/8RVNQ+S20vdXSAyra/bJ7ZQfGv6ZMj7UEbzSg==}
+  undici@7.20.0:
+    resolution: {integrity: sha512-MJZrkjyd7DeC+uPZh+5/YaMDxFiiEEaDgbUSVMXayofAkDWF1088CDo+2RPg7B1BuS1qf1vgNE7xqwPxE0DuSQ==}
     engines: {node: '>=20.18.1'}
 
   unicorn-magic@0.3.0:
@@ -3479,16 +3479,17 @@ snapshots:
 
   fast-uri@3.1.0: {}
 
-  fastmcp@3.30.1(hono@4.11.7):
+  fastmcp@3.31.0:
     dependencies:
       '@modelcontextprotocol/sdk': 1.25.3(hono@4.11.7)(zod@4.3.6)
       '@standard-schema/spec': 1.1.0
       execa: 9.6.1
       file-type: 21.3.0
       fuse.js: 7.1.0
+      hono: 4.11.7
       mcp-proxy: 6.4.0
       strict-event-emitter-types: 2.0.0
-      undici: 7.19.2
+      undici: 7.20.0
       uri-templates: 0.2.0
       xsschema: 0.4.0-beta.5(zod-to-json-schema@3.25.1(zod@4.3.6))(zod@4.3.6)
       yargs: 18.0.0
@@ -3499,7 +3500,6 @@ snapshots:
       - '@valibot/to-json-schema'
       - arktype
       - effect
-      - hono
       - supports-color
       - sury
 
@@ -4475,7 +4475,7 @@ snapshots:
 
   undici-types@7.16.0: {}
 
-  undici@7.19.2: {}
+  undici@7.20.0: {}
 
   unicorn-magic@0.3.0: {}
 
