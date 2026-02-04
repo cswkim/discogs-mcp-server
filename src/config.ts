@@ -14,6 +14,10 @@ export const config = {
     mediaType: process.env.DISCOGS_MEDIA_TYPE || 'application/vnd.discogs.v2.discogs+json',
     personalAccessToken: process.env.DISCOGS_PERSONAL_ACCESS_TOKEN,
     userAgent: process.env.DISCOGS_USER_AGENT || `DiscogsMCPServer/${VERSION}`,
+    authMode: (process.env.DISCOGS_AUTH_MODE?.toLowerCase() || 'auto') as
+      | 'token'
+      | 'oauth'
+      | 'auto',
   },
   server: {
     name: process.env.SERVER_NAME || 'Discogs MCP Server',
@@ -22,15 +26,24 @@ export const config = {
   },
 };
 
-// Validate required configuration
+/**
+ * Validates configuration at startup
+ * Ensures required values are present based on auth mode
+ */
 export function validateConfig(): void {
-  const missingVars: string[] = [];
+  const { authMode, personalAccessToken } = config.discogs;
 
-  if (!process.env.DISCOGS_PERSONAL_ACCESS_TOKEN) {
-    missingVars.push('DISCOGS_PERSONAL_ACCESS_TOKEN');
+  // Validate auth mode value
+  if (!['token', 'oauth', 'auto'].includes(authMode)) {
+    throw new Error(
+      `Invalid DISCOGS_AUTH_MODE: "${authMode}". Allowed values: 'token', 'oauth', 'auto'`,
+    );
   }
 
-  if (missingVars.length > 0) {
-    throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+  // If token mode is explicitly set, require the token
+  if (authMode === 'token' && !personalAccessToken) {
+    throw new Error(
+      'DISCOGS_AUTH_MODE is set to "token" but DISCOGS_PERSONAL_ACCESS_TOKEN is not set',
+    );
   }
 }

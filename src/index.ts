@@ -11,7 +11,7 @@ function assertTransportType(transportType: string): transportType is ServerTran
   return transportType === 'stdio' || transportType === 'stream';
 }
 
-try {
+async function main(): Promise<void> {
   validateConfig();
 
   // Grab the transport type from the command line
@@ -44,10 +44,12 @@ try {
   }
 
   log.info(`${config.server.name} started with transport type: ${transportType}`);
-} catch (error: unknown) {
+}
+
+main().catch((error: unknown) => {
   log.error(`Failed to run the ${config.server.name}: `, error);
   process.exit(1);
-}
+});
 
 // Handle process termination gracefully
 process.on('SIGINT', () => {

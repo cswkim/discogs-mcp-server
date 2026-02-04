@@ -49,6 +49,7 @@
     "@modelcontextprotocol/sdk": "^1.12.0",
     "dotenv": "github:cswkim/dotenv",
     "fastmcp": "^3.0.0",
+    "get-port-please": "^3.1.2",
     "zod": "^4.0.5"
   },
   "devDependencies": {
@@ -63,7 +64,6 @@
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.6",
-    "get-port-please": "^3.1.2",
     "prettier": "^3.5.3",
     "shx": "^0.4.0",
     "tsup": "^8.4.0",
