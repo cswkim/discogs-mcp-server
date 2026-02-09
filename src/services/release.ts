@@ -40,7 +40,7 @@ export class ReleaseService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to delete release rating: ${String(error)}`);
+      throw new Error(`Failed to delete release rating: ${String(error)}`, { cause: error });
     }
   }
 
@@ -72,7 +72,7 @@ export class ReleaseService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to edit release rating: ${String(error)}`);
+      throw new Error(`Failed to edit release rating: ${String(error)}`, { cause: error });
     }
   }
 
@@ -99,7 +99,7 @@ export class ReleaseService extends DiscogsService {
       }
 
       // For validation errors or other unexpected errors, wrap them
-      throw new Error(`Failed to get release: ${String(error)}`);
+      throw new Error(`Failed to get release: ${String(error)}`, { cause: error });
     }
   }
 
@@ -122,7 +122,7 @@ export class ReleaseService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get release community rating: ${String(error)}`);
+      throw new Error(`Failed to get release community rating: ${String(error)}`, { cause: error });
     }
   }
 
@@ -145,7 +145,7 @@ export class ReleaseService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get release rating: ${String(error)}`);
+      throw new Error(`Failed to get release rating: ${String(error)}`, { cause: error });
     }
   }
 }

@@ -55,7 +55,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to create listing: ${String(error)}`);
+      throw new Error(`Failed to create listing: ${String(error)}`, { cause: error });
     }
   }
 
@@ -86,7 +86,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to create order message: ${String(error)}`);
+      throw new Error(`Failed to create order message: ${String(error)}`, { cause: error });
     }
   }
 
@@ -109,7 +109,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to delete listing: ${String(error)}`);
+      throw new Error(`Failed to delete listing: ${String(error)}`, { cause: error });
     }
   }
 
@@ -134,7 +134,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get listing: ${String(error)}`);
+      throw new Error(`Failed to get listing: ${String(error)}`, { cause: error });
     }
   }
 
@@ -159,7 +159,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get order: ${String(error)}`);
+      throw new Error(`Failed to get order: ${String(error)}`, { cause: error });
     }
   }
 
@@ -189,7 +189,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get order messages: ${String(error)}`);
+      throw new Error(`Failed to get order messages: ${String(error)}`, { cause: error });
     }
   }
 
@@ -215,7 +215,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get orders: ${String(error)}`);
+      throw new Error(`Failed to get orders: ${String(error)}`, { cause: error });
     }
   }
 
@@ -240,7 +240,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get release stats: ${String(error)}`);
+      throw new Error(`Failed to get release stats: ${String(error)}`, { cause: error });
     }
   }
 
@@ -267,7 +267,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to edit order: ${String(error)}`);
+      throw new Error(`Failed to edit order: ${String(error)}`, { cause: error });
     }
   }
 
@@ -290,7 +290,7 @@ export class MarketplaceService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to update listing: ${String(error)}`);
+      throw new Error(`Failed to update listing: ${String(error)}`, { cause: error });
     }
   }
 }

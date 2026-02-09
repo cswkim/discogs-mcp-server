@@ -34,7 +34,7 @@ export class UserProfileService extends BaseUserService {
       }
 
       // For validation errors or other unexpected errors, wrap them
-      throw new Error(`Failed to get profile: ${String(error)}`);
+      throw new Error(`Failed to get profile: ${String(error)}`, { cause: error });
     }
   }
 
@@ -65,7 +65,7 @@ export class UserProfileService extends BaseUserService {
       }
 
       // For validation errors or other unexpected errors, wrap them
-      throw new Error(`Failed to edit profile: ${String(error)}`);
+      throw new Error(`Failed to edit profile: ${String(error)}`, { cause: error });
     }
   }
 }

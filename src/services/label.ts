@@ -33,7 +33,7 @@ export class LabelService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get label: ${String(error)}`);
+      throw new Error(`Failed to get label: ${String(error)}`, { cause: error });
     }
   }
 
@@ -58,7 +58,7 @@ export class LabelService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get label releases: ${String(error)}`);
+      throw new Error(`Failed to get label releases: ${String(error)}`, { cause: error });
     }
   }
 }

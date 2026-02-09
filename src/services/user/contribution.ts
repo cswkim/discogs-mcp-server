@@ -31,7 +31,7 @@ export class UserContributionsService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to get user contributions: ${String(error)}`);
+      throw new Error(`Failed to get user contributions: ${String(error)}`, { cause: error });
     }
   }
 }
@@ -56,7 +56,7 @@ export class UserSubmissionsService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to get user submissions: ${String(error)}`);
+      throw new Error(`Failed to get user submissions: ${String(error)}`, { cause: error });
     }
   }
 }

@@ -31,7 +31,7 @@ export class UserInventoryService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to get inventory: ${String(error)}`);
+      throw new Error(`Failed to get inventory: ${String(error)}`, { cause: error });
     }
   }
 }
