@@ -1,5 +1,13 @@
 # discogs-mcp-server
 
+## 0.5.4
+
+### Patch Changes
+
+- fix(security): upgrade MCP SDK to 1.26.0 to address CVE-2026-25536 (GHSA-345p-7cg4-v4c7) ([#131](https://github.com/cswkim/discogs-mcp-server/pull/131))
+
+- fix(lint): attach cause to rethrown errors for preserve-caught-error ([#134](https://github.com/cswkim/discogs-mcp-server/pull/134))
+
 ## 0.5.3
 
 ### Patch Changes
