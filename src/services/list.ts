@@ -33,7 +33,7 @@ export class ListService extends DiscogsService {
       }
 
       // For validation errors or other unexpected errors, wrap them
-      throw new Error(`Failed to get list: ${String(error)}`);
+      throw new Error(`Failed to get list: ${String(error)}`, { cause: error });
     }
   }
 }

@@ -39,7 +39,7 @@ export class UserWantsService extends BaseUserService {
       }
 
       // For validation errors or other unexpected errors, wrap them
-      throw new Error(`Failed to get wantlist: ${String(error)}`);
+      throw new Error(`Failed to get wantlist: ${String(error)}`, { cause: error });
     }
   }
 
@@ -74,7 +74,7 @@ export class UserWantsService extends BaseUserService {
       }
 
       // For validation errors or other unexpected errors, wrap them
-      throw new Error(`Failed to add to wantlist: ${String(error)}`);
+      throw new Error(`Failed to add to wantlist: ${String(error)}`, { cause: error });
     }
   }
 
@@ -109,7 +109,7 @@ export class UserWantsService extends BaseUserService {
       }
 
       // For validation errors or other unexpected errors, wrap them
-      throw new Error(`Failed to add to wantlist: ${String(error)}`);
+      throw new Error(`Failed to add to wantlist: ${String(error)}`, { cause: error });
     }
   }
 
@@ -134,7 +134,7 @@ export class UserWantsService extends BaseUserService {
       }
 
       // For other unexpected errors, wrap them
-      throw new Error(`Failed to delete from wantlist: ${String(error)}`);
+      throw new Error(`Failed to delete from wantlist: ${String(error)}`, { cause: error });
     }
   }
 }

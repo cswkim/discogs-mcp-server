@@ -30,7 +30,7 @@ export class OAuthService extends DiscogsService {
       }
 
       // For validation errors or other unexpected errors, wrap them
-      throw new Error(`Failed to get identity: ${String(error)}`);
+      throw new Error(`Failed to get identity: ${String(error)}`, { cause: error });
     }
   }
 }

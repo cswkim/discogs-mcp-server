@@ -30,7 +30,7 @@ export class InventoryService extends DiscogsService {
       if (isDiscogsError(error)) {
         throw error;
       }
-      throw new Error(`Failed to download inventory export: ${String(error)}`);
+      throw new Error(`Failed to download inventory export: ${String(error)}`, { cause: error });
     }
   }
 
@@ -50,7 +50,7 @@ export class InventoryService extends DiscogsService {
       if (isDiscogsError(error)) {
         throw error;
       }
-      throw new Error(`Failed to export inventory: ${String(error)}`);
+      throw new Error(`Failed to export inventory: ${String(error)}`, { cause: error });
     }
   }
 
@@ -73,7 +73,7 @@ export class InventoryService extends DiscogsService {
       if (isDiscogsError(error)) {
         throw error;
       }
-      throw new Error(`Failed to get inventory export: ${String(error)}`);
+      throw new Error(`Failed to get inventory export: ${String(error)}`, { cause: error });
     }
   }
 
@@ -94,7 +94,7 @@ export class InventoryService extends DiscogsService {
       if (isDiscogsError(error)) {
         throw error;
       }
-      throw new Error(`Failed to get inventory exports: ${String(error)}`);
+      throw new Error(`Failed to get inventory exports: ${String(error)}`, { cause: error });
     }
   }
 }

@@ -61,7 +61,7 @@ export class UserCollectionService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to add release to folder: ${String(error)}`);
+      throw new Error(`Failed to add release to folder: ${String(error)}`, { cause: error });
     }
   }
 
@@ -93,7 +93,7 @@ export class UserCollectionService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to create folder: ${String(error)}`);
+      throw new Error(`Failed to create folder: ${String(error)}`, { cause: error });
     }
   }
 
@@ -118,7 +118,7 @@ export class UserCollectionService extends BaseUserService {
       }
 
       // For unexpected errors, wrap them
-      throw new Error(`Failed to delete folder: ${String(error)}`);
+      throw new Error(`Failed to delete folder: ${String(error)}`, { cause: error });
     }
   }
 
@@ -150,7 +150,7 @@ export class UserCollectionService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to delete release from folder: ${String(error)}`);
+      throw new Error(`Failed to delete release from folder: ${String(error)}`, { cause: error });
     }
   }
 
@@ -185,7 +185,7 @@ export class UserCollectionService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to edit custom field value: ${String(error)}`);
+      throw new Error(`Failed to edit custom field value: ${String(error)}`, { cause: error });
     }
   }
 
@@ -223,7 +223,7 @@ export class UserCollectionService extends BaseUserService {
       }
 
       // For unexpected errors, wrap them
-      throw new Error(`Failed to edit folder: ${String(error)}`);
+      throw new Error(`Failed to edit folder: ${String(error)}`, { cause: error });
     }
   }
 
@@ -259,7 +259,7 @@ export class UserCollectionService extends BaseUserService {
       }
 
       // For unexpected errors, wrap them
-      throw new Error(`Failed to find release in collection: ${String(error)}`);
+      throw new Error(`Failed to find release in collection: ${String(error)}`, { cause: error });
     }
   }
 
@@ -286,7 +286,7 @@ export class UserCollectionService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to get collection custom fields: ${String(error)}`);
+      throw new Error(`Failed to get collection custom fields: ${String(error)}`, { cause: error });
     }
   }
 
@@ -313,7 +313,7 @@ export class UserCollectionService extends BaseUserService {
       }
 
       // For unexpected errors, wrap them
-      throw new Error(`Failed to get collection folders: ${String(error)}`);
+      throw new Error(`Failed to get collection folders: ${String(error)}`, { cause: error });
     }
   }
 
@@ -343,7 +343,7 @@ export class UserCollectionService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to get folder: ${String(error)}`);
+      throw new Error(`Failed to get folder: ${String(error)}`, { cause: error });
     }
   }
 
@@ -377,7 +377,7 @@ export class UserCollectionService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to get collection items: ${String(error)}`);
+      throw new Error(`Failed to get collection items: ${String(error)}`, { cause: error });
     }
   }
 
@@ -405,7 +405,7 @@ export class UserCollectionService extends BaseUserService {
       }
 
       // For unexpected errors, wrap them
-      throw new Error(`Failed to get collection value: ${String(error)}`);
+      throw new Error(`Failed to get collection value: ${String(error)}`, { cause: error });
     }
   }
 
@@ -438,7 +438,7 @@ export class UserCollectionService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to move release: ${String(error)}`);
+      throw new Error(`Failed to move release: ${String(error)}`, { cause: error });
     }
   }
 
@@ -471,7 +471,7 @@ export class UserCollectionService extends BaseUserService {
         throw error;
       }
 
-      throw new Error(`Failed to rate release: ${String(error)}`);
+      throw new Error(`Failed to rate release: ${String(error)}`, { cause: error });
     }
   }
 }

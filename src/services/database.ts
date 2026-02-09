@@ -29,7 +29,7 @@ export class DatabaseService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to search database: ${String(error)}`);
+      throw new Error(`Failed to search database: ${String(error)}`, { cause: error });
     }
   }
 }

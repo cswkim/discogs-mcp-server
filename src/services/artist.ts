@@ -36,7 +36,7 @@ export class ArtistService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get artist: ${String(error)}`);
+      throw new Error(`Failed to get artist: ${String(error)}`, { cause: error });
     }
   }
 
@@ -61,7 +61,7 @@ export class ArtistService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get artist releases: ${String(error)}`);
+      throw new Error(`Failed to get artist releases: ${String(error)}`, { cause: error });
     }
   }
 }

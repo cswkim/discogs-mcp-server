@@ -30,7 +30,7 @@ export class UserListsService extends BaseUserService {
       }
 
       // For validation errors or other unexpected errors, wrap them
-      throw new Error(`Failed to get lists: ${String(error)}`);
+      throw new Error(`Failed to get lists: ${String(error)}`, { cause: error });
     }
   }
 }

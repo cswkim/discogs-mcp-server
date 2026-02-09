@@ -36,7 +36,7 @@ export class MasterReleaseService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get master release: ${String(error)}`);
+      throw new Error(`Failed to get master release: ${String(error)}`, { cause: error });
     }
   }
 
@@ -64,7 +64,7 @@ export class MasterReleaseService extends DiscogsService {
         throw error;
       }
 
-      throw new Error(`Failed to get master release versions: ${String(error)}`);
+      throw new Error(`Failed to get master release versions: ${String(error)}`, { cause: error });
     }
   }
 }
