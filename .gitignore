@@ -31,3 +31,6 @@ Thumbs.db
 .cursor/
 
 RELEASE.md
+
+# OAuth token cache
+.discogs_oauth_cache.json
