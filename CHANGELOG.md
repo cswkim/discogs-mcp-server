@@ -1,5 +1,15 @@
 # discogs-mcp-server
 
+## 0.5.5
+
+### Patch Changes
+
+- fix(deps): bump hono to >=4.11.10 (GHSA-gq3j-xvxp-8hrf) ([#138](https://github.com/cswkim/discogs-mcp-server/pull/138))
+
+- fix(deps): add minimatch override >=10.2.1 (GHSA-3ppc-4f35-3m26, CVE-2026-26996) ([#139](https://github.com/cswkim/discogs-mcp-server/pull/139))
+
+- fix(deps): bump qs to >=6.14.2 (GHSA-6rw7-vpxm-498p, CVE-2025-15284) ([#137](https://github.com/cswkim/discogs-mcp-server/pull/137))
+
 ## 0.5.4
 
 ### Patch Changes
