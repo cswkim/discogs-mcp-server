@@ -18,7 +18,7 @@ export const config = {
   server: {
     name: process.env.SERVER_NAME || 'Discogs MCP Server',
     port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3001,
-    host: process.env.SERVER_HOST || '0.0.0.0',
+    host: process.env.SERVER_HOST || '127.0.0.1',
   },
 };
 
