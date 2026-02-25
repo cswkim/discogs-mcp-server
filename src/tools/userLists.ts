@@ -44,7 +44,7 @@ export const getListTool: Tool<FastMCPSessionAuth, typeof ListIdParamSchema> = {
   },
 };
 
-export function registerUserListsTools(server: FastMCP): void {
+export function registerUserListsTools(server: FastMCP, _options?: { readOnly?: boolean }): void {
   server.addTool(getUserListsTool);
   server.addTool(getListTool);
 }

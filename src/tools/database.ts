@@ -250,11 +250,9 @@ export const searchTool: Tool<FastMCPSessionAuth, typeof SearchParamsSchema> = {
   },
 };
 
-export function registerDatabaseTools(server: FastMCP): void {
+export function registerDatabaseTools(server: FastMCP, options?: { readOnly?: boolean }): void {
   server.addTool(getReleaseTool);
   server.addTool(getReleaseRatingTool);
-  server.addTool(editReleaseRatingTool);
-  server.addTool(deleteReleaseRatingTool);
   server.addTool(getReleaseCommunityRatingTool);
   server.addTool(getMasterReleaseTool);
   server.addTool(getMasterReleaseVersionsTool);
@@ -263,4 +261,9 @@ export function registerDatabaseTools(server: FastMCP): void {
   server.addTool(getLabelTool);
   server.addTool(getLabelReleasesTool);
   server.addTool(searchTool);
+
+  if (!options?.readOnly) {
+    server.addTool(editReleaseRatingTool);
+    server.addTool(deleteReleaseRatingTool);
+  }
 }

@@ -19,6 +19,8 @@ export const config = {
     name: process.env.SERVER_NAME || 'Discogs MCP Server',
     port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3001,
     host: process.env.SERVER_HOST || '127.0.0.1',
+    readOnly: process.env.READONLY_MODE === 'true',
+    streamApiKey: process.env.STREAM_API_KEY,
   },
 };
 

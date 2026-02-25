@@ -29,7 +29,7 @@ try {
     version: VERSION,
   });
 
-  registerTools(server);
+  registerTools(server, { readOnly: config.server.readOnly });
 
   if (transportType === 'stdio') {
     server.start({ transportType });
@@ -43,6 +43,9 @@ try {
     });
   }
 
+  if (config.server.readOnly) {
+    log.info('Read-only mode enabled: mutating tools are disabled');
+  }
   log.info(`${config.server.name} started with transport type: ${transportType}`);
 } catch (error: unknown) {
   log.error(`Failed to run the ${config.server.name}: `, error);
