@@ -34,7 +34,9 @@ describe('Media Tools', () => {
             tools: [
               {
                 name: 'fetch_image',
-                description: 'Fetch an image by URL',
+                description:
+                  'Fetch an image by URL. Only HTTPS URLs from Discogs image CDNs are allowed ' +
+                  '(img.discogs.com, i.discogs.com, st.discogs.com).',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
                   additionalProperties: false,
