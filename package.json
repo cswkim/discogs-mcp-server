@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
-    "dotenv": "github:cswkim/dotenv",
+    "dotenv": "github:cswkim/dotenv#53592e20100bd5e14244f30e9897a6ef80f28523",
     "fastmcp": "^3.0.0",
     "zod": "^4.0.5"
   },
