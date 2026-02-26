@@ -27,6 +27,9 @@ try {
   const server = new FastMCP({
     name: config.server.name,
     version: VERSION,
+    // Configure ping/keepalive for HTTP stream transport to prevent SSE timeouts
+    // Only enable ping for stream transport, not stdio
+    ping: transportType === 'stream' ? config.server.ping : undefined,
   });
 
   registerTools(server);
