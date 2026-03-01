@@ -15,6 +15,20 @@ vi.mock('../../src/config.js', () => ({
   },
 }));
 
+// Mock the auth provider
+vi.mock('../../src/auth/index.js', () => ({
+  getAuthCredentials: vi.fn(() => ({
+    mode: 'token',
+    getAuthorizationHeader: () => 'Discogs token=test-token',
+  })),
+  ensureAuth: vi.fn(() =>
+    Promise.resolve({
+      mode: 'token',
+      getAuthorizationHeader: () => 'Discogs token=test-token',
+    }),
+  ),
+}));
+
 // Mock the errors module
 vi.mock('../../src/errors.js', () => ({
   createDiscogsError: vi.fn(
@@ -40,7 +54,7 @@ describe('DiscogsService', () => {
   beforeEach(() => {
     // Set up fetch mock
     fetchMock = vi.fn();
-    global.fetch = fetchMock;
+    global.fetch = fetchMock as typeof fetch;
 
     // Create instance of test service
     service = new TestDiscogsService();
@@ -52,7 +66,7 @@ describe('DiscogsService', () => {
 
   it('should initialize with correct base URL and headers', () => {
     expect(service['baseUrl']).toBe('https://api.discogs.com/test');
-    expect(service['headers']).toEqual({
+    expect(service['getHeaders']()).toEqual({
       Accept: 'application/json',
       Authorization: 'Discogs token=test-token',
       'Content-Type': 'application/json',
@@ -81,7 +95,7 @@ describe('DiscogsService', () => {
       'https://api.discogs.com/test/items?page=1&sort=name&per_page=5',
       {
         method: 'GET',
-        headers: service['headers'],
+        headers: service['getHeaders'](),
         body: undefined,
       },
     );
@@ -112,7 +126,7 @@ describe('DiscogsService', () => {
     // Verify request was made correctly
     expect(fetchMock).toHaveBeenCalledWith('https://api.discogs.com/test/items?per_page=5', {
       method: 'POST',
-      headers: service['headers'],
+      headers: service['getHeaders'](),
       body: JSON.stringify(requestBody),
     });
   });
