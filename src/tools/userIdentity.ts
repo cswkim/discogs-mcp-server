@@ -104,10 +104,13 @@ export const editUserProfileTool: Tool<FastMCPSessionAuth, typeof UserProfileEdi
   },
 };
 
-export function registerUserIdentityTools(server: FastMCP): void {
+export function registerUserIdentityTools(server: FastMCP, options?: { readOnly?: boolean }): void {
   server.addTool(getUserIdentityTool);
   server.addTool(getUserProfileTool);
-  server.addTool(editUserProfileTool);
   server.addTool(getUserSubmissionsTool);
   server.addTool(getUserContributionsTool);
+
+  if (!options?.readOnly) {
+    server.addTool(editUserProfileTool);
+  }
 }

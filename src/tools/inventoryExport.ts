@@ -82,9 +82,15 @@ export const inventoryExportTool: Tool<FastMCPSessionAuth, ToolParameters> = {
   },
 };
 
-export function registerInventoryExportTool(server: FastMCP): void {
-  server.addTool(inventoryExportTool);
+export function registerInventoryExportTool(
+  server: FastMCP,
+  options?: { readOnly?: boolean },
+): void {
   server.addTool(getInventoryExportsTool);
   server.addTool(getInventoryExportTool);
   server.addTool(downloadInventoryExportTool);
+
+  if (!options?.readOnly) {
+    server.addTool(inventoryExportTool);
+  }
 }

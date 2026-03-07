@@ -237,16 +237,19 @@ export const updateMarketplaceListingTool: Tool<
   },
 };
 
-export function registerMarketplaceTools(server: FastMCP): void {
+export function registerMarketplaceTools(server: FastMCP, options?: { readOnly?: boolean }): void {
   server.addTool(getUserInventoryTool);
   server.addTool(getMarketplaceListingTool);
-  server.addTool(createMarketplaceListingTool);
-  server.addTool(updateMarketplaceListingTool);
-  server.addTool(deleteMarketplaceListingTool);
   server.addTool(getMarketplaceOrderTool);
-  server.addTool(editMarketplaceOrderTool);
   server.addTool(getMarketplaceOrdersTool);
   server.addTool(getMarketplaceOrderMessagesTool);
-  server.addTool(createMarketplaceOrderMessageTool);
   server.addTool(getMarketplaceReleaseStatsTool);
+
+  if (!options?.readOnly) {
+    server.addTool(createMarketplaceListingTool);
+    server.addTool(updateMarketplaceListingTool);
+    server.addTool(deleteMarketplaceListingTool);
+    server.addTool(editMarketplaceOrderTool);
+    server.addTool(createMarketplaceOrderMessageTool);
+  }
 }

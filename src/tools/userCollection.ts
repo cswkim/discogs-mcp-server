@@ -317,19 +317,25 @@ export const rateReleaseInUserCollectionTool: Tool<
   },
 };
 
-export function registerUserCollectionTools(server: FastMCP): void {
+export function registerUserCollectionTools(
+  server: FastMCP,
+  options?: { readOnly?: boolean },
+): void {
   server.addTool(getUserCollectionFoldersTool);
-  server.addTool(createUserCollectionFolderTool);
   server.addTool(getUserCollectionFolderTool);
-  server.addTool(editUserCollectionFolderTool);
-  server.addTool(deleteUserCollectionFolderTool);
   server.addTool(findReleaseInUserCollectionTool);
   server.addTool(getUserCollectionItemsTool);
-  server.addTool(addReleaseToUserCollectionFolderTool);
-  server.addTool(rateReleaseInUserCollectionTool);
-  server.addTool(moveReleaseInUserCollectionTool);
-  server.addTool(deleteReleaseFromUserCollectionFolderTool);
   server.addTool(getUserCollectionCustomFieldsTool);
-  server.addTool(editUserCollectionCustomFieldValueTool);
   server.addTool(getUserCollectionValueTool);
+
+  if (!options?.readOnly) {
+    server.addTool(createUserCollectionFolderTool);
+    server.addTool(editUserCollectionFolderTool);
+    server.addTool(deleteUserCollectionFolderTool);
+    server.addTool(addReleaseToUserCollectionFolderTool);
+    server.addTool(rateReleaseInUserCollectionTool);
+    server.addTool(moveReleaseInUserCollectionTool);
+    server.addTool(deleteReleaseFromUserCollectionFolderTool);
+    server.addTool(editUserCollectionCustomFieldValueTool);
+  }
 }

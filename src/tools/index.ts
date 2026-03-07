@@ -8,17 +8,22 @@ import { registerUserIdentityTools } from './userIdentity.js';
 import { registerUserListsTools } from './userLists.js';
 import { registerUserWantlistTools } from './userWantlist.js';
 
+export interface ToolRegistrationOptions {
+  readOnly?: boolean;
+}
+
 /**
  * Registers all MCP tools with the server
  * @param server The FastMCP server instance
+ * @param options Registration options (e.g. readOnly mode)
  */
-export function registerTools(server: FastMCP): void {
-  registerDatabaseTools(server);
-  registerMarketplaceTools(server);
-  registerInventoryExportTool(server);
-  registerUserIdentityTools(server);
-  registerUserCollectionTools(server);
-  registerUserWantlistTools(server);
-  registerUserListsTools(server);
-  registerMediaTools(server);
+export function registerTools(server: FastMCP, options?: ToolRegistrationOptions): void {
+  registerDatabaseTools(server, options);
+  registerMarketplaceTools(server, options);
+  registerInventoryExportTool(server, options);
+  registerUserIdentityTools(server, options);
+  registerUserCollectionTools(server, options);
+  registerUserWantlistTools(server, options);
+  registerUserListsTools(server, options);
+  registerMediaTools(server, options);
 }
