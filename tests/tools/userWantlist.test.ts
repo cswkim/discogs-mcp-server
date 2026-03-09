@@ -87,7 +87,6 @@ describe('User Wantlist Tools', () => {
                 description: `Returns the list of releases in a user's wantlist`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -212,7 +211,6 @@ describe('User Wantlist Tools', () => {
                 description: `Add a release to a user's wantlist`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -342,7 +340,6 @@ describe('User Wantlist Tools', () => {
                 description: `Edit a release in a user's wantlist`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -470,7 +467,6 @@ describe('User Wantlist Tools', () => {
                 description: `Delete a release from a user's wantlist`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
