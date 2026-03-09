@@ -27,7 +27,7 @@ importers:
         version: https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523
       fastmcp:
         specifier: ^3.0.0
-        version: 3.33.0
+        version: 3.34.0
       zod:
         specifier: ^4.0.5
         version: 4.3.6
@@ -784,8 +784,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios@1.13.5:
-    resolution: {integrity: sha512-cz4ur7Vb0xS4/KUN0tPWe44eqxrIu31me+fbang3ijiNscE129POzipJJA6zniq2C/Z6sJCjMimjS8Lc/GAs8Q==}
+  axios@1.13.6:
+    resolution: {integrity: sha512-ChTCHMouEe2kn713WHbQGcuYrr6fXTBiu460OTwWrWob16g1bXn4vtz07Ope7ewMozJAnEquLk5lWQWtBig9DQ==}
 
   balanced-match@4.0.4:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
@@ -1127,8 +1127,8 @@ packages:
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
 
-  fastmcp@3.33.0:
-    resolution: {integrity: sha512-jmp1uwPMp1fMWF3vjSeWDbQKd2WlBjREKzd4Ro7Ww4Z7fzF9rWcOJN4D2zjR+rSIk44U2/0mu4pFNT/CkMPZyg==}
+  fastmcp@3.34.0:
+    resolution: {integrity: sha512-xKOXjU+MK7OZy91BY3FS5aenSiclJBCRMaZtXb3HYaKZVFbq4qYvAlFu6xYI3UU1NGLtv+h8izoStnOQ1By0BA==}
     hasBin: true
     peerDependencies:
       jose: ^5.0.0
@@ -1156,8 +1156,8 @@ packages:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
     engines: {node: '>=16.0.0'}
 
-  file-type@21.3.0:
-    resolution: {integrity: sha512-8kPJMIGz1Yt/aPEwOsrR97ZyZaD1Iqm8PClb1nYFclUCkBi0Ma5IsYNQzvSFS9ib51lWyIw5mIT9rWzI/xjpzA==}
+  file-type@21.3.1:
+    resolution: {integrity: sha512-SrzXX46I/zsRDjTb82eucsGg0ODq2NpGDp4HcsFKApPy8P8vACjpJRDoGGMfEzhFC0ry61ajd7f72J3603anBA==}
     engines: {node: '>=20'}
 
   fill-range@7.1.1:
@@ -1235,8 +1235,8 @@ packages:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
 
-  get-east-asian-width@1.4.0:
-    resolution: {integrity: sha512-QZjmEOC+IT1uk6Rx0sX22V6uHWVwbdbxf1faPqJ1QhLdGgsRGCZoyaQBm/piRdJy/D2um6hM1UP7ZEeQ4EkP+Q==}
+  get-east-asian-width@1.5.0:
+    resolution: {integrity: sha512-CQ+bEO+Tva/qlmw24dCejulK5pMzVnUOFOijVogd3KQs07HnRIgp8TGipvCCRT06xeYEbpbgwaCxglFyiuIcmA==}
     engines: {node: '>=18'}
 
   get-intrinsic@1.3.0:
@@ -1512,8 +1512,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-proxy@6.4.0:
-    resolution: {integrity: sha512-GHDgP1MCzDeWddGEPu/5lxTi/BiD+/3R9xg4gzK65GHSbeiWZEEWTsr0N6mhH3+5A0Gj0M7bDpvPsBPJzz+vnQ==}
+  mcp-proxy@6.4.2:
+    resolution: {integrity: sha512-cSF+1gRQeCh6pju2dakr9778Fle/2nXJEK8sahKLVJS9rqMakNOR82Klvh5ohLFY6Hy24Bj43vfhyx2lumKROQ==}
     hasBin: true
 
   media-typer@1.1.0:
@@ -1783,8 +1783,8 @@ packages:
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
-  pump@3.0.3:
-    resolution: {integrity: sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA==}
+  pump@3.0.4:
+    resolution: {integrity: sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA==}
 
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
@@ -2254,15 +2254,15 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  xsschema@0.4.0-beta.5:
-    resolution: {integrity: sha512-73pYwf1hMy++7SnOkghJdgdPaGi+Y5I0SaO6rIlxb1ouV6tEyDbEcXP82kyr32KQVTlUbFj6qewi9eUVEiXm+g==}
+  xsschema@0.4.3:
+    resolution: {integrity: sha512-8MFtONewz49S+R5ZfOGfJzEaPAmJ+Gw1ILjvuerYG0mOMVYe7OrsVQNlpiUTct4L3toAJAKD5NMwmCfmTIGYHQ==}
     peerDependencies:
       '@valibot/to-json-schema': ^1.0.0
       arktype: ^2.1.20
       effect: ^3.16.0
       sury: ^10.0.0
       zod: ^3.25.0 || ^4.0.0
-      zod-to-json-schema: ^3.24.5
+      zod-to-json-schema: ^3.25.0
     peerDependenciesMeta:
       '@valibot/to-json-schema':
         optional: true
@@ -2996,7 +2996,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.13.5(debug@4.4.3):
+  axios@1.13.6(debug@4.4.3):
     dependencies:
       follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.5
@@ -3389,19 +3389,19 @@ snapshots:
 
   fast-uri@3.1.0: {}
 
-  fastmcp@3.33.0:
+  fastmcp@3.34.0:
     dependencies:
       '@modelcontextprotocol/sdk': 1.27.1(zod@4.3.6)
       '@standard-schema/spec': 1.1.0
       execa: 9.6.1
-      file-type: 21.3.0
+      file-type: 21.3.1
       fuse.js: 7.1.0
       hono: 4.12.5
-      mcp-proxy: 6.4.0
+      mcp-proxy: 6.4.2
       strict-event-emitter-types: 2.0.0
       undici: 7.22.0
       uri-templates: 0.2.0
-      xsschema: 0.4.0-beta.5(zod-to-json-schema@3.25.1(zod@4.3.6))(zod@4.3.6)
+      xsschema: 0.4.3(zod-to-json-schema@3.25.1(zod@4.3.6))(zod@4.3.6)
       yargs: 18.0.0
       zod: 4.3.6
       zod-to-json-schema: 3.25.1(zod@4.3.6)
@@ -3429,7 +3429,7 @@ snapshots:
     dependencies:
       flat-cache: 4.0.1
 
-  file-type@21.3.0:
+  file-type@21.3.1:
     dependencies:
       '@tokenizer/inflate': 0.4.1
       strtok3: 10.3.4
@@ -3515,7 +3515,7 @@ snapshots:
 
   get-caller-file@2.0.5: {}
 
-  get-east-asian-width@1.4.0: {}
+  get-east-asian-width@1.5.0: {}
 
   get-intrinsic@1.3.0:
     dependencies:
@@ -3539,7 +3539,7 @@ snapshots:
 
   get-stream@4.1.0:
     dependencies:
-      pump: 3.0.3
+      pump: 3.0.4
 
   get-stream@9.0.1:
     dependencies:
@@ -3782,7 +3782,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-proxy@6.4.0:
+  mcp-proxy@6.4.2:
     dependencies:
       pipenet: 1.4.0
     transitivePeerDependencies:
@@ -3942,12 +3942,12 @@ snapshots:
 
   pipenet@1.4.0:
     dependencies:
-      axios: 1.13.5(debug@4.4.3)
+      axios: 1.13.6(debug@4.4.3)
       debug: 4.4.3
       human-readable-ids: 1.0.4
       koa: 3.1.2
       koa-router: 14.0.0
-      pump: 3.0.3
+      pump: 3.0.4
       tldjs: 2.3.2
       yargs: 18.0.0
     transitivePeerDependencies:
@@ -3997,7 +3997,7 @@ snapshots:
 
   proxy-from-env@1.1.0: {}
 
-  pump@3.0.3:
+  pump@3.0.4:
     dependencies:
       end-of-stream: 1.4.5
       once: 1.4.0
@@ -4208,7 +4208,7 @@ snapshots:
   string-width@7.2.0:
     dependencies:
       emoji-regex: 10.6.0
-      get-east-asian-width: 1.4.0
+      get-east-asian-width: 1.5.0
       strip-ansi: 7.2.0
 
   strip-ansi@6.0.1:
@@ -4460,7 +4460,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  xsschema@0.4.0-beta.5(zod-to-json-schema@3.25.1(zod@4.3.6))(zod@4.3.6):
+  xsschema@0.4.3(zod-to-json-schema@3.25.1(zod@4.3.6))(zod@4.3.6):
     optionalDependencies:
       zod: 4.3.6
       zod-to-json-schema: 3.25.1(zod@4.3.6)

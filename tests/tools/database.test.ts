@@ -45,7 +45,6 @@ describe('Database Tools', () => {
                 description: 'Get a release',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -195,7 +194,6 @@ describe('Database Tools', () => {
                 description: `Retrieves the release's rating for a given user`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -322,7 +320,6 @@ describe('Database Tools', () => {
                 description: `Updates the release's rating for a given user`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -466,7 +463,6 @@ describe('Database Tools', () => {
                 description: `Deletes the release's rating for a given user`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -587,7 +583,6 @@ describe('Database Tools', () => {
                 description: 'Retrieves the release community rating average and count',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     release_id: { type: 'number', minimum: 1 },
@@ -713,7 +708,6 @@ describe('Database Tools', () => {
                 description: 'Get a master release',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     master_id: {
@@ -860,7 +854,6 @@ describe('Database Tools', () => {
                 description: 'Get an artist',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     artist_id: { type: 'number' },
@@ -986,7 +979,6 @@ describe('Database Tools', () => {
                 description: `Get an artist's releases`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     artist_id: { type: 'number' },
@@ -1145,7 +1137,6 @@ describe('Database Tools', () => {
                 description: 'Get a label',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     label_id: { type: 'number' },
@@ -1271,7 +1262,6 @@ describe('Database Tools', () => {
                 description: 'Returns a list of Releases associated with the label',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     label_id: { type: 'number' },
@@ -1430,7 +1420,6 @@ describe('Database Tools', () => {
                 description: 'Issue a search query to the Discogs database',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     q: { type: 'string' },
@@ -1551,7 +1540,6 @@ describe('Database Tools', () => {
                 description: 'Retrieves a list of all Releases that are versions of this master',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
-                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     master_id: {
