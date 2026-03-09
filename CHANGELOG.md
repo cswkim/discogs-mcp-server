@@ -1,5 +1,21 @@
 # discogs-mcp-server
 
+## 0.5.6
+
+### Patch Changes
+
+- fix(security): override minimatch to >=10.2.3 to address GHSA-23c5-xmqv-rm74 and GHSA-7r86-cg39-jmmj ([#146](https://github.com/cswkim/discogs-mcp-server/pull/146))
+
+- fix(security): override koa to ^3.1.2 to address GHSA-7gcc-r8m5-44qm ([#145](https://github.com/cswkim/discogs-mcp-server/pull/145))
+
+- fix(security): override express-rate-limit and @hono/node-server to fix GHSA-46wh-pxpv-q5gq and GHSA-wc8c-qw6v-h7f6 ([#152](https://github.com/cswkim/discogs-mcp-server/pull/152))
+
+- fix(security): hono override to address GHSA-q5qw-h33p-qvwr, GHSA-wc8c-qw6v-h7f6, GHSA-p6xx-57qc-3wxr and GHSA-5pq2-9x2x-5p6w ([#150](https://github.com/cswkim/discogs-mcp-server/pull/150))
+
+- fix(security): bump hono to >=4.12.2 to address GHSA-xh87-mx6m-69f3 ([#144](https://github.com/cswkim/discogs-mcp-server/pull/144))
+
+- fix(security): override rollup to >=4.59.0 to address GHSA-mw96-cpmx-2vgc ([#147](https://github.com/cswkim/discogs-mcp-server/pull/147))
+
 ## 0.5.5
 
 ### Patch Changes
