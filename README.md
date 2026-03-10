@@ -66,6 +66,9 @@ To get your Discogs personal access token, go to your [Discogs Settings > Develo
 The other environment variables in `.env.example` are optional and have sensible defaults, so you don't need to set them unless you have specific requirements.
 
 - `SERVER_HOST`: The host address to bind the server to (default: `0.0.0.0`). Set to `0.0.0.0` to allow connections from outside the container/machine, or `127.0.0.1` to restrict to localhost only.
+- `PING_ENABLED`: Enable or disable ping/keepalive for HTTP stream transport (default: `true`). Set to `false` to disable. Ping is automatically enabled for HTTP stream transport to prevent SSE timeouts.
+- `PING_INTERVAL_MS`: Interval in milliseconds between ping messages (default: `30000` = 30 seconds). This helps maintain long-lived SSE connections and prevent timeouts.
+- `PING_LOG_LEVEL`: Log level for ping-related messages (default: `debug`). Options: `debug`, `info`, `warn`, `error`.
 
 ## Running the Server Locally
 
