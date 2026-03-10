@@ -11,6 +11,13 @@ export class DiscogsError extends Error {
   }
 }
 
+export class OAuthFlowError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = new.target.name;
+  }
+}
+
 export class DiscogsAuthenticationError extends DiscogsError {
   constructor(message = 'Authentication failed') {
     super(message, 401, { message });

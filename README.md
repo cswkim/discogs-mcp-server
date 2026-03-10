@@ -19,6 +19,9 @@ If you just want to get started immediately using this MCP Server with the [Clau
 - [Caveats](#caveats)
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
+  - [Authentication](#authentication)
+    - [Personal Access Token](#personal-access-token)
+    - [OAuth 1.0a](#oauth-10a)
 - [Running the Server](#running-the-server-locally)
   - [Option 1: Local Development](#option-1-local-development)
   - [Option 2: Docker](#option-2-docker)
@@ -58,14 +61,51 @@ Check out the list of available tools: [TOOLS.md](TOOLS.md)
 
 1. Clone the repository
 2. Create a `.env` file in the root directory based on `.env.example`
-3. Set the following required environment variables in your `.env`:
-   - `DISCOGS_PERSONAL_ACCESS_TOKEN`: Your Discogs personal access token
-
-To get your Discogs personal access token, go to your [Discogs Settings > Developers](https://www.discogs.com/settings/developers) page and find your token or generate a new one. **_DO NOT SHARE YOUR TOKEN_**. OAuth support will be added in a future release.
+3. Configure authentication (see below)
 
 The other environment variables in `.env.example` are optional and have sensible defaults, so you don't need to set them unless you have specific requirements.
 
 - `SERVER_HOST`: The host address to bind the server to (default: `0.0.0.0`). Set to `0.0.0.0` to allow connections from outside the container/machine, or `127.0.0.1` to restrict to localhost only.
+
+### Authentication
+
+The server supports two authentication methods: Personal Access Token and OAuth 1.0a. You can control which method to use via the `DISCOGS_AUTH_MODE` environment variable:
+
+| Mode | Behavior |
+|------|----------|
+| `token` | Use Personal Access Token only (requires `DISCOGS_PERSONAL_ACCESS_TOKEN`) |
+| `oauth` | Use OAuth 1.0a flow only |
+| `auto` (default) | Use token if `DISCOGS_PERSONAL_ACCESS_TOKEN` is set, otherwise use OAuth |
+
+#### Personal Access Token
+
+The simplest authentication method. Get your token from [Discogs Settings > Developers](https://www.discogs.com/settings/developers):
+
+```bash
+DISCOGS_AUTH_MODE=token  # or omit for auto mode
+DISCOGS_PERSONAL_ACCESS_TOKEN=your_token_here
+```
+
+**_DO NOT SHARE YOUR TOKEN_**
+
+#### OAuth 1.0a
+
+OAuth allows users to authorize the application without sharing their credentials. When using OAuth mode:
+
+1. The server will automatically open your browser to the Discogs authorization page
+2. Authorize the application on Discogs
+3. The browser will redirect back to a local callback server
+4. Tokens are encrypted and cached locally (`~/.discogs_oauth_cache.json`) for future sessions
+
+To use OAuth mode explicitly:
+
+```bash
+DISCOGS_AUTH_MODE=oauth
+```
+
+Or simply don't set `DISCOGS_PERSONAL_ACCESS_TOKEN` and auto mode will fall back to OAuth.
+
+**Note for maintainers:** OAuth requires valid consumer credentials. Update the placeholder values in `src/auth/oauth-constants.ts` with your registered application's credentials from [Discogs Developers](https://www.discogs.com/settings/developers).
 
 ## Running the Server Locally
 
@@ -228,7 +268,6 @@ After you Save, in the `Program` tab there should now be an `mcp/discogs` toggle
 
 ## TODO
 
-- OAuth support
 - Missing tools:
   - Inventory uploading
 

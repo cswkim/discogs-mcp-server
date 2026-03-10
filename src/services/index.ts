@@ -1,5 +1,6 @@
 import { config } from '../config.js';
 import { createDiscogsError } from '../errors.js';
+import { ensureAuth, getAuthCredentials } from '../auth/index.js';
 
 export interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -10,28 +11,31 @@ export interface RequestOptions {
 // Base service with common functionality
 export abstract class DiscogsService {
   protected readonly baseUrl: string;
-  protected readonly headers: Record<string, string>;
 
   protected constructor(protected readonly servicePath: string) {
-    if (
-      !config.discogs.apiUrl ||
-      !config.discogs.mediaType ||
-      !config.discogs.personalAccessToken ||
-      !config.discogs.userAgent
-    ) {
+    if (!config.discogs.apiUrl || !config.discogs.mediaType || !config.discogs.userAgent) {
       throw new Error('Discogs API configuration is incomplete');
     }
 
     this.baseUrl = `${config.discogs.apiUrl}${servicePath}`;
-    this.headers = {
+  }
+
+  /**
+   * Gets the current request headers, including dynamic auth header
+   */
+  protected getHeaders(): Record<string, string> {
+    return {
       Accept: config.discogs.mediaType,
-      Authorization: `Discogs token=${config.discogs.personalAccessToken}`,
+      Authorization: getAuthCredentials().getAuthorizationHeader(),
       'Content-Type': 'application/json',
       'User-Agent': config.discogs.userAgent,
     };
   }
 
   protected async request<T>(path: string, options?: RequestOptions): Promise<T> {
+    // Ensure authentication is initialized before making requests
+    await ensureAuth();
+
     const url = new URL(`${this.baseUrl}${path}`);
 
     // Add query parameters if they exist
@@ -50,7 +54,7 @@ export abstract class DiscogsService {
 
     const response = await fetch(url.toString(), {
       method: options?.method || 'GET',
-      headers: this.headers,
+      headers: this.getHeaders(),
       body: options?.body ? JSON.stringify(options.body) : undefined,
     });
 
