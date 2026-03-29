@@ -52,6 +52,7 @@ export abstract class DiscogsService {
       method: options?.method || 'GET',
       headers: this.headers,
       body: options?.body ? JSON.stringify(options.body) : undefined,
+      signal: AbortSignal.timeout(config.discogs.requestTimeoutMs),
     });
 
     const contentType = response.headers.get('content-type');
