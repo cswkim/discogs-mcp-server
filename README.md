@@ -54,6 +54,10 @@ Check out the list of available tools: [TOOLS.md](TOOLS.md)
   - Check your Node.js version with: `node --version`
 - Docker (optional, for running a local docker image without having to deal with Node or dependencies)
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/cswkim-discogs-mcp-server).
+
 ## Setup
 
 1. Clone the repository
