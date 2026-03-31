@@ -24,8 +24,9 @@
     "MCP"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsc -p tsconfig.build.json",
     "build:watch": "pnpm build --watch",
+    "build:types": "tsc -p tsconfig.build.json",
     "postbuild": "shx chmod +x dist/*.js",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "dev": "tsx watch src/index.ts",
@@ -40,6 +41,7 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "test:watch": "vitest watch",
+    "type-check": "tsc --noEmit",
     "version:check": "node .github/scripts/check-version.js",
     "version:sync": "node scripts/sync-version.js",
     "changeset:version": "changeset version && pnpm version:sync && git add src/version.ts && git commit --amend --no-edit",
