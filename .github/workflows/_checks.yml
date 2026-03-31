@@ -13,7 +13,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Lint check
         run: pnpm run lint
