@@ -3,7 +3,7 @@ FROM node:22.12-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-COPY tsconfig.json ./
+COPY tsconfig*.json ./
 COPY tsup.config.ts ./
 COPY src ./src
 
