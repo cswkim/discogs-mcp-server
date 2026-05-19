@@ -20,20 +20,20 @@ importers:
   .:
     dependencies:
       '@modelcontextprotocol/sdk':
-        specifier: ^1.12.0
+        specifier: ^1.29.0
         version: 1.29.0(zod@4.4.3)
       dotenv:
         specifier: github:cswkim/dotenv
         version: https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523
       fastmcp:
-        specifier: ^4.0.0
+        specifier: ^4.0.1
         version: 4.0.1
       zod:
-        specifier: ^4.0.5
+        specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
       '@changesets/cli':
-        specifier: ^2.28.1
+        specifier: ^2.31.0
         version: 2.31.0(@types/node@25.9.0)
       '@eslint/js':
         specifier: ^10.0.1
@@ -42,52 +42,52 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       '@types/node':
-        specifier: ^25.0.2
+        specifier: ^25.9.0
         version: 25.9.0
       '@typescript-eslint/eslint-plugin':
-        specifier: ^8.29.0
+        specifier: ^8.59.4
         version: 8.59.4(@typescript-eslint/parser@8.59.4(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3)
       '@typescript-eslint/parser':
-        specifier: ^8.29.0
+        specifier: ^8.59.4
         version: 8.59.4(eslint@10.4.0)(typescript@6.0.3)
       '@vitest/coverage-v8':
-        specifier: ^4.0.4
+        specifier: ^4.1.6
         version: 4.1.6(vitest@4.1.6)
       cross-env:
-        specifier: ^10.0.0
+        specifier: ^10.1.0
         version: 10.1.0
       eslint:
-        specifier: ^10.0.0
+        specifier: ^10.4.0
         version: 10.4.0
       eslint-config-prettier:
-        specifier: ^10.1.1
+        specifier: ^10.1.8
         version: 10.1.8(eslint@10.4.0)
       eslint-plugin-prettier:
-        specifier: ^5.2.6
+        specifier: ^5.5.5
         version: 5.5.5(eslint-config-prettier@10.1.8(eslint@10.4.0))(eslint@10.4.0)(prettier@3.8.3)
       get-port-please:
-        specifier: ^3.1.2
+        specifier: ^3.2.0
         version: 3.2.0
       prettier:
-        specifier: ^3.5.3
+        specifier: ^3.8.3
         version: 3.8.3
       shx:
         specifier: ^0.4.0
         version: 0.4.0
       tsup:
-        specifier: ^8.4.0
+        specifier: ^8.5.1
         version: 8.5.1(postcss@8.5.14)(tsx@4.22.2)(typescript@6.0.3)
       tsx:
-        specifier: ^4.19.3
+        specifier: ^4.22.2
         version: 4.22.2
       typescript:
-        specifier: ^6.0.2
+        specifier: ^6.0.3
         version: 6.0.3
       typescript-eslint:
-        specifier: ^8.29.0
+        specifier: ^8.59.4
         version: 8.59.4(eslint@10.4.0)(typescript@6.0.3)
       vitest:
-        specifier: ^4.0.4
+        specifier: ^4.1.6
         version: 4.1.6(@types/node@25.9.0)(@vitest/coverage-v8@4.1.6)(vite@7.3.1(@types/node@25.9.0)(tsx@4.22.2))
 
 packages:
@@ -1754,12 +1754,8 @@ packages:
     resolution: {integrity: sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==}
     engines: {node: '>= 0.4'}
 
-  hono@4.12.11:
-    resolution: {integrity: sha512-r4xbIa3mGGGoH9nN4A14DOg2wx7y2oQyJEb5O57C/xzETG/qx4c7CVDQ5WMeKHZ7ORk2W0hZ/sQKXTav3cmYBA==}
-    engines: {node: '>=16.9.0'}
-
-  hono@4.12.15:
-    resolution: {integrity: sha512-qM0jDhFEaCBb4TxoW7f53Qrpv9RBiayUHo0S52JudprkhvpjIrGoU1mnnr29Fvd1U335ZFPZQY1wlkqgfGXyLg==}
+  hono@4.12.19:
+    resolution: {integrity: sha512-xa3eYXYXx68XTT4hZ7dRzsXBhaq85ToSrlUJNoR0gwz/1Ap/CNwX47wfvV7pc/xWhjKVVkLT7zBJy8chhNguqQ==}
     engines: {node: '>=16.9.0'}
 
   html-escaper@2.0.2:
@@ -3227,9 +3223,9 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@hono/node-server@1.19.12(hono@4.12.11)':
+  '@hono/node-server@1.19.12(hono@4.12.19)':
     dependencies:
-      hono: 4.12.11
+      hono: 4.12.19
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -3286,7 +3282,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.29.0(zod@4.4.3)':
     dependencies:
-      '@hono/node-server': 1.19.12(hono@4.12.11)
+      '@hono/node-server': 1.19.12(hono@4.12.19)
       ajv: 8.18.0
       ajv-formats: 3.0.1(ajv@8.18.0)
       content-type: 1.0.5
@@ -3296,7 +3292,7 @@ snapshots:
       eventsource-parser: 3.0.6
       express: 5.2.1
       express-rate-limit: 8.3.2(express@5.2.1)
-      hono: 4.12.11
+      hono: 4.12.19
       jose: 6.2.2
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
@@ -4177,7 +4173,7 @@ snapshots:
       execa: 9.6.1
       file-type: 21.3.4
       fuse.js: 7.3.0
-      hono: 4.12.15
+      hono: 4.12.19
       mcp-proxy: 6.4.6
       strict-event-emitter-types: 2.0.0
       undici: 7.25.0
@@ -4364,9 +4360,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hono@4.12.11: {}
-
-  hono@4.12.15: {}
+  hono@4.12.19: {}
 
   html-escaper@2.0.2: {}
 
