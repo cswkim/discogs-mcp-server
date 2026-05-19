@@ -74,6 +74,7 @@
     "typescript-eslint": "^8.29.0",
     "vitest": "^4.0.4"
   },
+  "packageManager": "pnpm@11.0.8",
   "pnpm": {
     "overrides": {
       "@hono/node-server": ">=1.19.10",
