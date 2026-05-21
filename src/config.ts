@@ -11,6 +11,9 @@ export const config = {
     /* Some MCP clients can't handle large amounts of data.
      * The client may explicitly request more at their own peril. */
     defaultPerPage: 5,
+    requestTimeoutMs: process.env.DISCOGS_REQUEST_TIMEOUT_MS
+      ? parseInt(process.env.DISCOGS_REQUEST_TIMEOUT_MS, 10)
+      : 30000,
     mediaType: process.env.DISCOGS_MEDIA_TYPE || 'application/vnd.discogs.v2.discogs+json',
     personalAccessToken: process.env.DISCOGS_PERSONAL_ACCESS_TOKEN,
     userAgent: process.env.DISCOGS_USER_AGENT || `DiscogsMCPServer/${VERSION}`,
