@@ -131,7 +131,7 @@ export const UserCollectionReleaseItemSchema = z.object({
   instance_id: z.number(),
   basic_information: BasicInformationSchema,
   date_added: z.string().optional(),
-  folder_id: z.number(),
+  folder_id: z.number().optional(),
   notes: z
     .array(
       z.object({
