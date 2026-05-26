@@ -1,5 +1,15 @@
 # discogs-mcp-server
 
+## 0.5.7
+
+### Patch Changes
+
+- fix: copy tsconfig\*.json for Docker build ([#180](https://github.com/cswkim/discogs-mcp-server/pull/180))
+
+- feat: migrate to typescript 6 ([#162](https://github.com/cswkim/discogs-mcp-server/pull/162))
+
+- chore: migrate to pnpm 11.0.8 and pin CI setup via packageManager ([#179](https://github.com/cswkim/discogs-mcp-server/pull/179))
+
 ## 0.5.6
 
 ### Patch Changes
