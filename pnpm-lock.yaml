@@ -16,7 +16,7 @@ importers:
         version: https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523
       fastmcp:
         specifier: ^4.0.0
-        version: 4.0.2
+        version: 4.1.0
       zod:
         specifier: ^4.0.5
         version: 4.4.3
@@ -1456,8 +1456,8 @@ packages:
   es-module-lexer@2.1.0:
     resolution: {integrity: sha512-n27zTYMjYu1aj4MjCWzSP7G9r75utsaoc8m61weK+W8JMBGGQybd43GstCXZ3WNmSFtGT9wi59qQTW6mhTR5LQ==}
 
-  es-object-atoms@1.1.1:
-    resolution: {integrity: sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==}
+  es-object-atoms@1.1.2:
+    resolution: {integrity: sha512-HWcBoN6NileqtSydK2FqHbS/LoDd2pqrnQHLyJzBj4kOp/ky2MWMN694xOfkK8/SnUsW2DH7EfyVlydKCsm1Zw==}
     engines: {node: '>= 0.4'}
 
   es-set-tostringtag@2.1.0:
@@ -1616,8 +1616,8 @@ packages:
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
 
-  fastmcp@4.0.2:
-    resolution: {integrity: sha512-RMaG5FLT7sGpAfystrb1mDnqcHWjCqOnSfhp6kum3vgmDTrkc/tk9wGJB0EzocYvNujiqiF4gZZVkVAKujhvAw==}
+  fastmcp@4.1.0:
+    resolution: {integrity: sha512-4gv1rZA7vFzbKcREU5VO/LIUy8lcJ86Wrm2iN0ml0n+KpLHqzpgM+PuSCnCStWfvXV8OeIcPTC3bWECqj06VzQ==}
     hasBin: true
     peerDependencies:
       jose: ^5.0.0
@@ -1684,8 +1684,8 @@ packages:
       debug:
         optional: true
 
-  form-data@4.0.5:
-    resolution: {integrity: sha512-8RipRLol37bNs2bhoV67fiTEvdTrbMUYcFTiy3+wuuOnUog2QBHCZWXDRijWQfAkhBj2Uf5UnVaiWwA5vdd82w==}
+  form-data@4.0.6:
+    resolution: {integrity: sha512-vKatAh4SlVfgbv+YtmhiRjhEMJsYpsG1Y2rMQtR+SVSbytsSD1YGzDIcrAJmdFec88u/+VoGmxnl+80gL1tRCQ==}
     engines: {node: '>= 6'}
 
   forwarded@0.2.0:
@@ -1790,8 +1790,8 @@ packages:
     resolution: {integrity: sha512-r4xbIa3mGGGoH9nN4A14DOg2wx7y2oQyJEb5O57C/xzETG/qx4c7CVDQ5WMeKHZ7ORk2W0hZ/sQKXTav3cmYBA==}
     engines: {node: '>=16.9.0'}
 
-  hono@4.12.23:
-    resolution: {integrity: sha512-eIaZ9qDgu7XV0pxOCrg7/WhnQ6Ivm22UcxhXx/A3dcbqbbYgBEkc6e/J/s7j2tS96zoB0S9VBdLwQNCWwUo4LA==}
+  hono@4.12.25:
+    resolution: {integrity: sha512-2NFaIyNVgJmBs/ecmtGzlmluTFs5cHEWGTdu0t1HBwYzoGXOL5nUQBRMXsXWla5i4KkG//QMzVP88m1+I3fdAQ==}
     engines: {node: '>=16.9.0'}
 
   html-escaper@2.0.2:
@@ -3778,7 +3778,7 @@ snapshots:
   axios@1.17.0(debug@4.4.3):
     dependencies:
       follow-redirects: 1.16.0(debug@4.4.3)
-      form-data: 4.0.5
+      form-data: 4.0.6
       https-proxy-agent: 5.0.1
       proxy-from-env: 2.1.0
     transitivePeerDependencies:
@@ -3954,7 +3954,7 @@ snapshots:
 
   es-module-lexer@2.1.0: {}
 
-  es-object-atoms@1.1.1:
+  es-object-atoms@1.1.2:
     dependencies:
       es-errors: 1.3.0
 
@@ -4234,14 +4234,14 @@ snapshots:
 
   fast-uri@3.1.0: {}
 
-  fastmcp@4.0.2:
+  fastmcp@4.1.0:
     dependencies:
       '@modelcontextprotocol/sdk': 1.29.0(zod@4.4.3)
       '@standard-schema/spec': 1.1.0
       execa: 9.6.1
       file-type: 21.3.4
       fuse.js: 7.4.2
-      hono: 4.12.23
+      hono: 4.12.25
       mcp-proxy: 6.5.1
       strict-event-emitter-types: 2.0.0
       undici: 7.27.2
@@ -4325,7 +4325,7 @@ snapshots:
     optionalDependencies:
       debug: 4.4.3
 
-  form-data@4.0.5:
+  form-data@4.0.6:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
@@ -4367,7 +4367,7 @@ snapshots:
       call-bind-apply-helpers: 1.0.2
       es-define-property: 1.0.1
       es-errors: 1.3.0
-      es-object-atoms: 1.1.1
+      es-object-atoms: 1.1.2
       function-bind: 1.1.2
       get-proto: 1.0.1
       gopd: 1.2.0
@@ -4380,7 +4380,7 @@ snapshots:
   get-proto@1.0.1:
     dependencies:
       dunder-proto: 1.0.1
-      es-object-atoms: 1.1.1
+      es-object-atoms: 1.1.2
 
   get-stream@4.1.0:
     dependencies:
@@ -4430,7 +4430,7 @@ snapshots:
 
   hono@4.12.11: {}
 
-  hono@4.12.23: {}
+  hono@4.12.25: {}
 
   html-escaper@2.0.2: {}
 
