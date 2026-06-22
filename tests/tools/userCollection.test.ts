@@ -42,6 +42,7 @@ describe('User Collection Tools', () => {
                 description: "Retrieve a list of folders in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -176,6 +177,7 @@ describe('User Collection Tools', () => {
                 description: "Retrieve metadata about a folder in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -303,6 +305,7 @@ describe('User Collection Tools', () => {
                 description: "Create a new folder in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     name: { type: 'string' },
@@ -430,6 +433,7 @@ describe('User Collection Tools', () => {
                 description: "Edit a folder's metadata. Folders 0 and 1 cannot be renamed.",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -561,6 +565,7 @@ describe('User Collection Tools', () => {
                   "Delete a folder from a user's collection. A folder must be empty before it can be deleted.",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -681,6 +686,7 @@ describe('User Collection Tools', () => {
                 description: "Retrieve a list of items in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -840,6 +846,7 @@ describe('User Collection Tools', () => {
                   "Add a release to a folder in a user's collection. The folder_id must be non-zero.",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -972,6 +979,7 @@ describe('User Collection Tools', () => {
                   "Remove an instance of a release from a user's collection folder. The folder_id must be non-zero.",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -1104,6 +1112,7 @@ describe('User Collection Tools', () => {
                 description: "Find a release in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -1276,6 +1285,7 @@ describe('User Collection Tools', () => {
                   'Retrieve a list of user-defined collection notes fields. These fields are available on every release in the collection.',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -1427,6 +1437,7 @@ describe('User Collection Tools', () => {
                   "Rate a release in a user's collection. The folder_id must be non-zero.",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -1560,6 +1571,7 @@ describe('User Collection Tools', () => {
                 description: "Move a release in a user's collection to another folder",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -1702,6 +1714,7 @@ describe('User Collection Tools', () => {
                   "Returns the minimum, median, and maximum value of a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -1825,6 +1838,7 @@ describe('User Collection Tools', () => {
                 description: "Edit a custom field value for a release in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
