@@ -38,6 +38,7 @@ describe('User Identity Tools', () => {
                 description: 'Retrieve basic information about the authenticated user',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {},
                 },
@@ -155,6 +156,7 @@ describe('User Identity Tools', () => {
                 description: 'Retrieve a user by username',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -307,6 +309,7 @@ describe('User Identity Tools', () => {
                 description: "Edit a user's profile data",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -486,6 +489,7 @@ describe('User Identity Tools', () => {
                 description: `Retrieve a user's submissions by username`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
@@ -618,6 +622,7 @@ describe('User Identity Tools', () => {
                 description: `Retrieve a user's contributions by username`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
+                  additionalProperties: false,
                   type: 'object',
                   properties: {
                     username: { type: 'string', minLength: 1 },
