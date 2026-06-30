@@ -16,7 +16,7 @@ importers:
         version: https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523
       fastmcp:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       zod:
         specifier: ^4.0.5
         version: 4.4.3
@@ -1251,8 +1251,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios@1.18.0:
-    resolution: {integrity: sha512-E32NzpYKp++W7XRe52rHiXV2ehxmh3wbdgO7MHeFM+vqxLBYHzt0ElkiImtOBxtOmyp0yoC8C6uESVV84Y2/hw==}
+  axios@1.18.1:
+    resolution: {integrity: sha512-3nTvFlvpn9Zu/RkHUqtc7/+al4UpRW5az71ap5zccp6e8RAYEzhMTecX8Dz1wWDYrPpUoB1HAQEGEAEvUr7S9g==}
 
   balanced-match@4.0.4:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
@@ -1616,8 +1616,8 @@ packages:
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
 
-  fastmcp@4.3.1:
-    resolution: {integrity: sha512-mlLK1LVfNR2a4t9albNutBMOfJhG8qZILpdYnhMsXmhLce+mljJ/g9CY4uApibWoRoDXtaOKrFYWZKR3iDFgvQ==}
+  fastmcp@4.3.2:
+    resolution: {integrity: sha512-sbGT0DSTv143JqInYq8Igz7C1NZCNddgGZIT2sR+UFgGaj0gStCu0UVunp0ZujHmG7BymtkdXrp4WoPOai+9sQ==}
     hasBin: true
     peerDependencies:
       jose: ^5.0.0
@@ -1790,8 +1790,8 @@ packages:
     resolution: {integrity: sha512-r4xbIa3mGGGoH9nN4A14DOg2wx7y2oQyJEb5O57C/xzETG/qx4c7CVDQ5WMeKHZ7ORk2W0hZ/sQKXTav3cmYBA==}
     engines: {node: '>=16.9.0'}
 
-  hono@4.12.26:
-    resolution: {integrity: sha512-uyZtpnYxM9CmQ7QsQknM4zN8EftNqhON1qYeIKM0Se67CCEe2c44xyGURwB0axX2fBDu1dqHrHAc1hmNT8ITkw==}
+  hono@4.12.27:
+    resolution: {integrity: sha512-1yrb/+w6HWQJrUCLkJ2IF5jNIPvvFkblV5RNOYl6bV+OA6p9GLcMpHFFGTosSvHvcAUibuUukRqhlYI4z32C7Q==}
     engines: {node: '>=16.9.0'}
 
   html-escaper@2.0.2:
@@ -3775,7 +3775,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.18.0(debug@4.4.3):
+  axios@1.18.1(debug@4.4.3):
     dependencies:
       follow-redirects: 1.16.0(debug@4.4.3)
       form-data: 4.0.6
@@ -4234,14 +4234,14 @@ snapshots:
 
   fast-uri@3.1.0: {}
 
-  fastmcp@4.3.1:
+  fastmcp@4.3.2:
     dependencies:
       '@modelcontextprotocol/sdk': 1.29.0(zod@4.4.3)
       '@standard-schema/spec': 1.1.0
       execa: 9.6.1
       file-type: 21.3.4
       fuse.js: 7.4.2
-      hono: 4.12.26
+      hono: 4.12.27
       mcp-proxy: 6.5.2
       strict-event-emitter-types: 2.0.0
       undici: 7.28.0
@@ -4430,7 +4430,7 @@ snapshots:
 
   hono@4.12.11: {}
 
-  hono@4.12.26: {}
+  hono@4.12.27: {}
 
   html-escaper@2.0.2: {}
 
@@ -4801,7 +4801,7 @@ snapshots:
 
   pipenet@1.4.2:
     dependencies:
-      axios: 1.18.0(debug@4.4.3)
+      axios: 1.18.1(debug@4.4.3)
       debug: 4.4.3
       human-readable-ids: 1.0.4
       koa: 3.2.1
