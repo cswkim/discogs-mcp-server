@@ -11,6 +11,7 @@ vi.mock('../../src/config.js', () => ({
       personalAccessToken: process.env.DISCOGS_PERSONAL_ACCESS_TOKEN,
       userAgent: process.env.DISCOGS_USER_AGENT,
       defaultPerPage: 5,
+      requestTimeoutMs: 30000,
     },
   },
 }));
@@ -83,6 +84,7 @@ describe('DiscogsService', () => {
         method: 'GET',
         headers: service['headers'],
         body: undefined,
+        signal: expect.any(AbortSignal),
       },
     );
 
@@ -114,6 +116,7 @@ describe('DiscogsService', () => {
       method: 'POST',
       headers: service['headers'],
       body: JSON.stringify(requestBody),
+      signal: expect.any(AbortSignal),
     });
   });
 
