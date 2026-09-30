@@ -11,6 +11,9 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.12.0
         version: 1.29.0(zod@4.4.3)
+      dotenv:
+        specifier: github:cswkim/dotenv
+        version: https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523
       fastmcp:
         specifier: ^4.0.0
         version: 4.3.1
@@ -1414,6 +1417,11 @@ packages:
 
   dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
+
+  dotenv@https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523:
+    resolution: {gitHosted: true, integrity: sha512-Bx0d3L6hSdbUME3Vd6EsvbV2ecP9kSLX3TIaGQ8fzMnOuOXYZNrU66SgeizUatnxD0bgXabetvjq8YHQxASj7w==, tarball: https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523}
+    version: 17.2.2
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -3916,6 +3924,8 @@ snapshots:
       path-type: 4.0.0
 
   dotenv@16.6.1: {}
+
+  dotenv@https://codeload.github.com/cswkim/dotenv/tar.gz/53592e20100bd5e14244f30e9897a6ef80f28523: {}
 
   dunder-proto@1.0.1:
     dependencies:
