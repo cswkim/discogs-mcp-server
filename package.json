@@ -4,6 +4,7 @@
   "description": "MCP server for Discogs",
   "license": "MIT",
   "author": "Christopher Kim <hi@cswkim.dev>",
+  "homepage": "https://github.com/cswkim/discogs-mcp-server#readme",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
