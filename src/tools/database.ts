@@ -22,6 +22,12 @@ import {
  */
 export const deleteReleaseRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseRatingParamsSchema> = {
   name: 'delete_release_rating',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Deletes the release's rating for a given user`,
   parameters: ReleaseRatingParamsSchema,
   execute: async (args) => {
@@ -42,6 +48,12 @@ export const deleteReleaseRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseRat
 export const editReleaseRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseRatingEditParamsSchema> =
   {
     name: 'edit_release_rating',
+    annotations: {
+      readOnlyHint: false,
+      destructiveHint: true,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
     description: `Updates the release's rating for a given user`,
     parameters: ReleaseRatingEditParamsSchema,
     execute: async (args) => {
@@ -61,6 +73,10 @@ export const editReleaseRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseRatin
  */
 export const getArtistTool: Tool<FastMCPSessionAuth, typeof ArtistIdParamSchema> = {
   name: 'get_artist',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Get an artist',
   parameters: ArtistIdParamSchema,
   execute: async (args) => {
@@ -80,6 +96,10 @@ export const getArtistTool: Tool<FastMCPSessionAuth, typeof ArtistIdParamSchema>
  */
 export const getArtistReleasesTool: Tool<FastMCPSessionAuth, typeof ArtistReleasesParamsSchema> = {
   name: 'get_artist_releases',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Get an artist's releases`,
   parameters: ArtistReleasesParamsSchema,
   execute: async (args) => {
@@ -99,6 +119,10 @@ export const getArtistReleasesTool: Tool<FastMCPSessionAuth, typeof ArtistReleas
  */
 export const getLabelTool: Tool<FastMCPSessionAuth, typeof LabelIdParamSchema> = {
   name: 'get_label',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Get a label',
   parameters: LabelIdParamSchema,
   execute: async (args) => {
@@ -118,6 +142,10 @@ export const getLabelTool: Tool<FastMCPSessionAuth, typeof LabelIdParamSchema> =
  */
 export const getLabelReleasesTool: Tool<FastMCPSessionAuth, typeof LabelReleasesParamsSchema> = {
   name: 'get_label_releases',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Returns a list of Releases associated with the label',
   parameters: LabelReleasesParamsSchema,
   execute: async (args) => {
@@ -137,6 +165,10 @@ export const getLabelReleasesTool: Tool<FastMCPSessionAuth, typeof LabelReleases
  */
 export const getMasterReleaseTool: Tool<FastMCPSessionAuth, typeof MasterReleaseIdParamSchema> = {
   name: 'get_master_release',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Get a master release',
   parameters: MasterReleaseIdParamSchema,
   execute: async (args) => {
@@ -159,6 +191,10 @@ export const getMasterReleaseVersionsTool: Tool<
   typeof MasterReleaseVersionsParamSchema
 > = {
   name: 'get_master_release_versions',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Retrieves a list of all Releases that are versions of this master',
   parameters: MasterReleaseVersionsParamSchema,
   execute: async (args) => {
@@ -178,6 +214,10 @@ export const getMasterReleaseVersionsTool: Tool<
  */
 export const getReleaseTool: Tool<FastMCPSessionAuth, typeof ReleaseParamsSchema> = {
   name: 'get_release',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Get a release',
   parameters: ReleaseParamsSchema,
   execute: async (args) => {
@@ -198,6 +238,10 @@ export const getReleaseTool: Tool<FastMCPSessionAuth, typeof ReleaseParamsSchema
 export const getReleaseCommunityRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseIdParamSchema> =
   {
     name: 'get_release_community_rating',
+    annotations: {
+      readOnlyHint: true,
+      openWorldHint: true,
+    },
     description: 'Retrieves the release community rating average and count',
     parameters: ReleaseIdParamSchema,
     execute: async (args) => {
@@ -217,6 +261,10 @@ export const getReleaseCommunityRatingTool: Tool<FastMCPSessionAuth, typeof Rele
  */
 export const getReleaseRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseRatingParamsSchema> = {
   name: 'get_release_rating_by_user',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Retrieves the release's rating for a given user`,
   parameters: ReleaseRatingParamsSchema,
   execute: async (args) => {
@@ -236,6 +284,10 @@ export const getReleaseRatingTool: Tool<FastMCPSessionAuth, typeof ReleaseRating
  */
 export const searchTool: Tool<FastMCPSessionAuth, typeof SearchParamsSchema> = {
   name: 'search',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Issue a search query to the Discogs database',
   parameters: SearchParamsSchema,
   execute: async (args) => {

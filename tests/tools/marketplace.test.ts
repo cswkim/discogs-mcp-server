@@ -122,6 +122,12 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'create_marketplace_listing',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: false,
+                  idempotentHint: false,
+                  openWorldHint: true,
+                },
                 description: 'Create a new marketplace listing',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -290,6 +296,10 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'get_marketplace_listing',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get a listing from the marketplace',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -409,6 +419,12 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'delete_marketplace_listing',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Delete a marketplace listing',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -524,6 +540,12 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'update_marketplace_listing',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Update a marketplace listing',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -749,6 +771,10 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'get_marketplace_order',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get a marketplace order',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -914,6 +940,12 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'edit_marketplace_order',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: false,
+                  openWorldHint: true,
+                },
                 description: 'Edit a marketplace order',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1109,6 +1141,10 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'get_marketplace_orders',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get a list of marketplace orders',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1292,6 +1328,10 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'get_marketplace_order_messages',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: `Get a list of an order's messages`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1443,6 +1483,12 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'create_marketplace_order_message',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: false,
+                  openWorldHint: true,
+                },
                 description: `Adds a new message to the order's message log`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1593,6 +1639,10 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'get_marketplace_release_stats',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Retrieve marketplace statistics for the provided Release ID',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1804,6 +1854,10 @@ describe('Marketplace Tools', () => {
             tools: [
               {
                 name: 'get_user_inventory',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: `Returns the list of listings in a user's inventory`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',

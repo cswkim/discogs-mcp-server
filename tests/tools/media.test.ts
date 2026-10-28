@@ -34,6 +34,10 @@ describe('Media Tools', () => {
             tools: [
               {
                 name: 'fetch_image',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Fetch an image by URL',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',

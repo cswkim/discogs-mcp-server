@@ -9,6 +9,10 @@ import { UserWantlistItemParamsSchema, UserWantlistParamsSchema } from '../types
  */
 export const getUserWantlistTool: Tool<FastMCPSessionAuth, typeof UserWantlistParamsSchema> = {
   name: 'get_user_wantlist',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Returns the list of releases in a user's wantlist`,
   parameters: UserWantlistParamsSchema,
   execute: async (args) => {
@@ -28,6 +32,12 @@ export const getUserWantlistTool: Tool<FastMCPSessionAuth, typeof UserWantlistPa
  */
 export const addToWantlistTool: Tool<FastMCPSessionAuth, typeof UserWantlistItemParamsSchema> = {
   name: 'add_to_wantlist',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Add a release to a user's wantlist`,
   parameters: UserWantlistItemParamsSchema,
   execute: async (args) => {
@@ -48,6 +58,12 @@ export const addToWantlistTool: Tool<FastMCPSessionAuth, typeof UserWantlistItem
 export const editItemInWantlistTool: Tool<FastMCPSessionAuth, typeof UserWantlistItemParamsSchema> =
   {
     name: 'edit_item_in_wantlist',
+    annotations: {
+      readOnlyHint: false,
+      destructiveHint: true,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
     description: `Edit a release in a user's wantlist`,
     parameters: UserWantlistItemParamsSchema,
     execute: async (args) => {
@@ -70,6 +86,12 @@ export const deleteItemInWantlistTool: Tool<
   typeof UserWantlistItemParamsSchema
 > = {
   name: 'delete_item_in_wantlist',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Delete a release from a user's wantlist`,
   parameters: UserWantlistItemParamsSchema,
   execute: async (args) => {

@@ -42,6 +42,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'get_release',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get a release',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -192,6 +196,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'get_release_rating_by_user',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: `Retrieves the release's rating for a given user`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -319,6 +327,12 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'edit_release_rating',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: `Updates the release's rating for a given user`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -463,6 +477,12 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'delete_release_rating',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: `Deletes the release's rating for a given user`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -584,6 +604,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'get_release_community_rating',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Retrieves the release community rating average and count',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -710,6 +734,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'get_master_release',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get a master release',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -857,6 +885,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'get_artist',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get an artist',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -983,6 +1015,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'get_artist_releases',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: `Get an artist's releases`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1142,6 +1178,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'get_label',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get a label',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1268,6 +1308,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'get_label_releases',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Returns a list of Releases associated with the label',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1427,6 +1471,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'search',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Issue a search query to the Discogs database',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1548,6 +1596,10 @@ describe('Database Tools', () => {
             tools: [
               {
                 name: 'get_master_release_versions',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Retrieves a list of all Releases that are versions of this master',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',

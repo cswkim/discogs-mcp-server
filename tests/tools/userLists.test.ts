@@ -25,6 +25,10 @@ describe('User Lists Tools', () => {
             tools: [
               {
                 name: 'get_user_lists',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: "Get a user's lists",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -173,6 +177,10 @@ describe('User Lists Tools', () => {
             tools: [
               {
                 name: 'get_list',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get a list by ID',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',

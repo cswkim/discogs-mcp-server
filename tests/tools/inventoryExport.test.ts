@@ -29,6 +29,12 @@ describe('Inventory Export Tool', () => {
             tools: [
               {
                 name: 'inventory_export',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: false,
+                  idempotentHint: false,
+                  openWorldHint: true,
+                },
                 description: 'Request an export of your inventory as a CSV',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -140,6 +146,10 @@ describe('Inventory Export Tool', () => {
             tools: [
               {
                 name: 'get_inventory_exports',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get a list of all recent exports of your inventory',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -277,6 +287,10 @@ describe('Inventory Export Tool', () => {
             tools: [
               {
                 name: 'get_inventory_export',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Get details about an inventory export',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -430,6 +444,10 @@ describe('Inventory Export Tool', () => {
             tools: [
               {
                 name: 'download_inventory_export',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Download an inventory export as a CSV',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',

@@ -35,6 +35,10 @@ describe('User Identity Tools', () => {
             tools: [
               {
                 name: 'get_user_identity',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Retrieve basic information about the authenticated user',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -153,6 +157,10 @@ describe('User Identity Tools', () => {
             tools: [
               {
                 name: 'get_user_profile',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: 'Retrieve a user by username',
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -306,6 +314,12 @@ describe('User Identity Tools', () => {
             tools: [
               {
                 name: 'edit_user_profile',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: "Edit a user's profile data",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -486,6 +500,10 @@ describe('User Identity Tools', () => {
             tools: [
               {
                 name: 'get_user_submissions',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: `Retrieve a user's submissions by username`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -619,6 +637,10 @@ describe('User Identity Tools', () => {
             tools: [
               {
                 name: 'get_user_contributions',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: `Retrieve a user's contributions by username`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',

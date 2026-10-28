@@ -84,6 +84,10 @@ describe('User Wantlist Tools', () => {
             tools: [
               {
                 name: 'get_user_wantlist',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: `Returns the list of releases in a user's wantlist`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -209,6 +213,12 @@ describe('User Wantlist Tools', () => {
             tools: [
               {
                 name: 'add_to_wantlist',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: false,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: `Add a release to a user's wantlist`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -339,6 +349,12 @@ describe('User Wantlist Tools', () => {
             tools: [
               {
                 name: 'edit_item_in_wantlist',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: `Edit a release in a user's wantlist`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -467,6 +483,12 @@ describe('User Wantlist Tools', () => {
             tools: [
               {
                 name: 'delete_item_in_wantlist',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: `Delete a release from a user's wantlist`,
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',

@@ -23,6 +23,12 @@ import { UserInventoryGetParamsSchema } from '../types/user/index.js';
 export const createMarketplaceListingTool: Tool<FastMCPSessionAuth, typeof ListingNewParamsSchema> =
   {
     name: 'create_marketplace_listing',
+    annotations: {
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: false,
+      openWorldHint: true,
+    },
     description: 'Create a new marketplace listing',
     parameters: ListingNewParamsSchema,
     execute: async (args) => {
@@ -45,6 +51,12 @@ export const createMarketplaceOrderMessageTool: Tool<
   typeof OrderCreateMessageParamsSchema
 > = {
   name: 'create_marketplace_order_message',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: false,
+    openWorldHint: true,
+  },
   description: `Adds a new message to the order's message log`,
   parameters: OrderCreateMessageParamsSchema,
   execute: async (args) => {
@@ -64,6 +76,12 @@ export const createMarketplaceOrderMessageTool: Tool<
  */
 export const deleteMarketplaceListingTool: Tool<FastMCPSessionAuth, typeof ListingIdParamSchema> = {
   name: 'delete_marketplace_listing',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: 'Delete a marketplace listing',
   parameters: ListingIdParamSchema,
   execute: async (args) => {
@@ -83,6 +101,10 @@ export const deleteMarketplaceListingTool: Tool<FastMCPSessionAuth, typeof Listi
  */
 export const getMarketplaceListingTool: Tool<FastMCPSessionAuth, typeof ListingGetParamsSchema> = {
   name: 'get_marketplace_listing',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Get a listing from the marketplace',
   parameters: ListingGetParamsSchema,
   execute: async (args) => {
@@ -102,6 +124,10 @@ export const getMarketplaceListingTool: Tool<FastMCPSessionAuth, typeof ListingG
  */
 export const getMarketplaceOrderTool: Tool<FastMCPSessionAuth, typeof OrderIdParamSchema> = {
   name: 'get_marketplace_order',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Get a marketplace order',
   parameters: OrderIdParamSchema,
   execute: async (args) => {
@@ -121,6 +147,10 @@ export const getMarketplaceOrderTool: Tool<FastMCPSessionAuth, typeof OrderIdPar
  */
 export const getMarketplaceOrdersTool: Tool<FastMCPSessionAuth, typeof OrdersParamsSchema> = {
   name: 'get_marketplace_orders',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Get a list of marketplace orders',
   parameters: OrdersParamsSchema,
   execute: async (args) => {
@@ -143,6 +173,10 @@ export const getMarketplaceOrderMessagesTool: Tool<
   typeof OrderMessagesParamsSchema
 > = {
   name: 'get_marketplace_order_messages',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Get a list of an order's messages`,
   parameters: OrderMessagesParamsSchema,
   execute: async (args) => {
@@ -163,6 +197,10 @@ export const getMarketplaceOrderMessagesTool: Tool<
 export const getMarketplaceReleaseStatsTool: Tool<FastMCPSessionAuth, typeof ReleaseParamsSchema> =
   {
     name: 'get_marketplace_release_stats',
+    annotations: {
+      readOnlyHint: true,
+      openWorldHint: true,
+    },
     description: 'Retrieve marketplace statistics for the provided Release ID',
     parameters: ReleaseParamsSchema,
     execute: async (args) => {
@@ -182,6 +220,10 @@ export const getMarketplaceReleaseStatsTool: Tool<FastMCPSessionAuth, typeof Rel
  */
 export const getUserInventoryTool: Tool<FastMCPSessionAuth, typeof UserInventoryGetParamsSchema> = {
   name: 'get_user_inventory',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Returns the list of listings in a user's inventory`,
   parameters: UserInventoryGetParamsSchema,
   execute: async (args) => {
@@ -201,6 +243,12 @@ export const getUserInventoryTool: Tool<FastMCPSessionAuth, typeof UserInventory
  */
 export const editMarketplaceOrderTool: Tool<FastMCPSessionAuth, typeof OrderEditParamsSchema> = {
   name: 'edit_marketplace_order',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: false,
+    openWorldHint: true,
+  },
   description: 'Edit a marketplace order',
   parameters: OrderEditParamsSchema,
   execute: async (args) => {
@@ -223,6 +271,12 @@ export const updateMarketplaceListingTool: Tool<
   typeof ListingUpdateParamsSchema
 > = {
   name: 'update_marketplace_listing',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: 'Update a marketplace listing',
   parameters: ListingUpdateParamsSchema,
   execute: async (args) => {

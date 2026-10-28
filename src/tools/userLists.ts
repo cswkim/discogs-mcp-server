@@ -11,6 +11,10 @@ import { UserListsParamsSchema } from '../types/user/index.js';
  */
 export const getUserListsTool: Tool<FastMCPSessionAuth, typeof UserListsParamsSchema> = {
   name: 'get_user_lists',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Get a user's lists`,
   parameters: UserListsParamsSchema,
   execute: async (args) => {
@@ -30,6 +34,10 @@ export const getUserListsTool: Tool<FastMCPSessionAuth, typeof UserListsParamsSc
  */
 export const getListTool: Tool<FastMCPSessionAuth, typeof ListIdParamSchema> = {
   name: 'get_list',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Get a list by ID`,
   parameters: ListIdParamSchema,
   execute: async (args) => {

@@ -13,6 +13,10 @@ import { UserProfileEditInputSchema } from '../types/user/index.js';
  */
 export const getUserIdentityTool: Tool<FastMCPSessionAuth, ToolParameters> = {
   name: 'get_user_identity',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Retrieve basic information about the authenticated user',
   parameters: z.object({}),
   execute: async () => {
@@ -32,6 +36,10 @@ export const getUserIdentityTool: Tool<FastMCPSessionAuth, ToolParameters> = {
  */
 export const getUserProfileTool: Tool<FastMCPSessionAuth, typeof UsernameInputSchema> = {
   name: 'get_user_profile',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Retrieve a user by username',
   parameters: UsernameInputSchema,
   execute: async (args) => {
@@ -51,6 +59,10 @@ export const getUserProfileTool: Tool<FastMCPSessionAuth, typeof UsernameInputSc
  */
 export const getUserSubmissionsTool: Tool<FastMCPSessionAuth, typeof UsernameInputSchema> = {
   name: 'get_user_submissions',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Retrieve a user's submissions by username`,
   parameters: UsernameInputSchema,
   execute: async (args) => {
@@ -71,6 +83,10 @@ export const getUserSubmissionsTool: Tool<FastMCPSessionAuth, typeof UsernameInp
 export const getUserContributionsTool: Tool<FastMCPSessionAuth, typeof ContributionsParamsSchema> =
   {
     name: 'get_user_contributions',
+    annotations: {
+      readOnlyHint: true,
+      openWorldHint: true,
+    },
     description: `Retrieve a user's contributions by username`,
     parameters: ContributionsParamsSchema,
     execute: async (args) => {
@@ -90,6 +106,12 @@ export const getUserContributionsTool: Tool<FastMCPSessionAuth, typeof Contribut
  */
 export const editUserProfileTool: Tool<FastMCPSessionAuth, typeof UserProfileEditInputSchema> = {
   name: 'edit_user_profile',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Edit a user's profile data`,
   parameters: UserProfileEditInputSchema,
   execute: async (args) => {

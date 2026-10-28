@@ -39,6 +39,10 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'get_user_collection_folders',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: "Retrieve a list of folders in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -174,6 +178,10 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'get_user_collection_folder',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: "Retrieve metadata about a folder in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -302,6 +310,12 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'create_user_collection_folder',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: false,
+                  idempotentHint: false,
+                  openWorldHint: true,
+                },
                 description: "Create a new folder in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -430,6 +444,12 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'edit_user_collection_folder',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: "Edit a folder's metadata. Folders 0 and 1 cannot be renamed.",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -561,6 +581,12 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'delete_user_collection_folder',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description:
                   "Delete a folder from a user's collection. A folder must be empty before it can be deleted.",
                 inputSchema: {
@@ -683,6 +709,10 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'get_user_collection_items',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: "Retrieve a list of items in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -842,6 +872,12 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'add_release_to_user_collection_folder',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: false,
+                  idempotentHint: false,
+                  openWorldHint: true,
+                },
                 description:
                   "Add a release to a folder in a user's collection. The folder_id must be non-zero.",
                 inputSchema: {
@@ -975,6 +1011,12 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'delete_release_from_user_collection_folder',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description:
                   "Remove an instance of a release from a user's collection folder. The folder_id must be non-zero.",
                 inputSchema: {
@@ -1109,6 +1151,10 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'find_release_in_user_collection',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description: "Find a release in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1281,6 +1327,10 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'get_user_collection_custom_fields',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description:
                   'Retrieve a list of user-defined collection notes fields. These fields are available on every release in the collection.',
                 inputSchema: {
@@ -1433,6 +1483,12 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'rate_release_in_user_collection',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description:
                   "Rate a release in a user's collection. The folder_id must be non-zero.",
                 inputSchema: {
@@ -1568,6 +1624,12 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'move_release_in_user_collection',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: "Move a release in a user's collection to another folder",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -1710,6 +1772,10 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'get_user_collection_value',
+                annotations: {
+                  readOnlyHint: true,
+                  openWorldHint: true,
+                },
                 description:
                   "Returns the minimum, median, and maximum value of a user's collection",
                 inputSchema: {
@@ -1835,6 +1901,12 @@ describe('User Collection Tools', () => {
             tools: [
               {
                 name: 'edit_user_collection_custom_field_value',
+                annotations: {
+                  readOnlyHint: false,
+                  destructiveHint: true,
+                  idempotentHint: true,
+                  openWorldHint: true,
+                },
                 description: "Edit a custom field value for a release in a user's collection",
                 inputSchema: {
                   $schema: 'http://json-schema.org/draft-07/schema#',

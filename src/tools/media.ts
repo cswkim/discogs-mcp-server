@@ -12,6 +12,10 @@ const MediaParamsSchema = z.object({
  */
 export const fetchImageTool: Tool<FastMCPSessionAuth, typeof MediaParamsSchema> = {
   name: 'fetch_image',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Fetch an image by URL',
   parameters: MediaParamsSchema,
   execute: async ({ url }) => {

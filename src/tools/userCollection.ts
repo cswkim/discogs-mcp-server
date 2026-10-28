@@ -23,6 +23,12 @@ export const addReleaseToUserCollectionFolderTool: Tool<
   typeof UserCollectionFolderReleaseParamsSchema
 > = {
   name: 'add_release_to_user_collection_folder',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true,
+  },
   description: `Add a release to a folder in a user's collection. The folder_id must be non-zero.`,
   parameters: UserCollectionFolderReleaseParamsSchema,
   execute: async (args) => {
@@ -45,6 +51,12 @@ export const createUserCollectionFolderTool: Tool<
   typeof UserCollectionFolderCreateParamsSchema
 > = {
   name: 'create_user_collection_folder',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true,
+  },
   description: `Create a new folder in a user's collection`,
   parameters: UserCollectionFolderCreateParamsSchema,
   execute: async (args) => {
@@ -67,6 +79,12 @@ export const deleteReleaseFromUserCollectionFolderTool: Tool<
   typeof UserCollectionReleaseDeletedParamsSchema
 > = {
   name: 'delete_release_from_user_collection_folder',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Remove an instance of a release from a user's collection folder. The folder_id must be non-zero.`,
   parameters: UserCollectionReleaseDeletedParamsSchema,
   execute: async (args) => {
@@ -89,6 +107,12 @@ export const deleteUserCollectionFolderTool: Tool<
   typeof UserCollectionFolderParamsSchema
 > = {
   name: 'delete_user_collection_folder',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Delete a folder from a user's collection. A folder must be empty before it can be deleted.`,
   parameters: UserCollectionFolderParamsSchema,
   execute: async (args) => {
@@ -111,6 +135,12 @@ export const editUserCollectionCustomFieldValueTool: Tool<
   typeof UserCollectionCustomFieldEditParamsSchema
 > = {
   name: 'edit_user_collection_custom_field_value',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Edit a custom field value for a release in a user's collection`,
   parameters: UserCollectionCustomFieldEditParamsSchema,
   execute: async (args) => {
@@ -133,6 +163,12 @@ export const editUserCollectionFolderTool: Tool<
   typeof UserCollectionFolderEditParamsSchema
 > = {
   name: 'edit_user_collection_folder',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Edit a folder's metadata. Folders 0 and 1 cannot be renamed.`,
   parameters: UserCollectionFolderEditParamsSchema,
   execute: async (args) => {
@@ -155,6 +191,10 @@ export const findReleaseInUserCollectionTool: Tool<
   typeof UserCollectionReleaseParamsSchema
 > = {
   name: 'find_release_in_user_collection',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Find a release in a user's collection`,
   parameters: UserCollectionReleaseParamsSchema,
   execute: async (args) => {
@@ -177,6 +217,10 @@ export const getUserCollectionCustomFieldsTool: Tool<
   typeof UsernameInputSchema
 > = {
   name: 'get_user_collection_custom_fields',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Retrieve a list of user-defined collection notes fields. These fields are available on every release in the collection.`,
   parameters: UsernameInputSchema,
   execute: async (args) => {
@@ -199,6 +243,10 @@ export const getUserCollectionFolderTool: Tool<
   typeof UserCollectionFolderParamsSchema
 > = {
   name: 'get_user_collection_folder',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Retrieve metadata about a folder in a user's collection`,
   parameters: UserCollectionFolderParamsSchema,
   execute: async (args) => {
@@ -218,6 +266,10 @@ export const getUserCollectionFolderTool: Tool<
  */
 export const getUserCollectionFoldersTool: Tool<FastMCPSessionAuth, typeof UsernameInputSchema> = {
   name: 'get_user_collection_folders',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Retrieve a list of folders in a user's collection`,
   parameters: UsernameInputSchema,
   execute: async (args) => {
@@ -240,6 +292,10 @@ export const getUserCollectionItemsTool: Tool<
   typeof UserCollectionItemsParamsSchema
 > = {
   name: 'get_user_collection_items',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Retrieve a list of items in a user's collection`,
   parameters: UserCollectionItemsParamsSchema,
   execute: async (args) => {
@@ -259,6 +315,10 @@ export const getUserCollectionItemsTool: Tool<
  */
 export const getUserCollectionValueTool: Tool<FastMCPSessionAuth, typeof UsernameInputSchema> = {
   name: 'get_user_collection_value',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: `Returns the minimum, median, and maximum value of a user's collection`,
   parameters: UsernameInputSchema,
   execute: async (args) => {
@@ -281,6 +341,12 @@ export const moveReleaseInUserCollectionTool: Tool<
   typeof UserCollectionMoveReleaseParamsSchema
 > = {
   name: 'move_release_in_user_collection',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Move a release in a user's collection to another folder`,
   parameters: UserCollectionMoveReleaseParamsSchema,
   execute: async (args) => {
@@ -303,6 +369,12 @@ export const rateReleaseInUserCollectionTool: Tool<
   typeof UserCollectionReleaseRatingParamsSchema
 > = {
   name: 'rate_release_in_user_collection',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   description: `Rate a release in a user's collection. The folder_id must be non-zero.`,
   parameters: UserCollectionReleaseRatingParamsSchema,
   execute: async (args) => {

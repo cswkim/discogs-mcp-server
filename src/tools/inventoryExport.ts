@@ -11,6 +11,10 @@ import { InventoryIdParamSchema } from '../types/inventory.js';
 export const downloadInventoryExportTool: Tool<FastMCPSessionAuth, typeof InventoryIdParamSchema> =
   {
     name: 'download_inventory_export',
+    annotations: {
+      readOnlyHint: true,
+      openWorldHint: true,
+    },
     description: 'Download an inventory export as a CSV',
     parameters: InventoryIdParamSchema,
     execute: async (args) => {
@@ -30,6 +34,10 @@ export const downloadInventoryExportTool: Tool<FastMCPSessionAuth, typeof Invent
  */
 export const getInventoryExportTool: Tool<FastMCPSessionAuth, typeof InventoryIdParamSchema> = {
   name: 'get_inventory_export',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Get details about an inventory export',
   parameters: InventoryIdParamSchema,
   execute: async (args) => {
@@ -49,6 +57,10 @@ export const getInventoryExportTool: Tool<FastMCPSessionAuth, typeof InventoryId
  */
 export const getInventoryExportsTool: Tool<FastMCPSessionAuth, ToolParameters> = {
   name: 'get_inventory_exports',
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   description: 'Get a list of all recent exports of your inventory',
   parameters: z.object({}),
   execute: async () => {
@@ -68,6 +80,12 @@ export const getInventoryExportsTool: Tool<FastMCPSessionAuth, ToolParameters> =
  */
 export const inventoryExportTool: Tool<FastMCPSessionAuth, ToolParameters> = {
   name: 'inventory_export',
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true,
+  },
   description: 'Request an export of your inventory as a CSV',
   parameters: z.object({}),
   execute: async () => {
